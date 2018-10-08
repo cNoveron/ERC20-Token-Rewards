@@ -3,6 +3,27 @@ import { AccountData, ContractData, ContractForm } from 'drizzle-react-component
 import logo from '../../logo.png'
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentAccount: {
+        index: 0,
+        address: this.props.accounts[0],
+      },
+    }
+    this.changeIndex = this.changeIndex.bind(this);
+  }
+
+  changeIndex(event) {
+    if(event.target.value < 10)
+    this.setState({
+      currentAccount: {
+        index: event.target.value,
+        address: this.props.accounts[event.target.value],
+      }
+    })
+  }
+
   render() {
     return (
       <main className="container">
@@ -16,10 +37,20 @@ class Home extends Component {
           </div>
 
           <div className="pure-u-1-1">
-            <h2>Active Account</h2>
-            <AccountData accountIndex="0" units="ether" precision="3" />
-
-            <br/><br/>
+            <h2>Cuenta actual</h2>
+            <div className="accountAddressString">
+              <AccountData 
+                accountIndex={""+this.state.currentAccount.index}  
+                units="ether" 
+                precision="3"
+              />
+            </div>
+            <input 
+              type="text" 
+              value={this.state.currentAccount.index} 
+              onChange={this.changeIndex} 
+            />
+          <br/><br/>
           </div>
 
           <div className="pure-u-1-1">
