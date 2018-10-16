@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
+import BalanceRange from '../components/BalanceRange.js'
 import logo from '../../logo.png'
 
 class Home extends Component {
@@ -32,7 +33,6 @@ class Home extends Component {
             <img src={logo} alt="drizzle-logo" />
             <h1>Pedro Token</h1>
             <p>This is a QA testing application for Pedro ERC20 Token.</p>
-
             <br/><br/>
           </div>
 
@@ -54,7 +54,7 @@ class Home extends Component {
           </div>
 
           <div className="pure-u-1-1">
-            <h2>TutorialToken</h2>
+            <h2>Pedro Token</h2>
             <p></p>  
             <p>
               <strong>Total Supply: </strong>
@@ -62,21 +62,14 @@ class Home extends Component {
                 contract="TutorialToken" 
                 method="totalSupply" 
                 methodArgs={[{from: this.props.accounts[0]}]} 
-              /> 
+              />
               <ContractData 
                 contract="TutorialToken" 
                 method="symbol" 
                 hideIndicator 
               />
             </p>
-            <p>
-              <strong>My Balance: </strong>
-              <ContractData 
-                contract="TutorialToken" 
-                method="balanceOf" 
-                methodArgs={[this.props.accounts[0]]} 
-              />
-            </p>
+            <BalanceRange accountsToRetrieve={9}/>
             <h3>Send Tokens</h3>
               <ContractForm 
                 contract="TutorialToken" 
