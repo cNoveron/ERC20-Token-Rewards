@@ -59,7 +59,7 @@ class Home extends Component {
             />
             <h2>Cuenta actual</h2>
             <input 
-              type="text" 
+              type="number" 
               value={this.state.fromAccount.index} 
               onChange={this.changeIndex}
             />
