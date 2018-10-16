@@ -1,9 +1,5 @@
-var SimpleStorage = artifacts.require("SimpleStorage");
-var TutorialToken = artifacts.require("TutorialToken");
-var ComplexStorage = artifacts.require("ComplexStorage");
+var Pedro_ERC20Token = artifacts.require("Pedro_ERC20Token");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
-  deployer.deploy(TutorialToken);
-  deployer.deploy(ComplexStorage);
+  deployer.deploy(Pedro_ERC20Token);
 };
