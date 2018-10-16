@@ -17,7 +17,7 @@ class Home extends Component {
   }
 
   changeIndex(event) {
-    if(event.target.value < 10)
+    if(0 <= event.target.value && event.target.value < 10)
     this.setState({
       fromAccount: {
         index: event.target.value,
