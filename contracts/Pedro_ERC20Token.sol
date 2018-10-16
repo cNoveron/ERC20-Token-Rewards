@@ -2,7 +2,7 @@ pragma solidity ^0.4.23;
 
 import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
-contract TutorialToken is StandardToken {
+contract PedroToken is StandardToken {
   string public name = "Pedro Token";
   string public symbol = "PEDRO";
   uint public decimals = 2;
