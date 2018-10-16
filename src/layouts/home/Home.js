@@ -75,7 +75,7 @@ class Home extends Component {
                 contract="TutorialToken" 
                 method="transfer" 
                 labels={['To Address', 'Amount to Send']}
-                sendArgs={{from: this.props.accounts[0]}}
+                sendArgs={{from: this.state.currentAccount.address}}
               />
             <br/><br/>
           </div>
