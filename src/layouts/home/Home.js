@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
+import { ContractData, ContractForm } from 'drizzle-react-components'
 import BalanceRange from '../components/BalanceRange.js'
 import logo from '../../logo.png'
 
@@ -37,23 +37,6 @@ class Home extends Component {
           </div>
 
           <div className="pure-u-1-1">
-            <h2>Cuenta actual</h2>
-            <div className="accountAddressString">
-              <AccountData 
-                accountIndex={""+this.state.currentAccount.index}  
-                units="ether" 
-                precision="3"
-              />
-            </div>
-            <input 
-              type="text" 
-              value={this.state.currentAccount.index} 
-              onChange={this.changeIndex} 
-            />
-          <br/><br/>
-          </div>
-
-          <div className="pure-u-1-1">
             <h2>Pedro Token</h2>
             <p></p>  
             <p>
@@ -70,6 +53,13 @@ class Home extends Component {
               />
             </p>
             <BalanceRange accountsToRetrieve={9} passedAccounts={this.props.accounts} />
+            <h2>Cuenta actual</h2>
+            <input 
+              type="text" 
+              value={this.state.currentAccount.index} 
+              onChange={this.changeIndex}
+            />
+            <br/><br/>
             <h3>Send Tokens</h3>
               <ContractForm 
                 contract="TutorialToken" 
