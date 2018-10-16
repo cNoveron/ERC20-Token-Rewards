@@ -63,6 +63,7 @@ class Home extends Component {
               value={this.state.fromAccount.index} 
               onChange={this.changeIndex}
             />
+            <Balance accountStr={this.state.fromAccount.index} />
             <p>
               {this.state.fromAccount.address}
             </p>
