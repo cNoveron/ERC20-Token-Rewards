@@ -6,7 +6,7 @@ class BalanceRange extends Component {
 
   render() {
     return <div>
-      {_.range(0,this.props.maxRange).map(index =>(
+      {_.range(0,this.props.maxRange-1).map(index =>(
         <Balance account={index}/>
       ))}
     </div>
