@@ -5,11 +5,11 @@ class Balance extends Component {
 
   render() {
     return <p>
-      <strong>balanceOf {this.props.account} : </strong> 
+      <strong>balanceOf {this.props.accountStr} : </strong> 
       <ContractData 
         contract="TutorialToken"
         method="balanceOf" 
-        methodArgs={[this.props.account]} 
+        methodArgs={[this.props.accountStr]} 
       /> 
       <ContractData 
         contract="TutorialToken"

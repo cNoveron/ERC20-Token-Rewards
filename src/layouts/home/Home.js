@@ -69,12 +69,13 @@ class Home extends Component {
                 hideIndicator 
               />
             </p>
-            <BalanceRange accountsToRetrieve={9}/>
+            <BalanceRange accountsToRetrieve={9} passedAccounts={this.props.accounts} />
             <h3>Send Tokens</h3>
               <ContractForm 
                 contract="TutorialToken" 
                 method="transfer" 
-                labels={['To Address', 'Amount to Send']} 
+                labels={['To Address', 'Amount to Send']}
+                sendArgs={{from: this.props.accounts[0]}}
               />
             <br/><br/>
           </div>
