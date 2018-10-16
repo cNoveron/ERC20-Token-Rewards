@@ -46,7 +46,7 @@ class Home extends Component {
                 contract="Pedro_ERC20Token" 
                 method="totalSupply" 
                 methodArgs={[{from: this.props.accounts[0]}]} 
-              />
+              />{" "}
               <ContractData 
                 contract="Pedro_ERC20Token" 
                 method="symbol" 
