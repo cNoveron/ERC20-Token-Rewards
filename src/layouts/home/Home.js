@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { ContractData, ContractForm } from 'drizzle-react-components'
 import BalanceRange from '../components/BalanceRange.js'
+import Balance from '../components/Balance.js'
 import logo from '../../logo.png'
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentAccount: {
+      fromAccount: {
         index: 0,
         address: this.props.accounts[0],
       },
@@ -18,7 +19,7 @@ class Home extends Component {
   changeIndex(event) {
     if(event.target.value < 10)
     this.setState({
-      currentAccount: {
+      fromAccount: {
         index: event.target.value,
         address: this.props.accounts[event.target.value],
       }
@@ -52,20 +53,26 @@ class Home extends Component {
                 hideIndicator 
               />
             </p>
-            <BalanceRange accountsToRetrieve={9} passedAccounts={this.props.accounts} />
+            <BalanceRange 
+              accountsToRetrieve={9} 
+              passedAccounts={this.props.accounts} 
+            />
             <h2>Cuenta actual</h2>
             <input 
               type="text" 
-              value={this.state.currentAccount.index} 
+              value={this.state.fromAccount.index} 
               onChange={this.changeIndex}
             />
-            <br/><br/>
+            <p>
+              {this.state.fromAccount.index}
+            </p>
+            <br/>
             <h3>Send Tokens</h3>
               <ContractForm 
                 contract="TutorialToken" 
                 method="transfer" 
                 labels={['To Address', 'Amount to Send']}
-                sendArgs={{from: this.state.currentAccount.address}}
+                sendArgs={{from: this.state.fromAccount.address}}
               />
             <br/><br/>
           </div>
