@@ -10,7 +10,7 @@ class BalanceRange extends Component {
       .range(0,this.props.accountsToRetrieve-1)
       .map(
         indexNum =>(
-          <Balance key={indexNum} accountStr={this.props.passedAccounts[indexNum]}/>
+          <Balance key={indexNum} addressStr={this.props.passedAccounts[indexNum]}/>
         )
       )
     }</div>

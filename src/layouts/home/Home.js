@@ -42,7 +42,7 @@ class Home extends Component {
             <p></p>  
             <p>
               <strong>Total Supply: </strong>
-                <ContractData 
+              <ContractData 
                 contract="TutorialToken" 
                 method="totalSupply" 
                 methodArgs={[{from: this.props.accounts[0]}]} 
@@ -63,10 +63,7 @@ class Home extends Component {
               value={this.state.fromAccount.index} 
               onChange={this.changeIndex}
             />
-            <Balance accountStr={this.state.fromAccount.index} />
-            <p>
-              {this.state.fromAccount.address}
-            </p>
+            <Balance addressStr={this.state.fromAccount.address} />
             <br/>
             <h3>Send Tokens</h3>
               <ContractForm 
