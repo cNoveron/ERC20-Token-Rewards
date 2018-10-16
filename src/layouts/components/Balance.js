@@ -7,12 +7,12 @@ class Balance extends Component {
     return <p>
       <strong>balanceOf {this.props.addressStr} : </strong> 
       <ContractData 
-        contract="TutorialToken"
+        contract="Pedro_ERC20Token"
         method="balanceOf" 
         methodArgs={[this.props.addressStr]} 
       /> 
       <ContractData 
-        contract="TutorialToken"
+        contract="Pedro_ERC20Token"
         method="symbol"
       />
     </p>

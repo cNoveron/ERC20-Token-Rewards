@@ -43,12 +43,12 @@ class Home extends Component {
             <p>
               <strong>Total Supply: </strong>
               <ContractData 
-                contract="TutorialToken" 
+                contract="Pedro_ERC20Token" 
                 method="totalSupply" 
                 methodArgs={[{from: this.props.accounts[0]}]} 
               />
               <ContractData 
-                contract="TutorialToken" 
+                contract="Pedro_ERC20Token" 
                 method="symbol" 
                 hideIndicator 
               />
@@ -67,7 +67,7 @@ class Home extends Component {
             <br/>
             <h3>Send Tokens</h3>
               <ContractForm 
-                contract="TutorialToken" 
+                contract="Pedro_ERC20Token" 
                 method="transfer" 
                 labels={['To Address', 'Amount to Send']}
                 sendArgs={{from: this.state.fromAccount.address}}

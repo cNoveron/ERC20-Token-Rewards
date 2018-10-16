@@ -1,6 +1,4 @@
-import ComplexStorage from './../build/contracts/ComplexStorage.json'
-import SimpleStorage from './../build/contracts/SimpleStorage.json'
-import TutorialToken from './../build/contracts/TutorialToken.json'
+import Pedro_ERC20Token from './../build/contracts/Pedro_ERC20Token.json'
 
 const drizzleOptions = {
   web3: {
@@ -11,9 +9,7 @@ const drizzleOptions = {
     }
   },
   contracts: [
-    ComplexStorage,
-    SimpleStorage,
-    TutorialToken
+    Pedro_ERC20Token
   ],
   events: {
     SimpleStorage: ['StorageSet']
