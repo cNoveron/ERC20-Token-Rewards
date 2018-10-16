@@ -64,7 +64,7 @@ class Home extends Component {
               onChange={this.changeIndex}
             />
             <p>
-              {this.state.fromAccount.index}
+              {this.state.fromAccount.address}
             </p>
             <br/>
             <h3>Send Tokens</h3>
