@@ -4,8 +4,14 @@ module.exports = {
     development: {
       host: "localhost",
       port: 8545,
-      network_id: "*" // Match any network id
-    }
+      network_id: "*"
+    },    
+    ropsten: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/<INFURA_Access_Token>")
+      },
+      network_id: 3
+    } 
   },
   solc: {
     optimizer: {
