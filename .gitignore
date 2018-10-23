@@ -1,3 +1,5 @@
 node_modules/
 build/
 tmp-12088HVi4mbhlCbnE/
+.vscode/settings.json
+.gitignore
