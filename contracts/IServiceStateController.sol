@@ -12,59 +12,59 @@ interface IServiceStateController {
     external pure returns (uint);
 
     event ServiceRequested(
-        uint    indexed serviceInstanceID,
+        uint    indexed serviceRequestId,
         address indexed requestedBy,
         string  serviceName
     );
 
     /**
     * @dev Only a service provider should use this to offer his services iN favor
-    * of a previously identified serviceInstance.
-    * @param _serviceInstanceID uint The number that identifies the serviceInstance.
+    * of a previously identified serviceRequest.
+    * @param _serviceRequestId uint The number that identifies the serviceRequest.
     * @param _price uint The price asked by the service provider.
     */
-    function offer(uint _serviceInstanceID, uint _price)
+    function offer(uint _serviceRequestId, uint _price)
     external pure returns (bool);
 
     event OfferMade(
-        uint    indexed serviceInstanceID,
+        uint    indexed serviceRequestId,
         address indexed offeredBy,
         string  serviceName
     );
 
-    function accept(uint _serviceInstanceID)
+    function accept(uint _serviceRequestId)
     external pure returns (uint);
 
     event ServiceAccepted(
-        uint    indexed serviceInstanceID,
+        uint    indexed serviceRequestId,
         address indexed offeredBy,
         address indexed acceptedBy,
         string  serviceName
     );
 
-    function claimCompletion(uint _serviceInstanceID)
+    function claimCompletion(uint _serviceRequestId)
     external pure returns (uint);
 
     event CompletionClaimed(
-        uint    indexed serviceInstanceID,
+        uint    indexed serviceRequestId,
         address indexed claimedCompleteBy,
         string  serviceName
     );
 
-    function approveCompletion(uint serviceInstanceID)
+    function approveCompletion(uint serviceRequestId)
     external pure returns (uint);
 
     event CompletionApproved(
-        uint    indexed serviceInstanceID,
+        uint    indexed serviceRequestId,
         address indexed approvedAsCompleteBy,
         string  serviceName
     );
 
-    function rejectCompletion(uint serviceInstanceID)
+    function rejectCompletion(uint serviceRequestId)
     external pure returns (uint);
 
     event CompletionRejected(
-        uint    indexed serviceInstanceID,
+        uint    indexed serviceRequestId,
         address indexed rejectedAsCompleteBy,
         string  serviceName
     );
