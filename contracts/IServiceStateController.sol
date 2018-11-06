@@ -6,13 +6,14 @@ interface IServiceStateController {
     * @dev Only a service client should use this to request a service in his favor.
     * Then an event shall be emited broadcasting the request to be listened by 
     * the service providers who are currently offering the service.
+    * @param _callTimestamp uint The unix time when the request function was called.
     * @param _serviceName string The name that identifies the service.
     */
-    function request(string _serviceName) 
+    function request(uint _callTimestamp, string _serviceName) 
     external returns (bytes32);
 
     event ServiceRequested(
-        bytes32    indexed serviceRequestId,
+        bytes32 indexed serviceRequestId,
         address indexed requestedBy,
         string  serviceName
     );
