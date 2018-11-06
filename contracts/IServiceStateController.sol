@@ -28,7 +28,7 @@ interface IServiceStateController {
     external pure returns (bool);
 
     event OfferMade(
-        bytes32    indexed requestEthSHA3,
+        bytes32 indexed requestEthSHA3,
         address indexed offeredBy,
         string  serviceName
     );
@@ -37,7 +37,7 @@ interface IServiceStateController {
     external pure returns (bytes32);
 
     event ServiceAccepted(
-        bytes32    indexed requestEthSHA3,
+        bytes32 indexed requestEthSHA3,
         address indexed offeredBy,
         address indexed acceptedBy,
         string  serviceName
@@ -47,7 +47,7 @@ interface IServiceStateController {
     external pure returns (bytes32);
 
     event CompletionClaimed(
-        bytes32    indexed requestEthSHA3,
+        bytes32 indexed requestEthSHA3,
         address indexed claimedCompleteBy,
         string  serviceName
     );
@@ -56,7 +56,7 @@ interface IServiceStateController {
     external pure returns (bytes32);
 
     event CompletionApproved(
-        bytes32    indexed requestEthSHA3,
+        bytes32 indexed requestEthSHA3,
         address indexed approvedAsCompleteBy,
         string  serviceName
     );
@@ -65,7 +65,7 @@ interface IServiceStateController {
     external pure returns (bytes32);
 
     event CompletionRejected(
-        bytes32    indexed requestEthSHA3,
+        bytes32 indexed requestEthSHA3,
         address indexed rejectedAsCompleteBy,
         string  serviceName
     );
