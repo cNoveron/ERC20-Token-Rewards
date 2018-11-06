@@ -1,8 +1,13 @@
 // solium-disable linebreak-style
 pragma solidity ^0.4.23;
 
-interface IServiceStateController {    
-
+interface IServiceStateController {
+    /**
+    * @dev Only a service client should use this to request a service in his favor.
+    * Then an event shall be emited broadcasting the request to be listened by 
+    * the service providers who are currently offering the service.
+    * @param _serviceName string The name that identifies the service.
+    */
     function request(string _serviceName) 
     external pure returns (uint);
 
@@ -12,7 +17,13 @@ interface IServiceStateController {
         string  serviceName
     );
 
-    function offer(uint serviceInstanceID)
+    /**
+    * @dev Only a service provider should use this to offer his services iN favor
+    * of a previously identified serviceInstance.
+    * @param _serviceInstanceID uint The number that identifies the serviceInstance.
+    * @param _price uint The price asked by the service provider.
+    */
+    function offer(uint _serviceInstanceID, uint _price)
     external pure returns (bool);
 
     event OfferMade(
@@ -21,7 +32,7 @@ interface IServiceStateController {
         string  serviceName
     );
 
-    function accept(uint serviceInstanceID)
+    function accept(uint _serviceInstanceID)
     external pure returns (uint);
 
     event ServiceAccepted(
@@ -31,7 +42,7 @@ interface IServiceStateController {
         string  serviceName
     );
 
-    function claimCompletion(uint serviceInstanceID)
+    function claimCompletion(uint _serviceInstanceID)
     external pure returns (uint);
 
     event CompletionClaimed(
