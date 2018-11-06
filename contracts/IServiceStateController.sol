@@ -9,7 +9,7 @@ interface IServiceStateController {
     * @param _serviceName string The name that identifies the service.
     */
     function request(string _serviceName) 
-    external pure returns (uint);
+    external returns (uint);
 
     event ServiceRequested(
         uint    indexed serviceRequestId,
