@@ -25,7 +25,7 @@ interface IServiceStateController {
     * @param _price bytes32 The price asked by the service provider.
     */
     function offer(bytes32 _requestEthSHA3, bytes32 _price)
-    external pure returns (bool);
+    external returns (bool);
 
     event OfferMade(
         bytes32 indexed requestEthSHA3,
@@ -34,7 +34,7 @@ interface IServiceStateController {
     );
 
     function accept(bytes32 _requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bytes32);
 
     event ServiceAccepted(
         bytes32 indexed requestEthSHA3,
@@ -44,7 +44,7 @@ interface IServiceStateController {
     );
 
     function claimCompletion(bytes32 _requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bytes32);
 
     event CompletionClaimed(
         bytes32 indexed requestEthSHA3,
@@ -53,7 +53,7 @@ interface IServiceStateController {
     );
 
     function approveCompletion(bytes32 requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bytes32);
 
     event CompletionApproved(
         bytes32 indexed requestEthSHA3,
@@ -62,7 +62,7 @@ interface IServiceStateController {
     );
 
     function rejectCompletion(bytes32 requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bytes32);
 
     event CompletionRejected(
         bytes32 indexed requestEthSHA3,
