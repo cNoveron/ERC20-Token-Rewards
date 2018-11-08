@@ -19,7 +19,7 @@ interface IServiceStateController {
     );
 
     /**
-    * @dev Only a service provider should use this to offer his services iN favor
+    * @dev Only a service provider should use this to offer his services in favor
     * of a previously identified serviceRequest.
     * @param _requestEthSHA3 bytes32 The number that identifies the serviceRequest.
     * @param _price bytes32 The price asked by the service provider.
@@ -34,7 +34,7 @@ interface IServiceStateController {
     );
 
     function accept(bytes32 _requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bool);
 
     event ServiceAccepted(
         bytes32 indexed requestEthSHA3,
@@ -44,7 +44,7 @@ interface IServiceStateController {
     );
 
     function claimCompletion(bytes32 _requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bool);
 
     event CompletionClaimed(
         bytes32 indexed requestEthSHA3,
@@ -53,7 +53,7 @@ interface IServiceStateController {
     );
 
     function approveCompletion(bytes32 requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bool);
 
     event CompletionApproved(
         bytes32 indexed requestEthSHA3,
@@ -62,7 +62,7 @@ interface IServiceStateController {
     );
 
     function rejectCompletion(bytes32 requestEthSHA3)
-    external pure returns (bytes32);
+    external returns (bool);
 
     event CompletionRejected(
         bytes32 indexed requestEthSHA3,
