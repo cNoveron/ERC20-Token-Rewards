@@ -9,26 +9,26 @@ interface IServiceStateController {
     * @param _callTimestamp uint The unix time when the request function was called.
     * @param _serviceName string The name that identifies the service.
     */
-    function request(uint _callTimestamp, string _serviceName) 
+    function request(bytes4 _callTimestamp, bytes28 _serviceName) 
     external returns (bytes32);
 
     event ServiceRequested(
-        bytes32 indexed requestEthSHA3,
+        bytes32 indexed serviceRequestIdentifier,
         address indexed requestedBy,
-        string  serviceName
+        bytes28  serviceName
     );
 
     /**
     * @dev Only a service provider should use this to offer his services in favor
     * of a previously identified serviceRequest.
-    * @param _requestEthSHA3 bytes32 The number that identifies the serviceRequest.
+    * @param _serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
     * @param _price bytes32 The price asked by the service provider.
     */
-    function offer(bytes32 _requestEthSHA3, bytes32 _price)
-    external pure returns (bool);
+    function offer(bytes32 _serviceRequestIdentifier, uint256 _price)
+    external returns (bool);
 
     event OfferMade(
-        bytes32 indexed requestEthSHA3,
+        bytes32 indexed serviceRequestIdentifier,
         address indexed offeredBy,
         string  serviceName
     );
@@ -37,42 +37,42 @@ interface IServiceStateController {
     * @dev Only the service client who owns the serviceRequest should call this 
     * to accept and delegate services in his favor to a service provider
     * who had previously called an offer to the serviceRequest.
-    * @param _requestEthSHA3 bytes32 The number that identifies the serviceRequest.
+    * @param _serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
     * @param _price bytes32 The price asked by the service provider.
     */
-    function accept(bytes32 _requestEthSHA3, address _delegatedTo)
+    function accept(bytes32 _serviceRequestIdentifier, address _delegatedTo)
     external returns (bool);
 
     event ServiceAccepted(
-        bytes32 indexed requestEthSHA3,
+        bytes32 indexed serviceRequestIdentifier,
         address indexed acceptedBy,
         address indexed delegatedTo,
         string  serviceName
     );
 
-    function claimCompletion(bytes32 _requestEthSHA3)
+    function claimCompletion(bytes32 _serviceRequestIdentifier)
     external returns (bool);
 
     event CompletionClaimed(
-        bytes32 indexed requestEthSHA3,
+        bytes32 indexed serviceRequestIdentifier,
         address indexed claimedCompleteBy,
         string  serviceName
     );
 
-    function approveCompletion(bytes32 requestEthSHA3)
+    function approveCompletion(bytes32 serviceRequestIdentifier)
     external returns (bool);
 
     event CompletionApproved(
-        bytes32 indexed requestEthSHA3,
+        bytes32 indexed serviceRequestIdentifier,
         address indexed approvedAsCompleteBy,
         string  serviceName
     );
 
-    function rejectCompletion(bytes32 requestEthSHA3)
+    function rejectCompletion(bytes32 serviceRequestIdentifier)
     external returns (bool);
 
     event CompletionRejected(
-        bytes32 indexed requestEthSHA3,
+        bytes32 indexed serviceRequestIdentifier,
         address indexed rejectedAsCompleteBy,
         string  serviceName
     );
