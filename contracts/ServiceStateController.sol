@@ -11,7 +11,7 @@ contract ServiceStateController is IServiceStateController {
     external returns (bytes32) {
         bytes32 serviceRequestIdentifier = tightlyPack_nonAssembly(_callTimestamp, _serviceName);
         ServiceRequest memory newServiceRequest = ServiceRequest(
-            serviceRequestIdentifier, _callTimestamp, msg.sender, _serviceName
+            _callTimestamp, msg.sender, _serviceName
         );
         ServiceRequest_from_Id[serviceRequestIdentifier] = newServiceRequest;
         emit ServiceRequested(serviceRequestIdentifier, msg.sender, _serviceName);
@@ -26,7 +26,6 @@ contract ServiceStateController is IServiceStateController {
     mapping(bytes32 => ServiceRequest) ServiceRequest_from_Id;
 
     struct ServiceRequest{
-        bytes32 serviceRequestId;
         bytes4  callTimestamp;
         address requestedBy;
         bytes28 serviceName;
