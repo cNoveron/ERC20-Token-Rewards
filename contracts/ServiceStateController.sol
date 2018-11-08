@@ -7,30 +7,37 @@ contract ServiceStateController is IServiceStateController {
     /**
     * 
     */
-    function request(uint _callTimestamp, string _serviceName) 
+    function request(bytes4 _callTimestamp, bytes28 _serviceName) 
     external returns (bytes32){
-        bytes32 requestEthSHA3 = keccak256(_callTimestamp, msg.sender, _serviceName);
+        bytes32 serviceRequestIdentifier = tightlyPack_nonAssembly(_callTimestamp, _serviceName);
         ServiceRequest memory newServiceRequest = ServiceRequest(
-            requestEthSHA3,_callTimestamp, msg.sender, _serviceName
+            serviceRequestIdentifier, _callTimestamp, msg.sender, _serviceName
         );
-        ServiceRequest_from_Id[requestEthSHA3] = newServiceRequest;
-        emit ServiceRequested(requestEthSHA3, msg.sender, _serviceName);
-        return requestEthSHA3;
+        ServiceRequest_from_Id[serviceRequestIdentifier] = newServiceRequest;
+        emit ServiceRequested(serviceRequestIdentifier, msg.sender, _serviceName);
+        return serviceRequestIdentifier;
+    }
+
+    function tightlyPack_nonAssembly(bytes4 _callTimestamp, bytes28 _serviceName) 
+    internal returns (bytes32) {
+        return bytes32(_callTimestamp << 28*8 ^ _serviceName);
     }
 
     mapping(bytes32 => ServiceRequest) ServiceRequest_from_Id;
 
     struct ServiceRequest{
         bytes32 serviceRequestId;
-        uint    callTimestamp;
+        bytes4  callTimestamp;
         address requestedBy;
-        string  serviceName;
+        bytes28 serviceName;
     }
+
 
     function offer(bytes32 serviceInstanceID)
     external pure returns (bool){
 
     }
+
     function accept(bytes32 serviceInstanceID)
     external pure returns (bytes32){
 
