@@ -10,10 +10,9 @@ contract ServiceStateController is IServiceStateController {
     function request(bytes4 _callTimestamp, bytes28 _serviceName) 
     external returns (bytes32) {
         bytes32 serviceRequestId = tightlyPack_nonAssembly(_callTimestamp, _serviceName);
-        ServiceRequestData memory newServiceRequestData = ServiceRequestData(
+        ServiceRequestData_from_ServiceRequestId[serviceRequestId] = ServiceRequestData(
             _callTimestamp, msg.sender, _serviceName
         );
-        ServiceRequestData_from_ServiceRequestId[serviceRequestId] = newServiceRequestData;
         emit ServiceRequested(serviceRequestId, msg.sender, _serviceName);
         return serviceRequestId;
     }
