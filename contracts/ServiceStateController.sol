@@ -9,13 +9,13 @@ contract ServiceStateController is IServiceStateController {
     */
     function request(bytes4 _callTimestamp, bytes28 _serviceName) 
     external returns (bytes32) {
-        bytes32 serviceRequestIdentifier = tightlyPack_nonAssembly(_callTimestamp, _serviceName);
-        ServiceRequest memory newServiceRequest = ServiceRequest(
+        bytes32 serviceRequestId = tightlyPack_nonAssembly(_callTimestamp, _serviceName);
+        ServiceRequestData memory newServiceRequest = ServiceRequestData(
             _callTimestamp, msg.sender, _serviceName
         );
-        ServiceRequest_from_Id[serviceRequestIdentifier] = newServiceRequest;
-        emit ServiceRequested(serviceRequestIdentifier, msg.sender, _serviceName);
-        return serviceRequestIdentifier;
+        ServiceRequestData_from_ServiceRequestId[serviceRequestId] = newServiceRequest;
+        emit ServiceRequested(serviceRequestId, msg.sender, _serviceName);
+        return serviceRequestId;
     }
 
     function tightlyPack_nonAssembly(bytes4 _callTimestamp, bytes28 _serviceName) 
@@ -23,61 +23,61 @@ contract ServiceStateController is IServiceStateController {
         return bytes32(_callTimestamp << 28*8 ^ _serviceName);
     }
 
-    mapping(bytes32 => ServiceRequest) ServiceRequest_from_Id;
+    mapping(bytes32 => ServiceRequestData) ServiceRequestData_from_ServiceRequestId;
 
-    struct ServiceRequest{
+    struct ServiceRequestData{
         bytes4  callTimestamp;
         address requestedBy;
         bytes28 serviceName;
     }
 
 
-    function offer(bytes32 serviceRequestIdentifier, uint256 _price)
+    function offer(bytes32 serviceRequestId, uint256 _price)
     external returns (bool){
 
     }
 
-    function accept(bytes32 serviceRequestIdentifier, address _delegatedTo)
+    function accept(bytes32 serviceRequestId, address _delegatedTo)
     external returns (bool){
 
     }
 
     event ServiceAccepted(
-        bytes32    indexed serviceRequestIdentifier,
+        bytes32    indexed serviceRequestId,
         address indexed offeredBy,
         address indexed acceptedBy,
         string  serviceName
     );
 
-    function claimCompletion(bytes32 serviceRequestIdentifier)
+    function claimCompletion(bytes32 serviceRequestId)
     external returns (bool){
 
     }
 
     event CompletionClaimed(
-        bytes32    indexed serviceRequestIdentifier,
+        bytes32    indexed serviceRequestId,
         address indexed claimedCompleteBy,
         string  serviceName
     );
 
-    function approveCompletion(bytes32 serviceRequestIdentifier)
+    function approveCompletion(bytes32 serviceRequestId)
     external returns (bool){
 
     }
 
     event CompletionApproved(
-        bytes32    indexed serviceRequestIdentifier,
+        bytes32    indexed serviceRequestId,
         address indexed approvedAsCompleteBy,
         string  serviceName
     );
 
-    function rejectCompletion(bytes32 serviceRequestIdentifier)
+    function rejectCompletion(bytes32 serviceRequestId)
     external returns (bool){
 
     }
 
     event CompletionRejected(
-        bytes32    indexed serviceRequestIdentifier,
+        bytes32    indexed serviceRequestId,
         address indexed rejectedAsCompleteBy,
         string  serviceName
     );
