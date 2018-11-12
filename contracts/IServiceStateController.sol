@@ -13,7 +13,7 @@ interface IServiceStateController {
     external returns (bytes32);
 
     event ServiceRequested(
-        bytes32 indexed serviceRequestIdentifier,
+        bytes32 indexed serviceRequestId,
         address indexed requestedBy,
         bytes28  serviceName
     );
@@ -28,7 +28,7 @@ interface IServiceStateController {
     external returns (bool);
 
     event OfferMade(
-        bytes32 indexed serviceRequestIdentifier,
+        bytes32 indexed serviceRequestId,
         address indexed offeredBy,
         string  serviceName
     );
@@ -44,7 +44,7 @@ interface IServiceStateController {
     external returns (bool);
 
     event ServiceAccepted(
-        bytes32 indexed serviceRequestIdentifier,
+        bytes32 indexed serviceRequestId,
         address indexed acceptedBy,
         address indexed delegatedTo,
         string  serviceName
@@ -54,25 +54,25 @@ interface IServiceStateController {
     external returns (bool);
 
     event CompletionClaimed(
-        bytes32 indexed serviceRequestIdentifier,
+        bytes32 indexed serviceRequestId,
         address indexed claimedCompleteBy,
         string  serviceName
     );
 
-    function approveCompletion(bytes32 serviceRequestIdentifier)
+    function approveCompletion(bytes32 serviceRequestId)
     external returns (bool);
 
     event CompletionApproved(
-        bytes32 indexed serviceRequestIdentifier,
+        bytes32 indexed serviceRequestId,
         address indexed approvedAsCompleteBy,
         string  serviceName
     );
 
-    function rejectCompletion(bytes32 serviceRequestIdentifier)
+    function rejectCompletion(bytes32 serviceRequestId)
     external returns (bool);
 
     event CompletionRejected(
-        bytes32 indexed serviceRequestIdentifier,
+        bytes32 indexed serviceRequestId,
         address indexed rejectedAsCompleteBy,
         string  serviceName
     );
