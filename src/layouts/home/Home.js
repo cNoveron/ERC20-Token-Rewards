@@ -9,8 +9,8 @@ class Home extends Component {
         super(props);
         this.state = {
             fromAccount: {
-            index: 0,
-            address: this.props.accounts[0],
+                index: 0,
+                address: this.props.accounts[0],
             },
         }
         this.changeIndex = this.changeIndex.bind(this);
@@ -28,56 +28,47 @@ class Home extends Component {
 
     render() {
         return (
-            <main className="container">
-                <div className="pure-g">
-                    <div className="pure-u-1-1 header">
-                    <img src={logo} />
-                    <h1>Pedro Token</h1>
-                    <p>This is a QA testing application for Pedro ERC20 Token.</p>
-                    <br/><br/>
+            <div className="pure-g">            
+                <div className="pure-u-1 header">
+                    <div className="container">
+                        <img src={logo} alt="logo"/>
+                        <h1>Pedro Token</h1>
+                        <p>This is a QA testing application for Pedro ERC20 Token.</p>
+                        <br/><br/>
+                    </div>
                 </div>
-
-                <div className="pure-u-1-1">
-                    <h2>Pedro Token</h2>
-                    <p></p>  
-                    <p>
-                    <strong>Total Supply: </strong>
-                    <ContractData 
-                        contract="Pedro_ERC20Token" 
-                        method="totalSupply" 
-                        methodArgs={[{from: this.props.accounts[0]}]} 
-                    />{" "}
-                    <ContractData 
-                        contract="Pedro_ERC20Token" 
-                        method="symbol" 
-                        hideIndicator 
-                    />
-                    </p>
-                    <BalanceRange 
-                        accountsToRetrieve={4} 
-                        passedAccounts={this.props.accounts} 
-                    />
-                    <h2>Current Account</h2>
+                <div className="pure-u-1-2">
+                    <div className="container">
+                        <h2>Balances</h2>
+                        <BalanceRange 
+                            accountsToRetrieve={4} 
+                            passedAccounts={this.props.accounts} 
+                        />
+                    </div>
+                </div>
+                <div className="pure-u-1-2">
+                    <h2>Send tokens</h2>
+                    <h3>Select account index to send from</h3>
                     <input 
                         type="number" 
                         value={this.state.fromAccount.index} 
                         onChange={this.changeIndex}
                     />
+                    <h3>You will send tokens from this account</h3>
                     <Balance 
                         addressStr={this.props.accounts[this.state.fromAccount.index]}
                     />
                     <br/>
-                    <h3>Send Tokens</h3>
-                        <ContractForm 
-                            contract="Pedro_ERC20Token" 
-                            method="transfer" 
-                            labels={['To Address', 'Amount to Send']}
-                            sendArgs={{from: this.state.fromAccount.address}}
-                        />
-                        <br/><br/>
-                    </div>
+                    <h3>Select account to send tokens to</h3>
+                    <ContractForm 
+                        contract="Pedro_ERC20Token" 
+                        method="transfer" 
+                        labels={['To Address', 'Amount to Send']}
+                        sendArgs={{from: this.state.fromAccount.address}}
+                    />
+                    <br/><br/>
                 </div>
-            </main>
+            </div>
         )
     }
 }
