@@ -18,7 +18,7 @@ contract ServiceStateController is IServiceStateController {
     }
 
     function tightlyPack_nonAssembly(bytes4 _callTimestamp, bytes28 _serviceName) 
-    internal returns (bytes32) {
+    public returns (bytes32) {
         return bytes32(_callTimestamp << 28*8 ^ _serviceName);
     }
 
