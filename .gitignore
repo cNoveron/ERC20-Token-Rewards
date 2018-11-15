@@ -1,5 +1,8 @@
 node_modules/
+!node_modules/drizzle-react-components
 build/
 tmp-12088HVi4mbhlCbnE/
 .vscode/settings.json
 .gitignore
+build_webpack/
+non-code files/
