@@ -38,7 +38,7 @@ interface IServiceStateController {
     * to accept and delegate services in his favor to a service provider
     * who had previously called an offer to the serviceRequest.
     * @param _serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
-    * @param _price bytes32 The price asked by the service provider.
+    * @param _delegatedTo bytes32 The price asked by the service provider.
     */
     function accept(bytes32 _serviceRequestIdentifier, address _delegatedTo)
     external returns (bool);
