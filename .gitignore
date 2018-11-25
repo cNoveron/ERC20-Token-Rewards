@@ -1,5 +1,8 @@
-node_modules/
+node_modules/*
 !node_modules/drizzle-react-components/
+node_modules/drizzle-react-components/*
+!node_modules/drizzle-react-components/drizzle-react-components.js
+!node_modules/drizzle-react-components/drizzle-react-componentsR.js
 build/
 tmp-12088HVi4mbhlCbnE/
 .vscode/settings.json
