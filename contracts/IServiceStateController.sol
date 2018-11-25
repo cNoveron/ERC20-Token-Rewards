@@ -14,8 +14,9 @@ interface IServiceStateController {
 
     event ServiceRequested(
         bytes32 indexed serviceRequestId,
-        address indexed requestedBy,
-        bytes28  serviceName
+        bytes4  indexed _callTimestamp,
+        bytes28 indexed serviceName,        
+        address requestedBy
     );
 
     /**
