@@ -14,10 +14,10 @@ interface IServiceStateController {
     external returns (bool);
 
     event ServiceRequested(
-        bytes32 indexed serviceRequestId,
-        bytes4  indexed callTimestamp,
-        bytes28 indexed serviceName,        
-        address requestedBy
+        uint32      indexed reviewId, 
+        uint32      indexed callTimestamp, 
+        uint32[]    indexed serviceIdArray,      
+        address     requestedBy
     );
 
     /**
