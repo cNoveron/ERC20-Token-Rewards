@@ -6,15 +6,16 @@ interface IServiceStateController {
     * @dev Only a service client should use this to request a service in his favor.
     * Then an event shall be emited broadcasting the request to be listened by 
     * the service providers who are currently offering the service.
-    * @param _callTimestamp uint The unix time when the request function was called.
-    * @param _serviceName string The name that identifies the service.
+    * @param reviewId       uint32      The identifier of the review due to be submitted.
+    * @param callTimestamp  uint32      The unix time when the request function was called.
+    * @param serviceIdArray uint32[]    The identifiers of the requested services.
     */
-    function request(bytes4 _callTimestamp, bytes28 _serviceName) 
-    external returns (bytes32);
+    function request(uint32 reviewId, uint32 callTimestamp, uint32[] serviceIdArray) 
+    external returns (bool);
 
     event ServiceRequested(
         bytes32 indexed serviceRequestId,
-        bytes4  indexed _callTimestamp,
+        bytes4  indexed callTimestamp,
         bytes28 indexed serviceName,        
         address requestedBy
     );
@@ -22,10 +23,10 @@ interface IServiceStateController {
     /**
     * @dev Only a service provider should use this to offer his services in favor
     * of a previously identified serviceRequest.
-    * @param _serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
-    * @param _price bytes32 The price asked by the service provider.
+    * @param serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
+    * @param price bytes32 The price asked by the service provider.
     */
-    function offer(bytes32 _serviceRequestIdentifier, uint256 _price)
+    function offer(bytes32 serviceRequestIdentifier, uint256 price)
     external returns (bool);
 
     event OfferMade(
@@ -38,10 +39,10 @@ interface IServiceStateController {
     * @dev Only the service client who owns the serviceRequest should call this 
     * to accept and delegate services in his favor to a service provider
     * who had previously called an offer to the serviceRequest.
-    * @param _serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
-    * @param _delegatedTo bytes32 The price asked by the service provider.
+    * @param serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
+    * @param delegatedTo bytes32 The price asked by the service provider.
     */
-    function accept(bytes32 _serviceRequestIdentifier, address _delegatedTo)
+    function accept(bytes32 serviceRequestIdentifier, address delegatedTo)
     external returns (bool);
 
     event ServiceAccepted(
@@ -51,7 +52,7 @@ interface IServiceStateController {
         string  serviceName
     );
 
-    function claimCompletion(bytes32 _serviceRequestIdentifier)
+    function claimCompletion(bytes32 serviceRequestIdentifier)
     external returns (bool);
 
     event CompletionClaimed(
