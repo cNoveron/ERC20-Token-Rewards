@@ -3,14 +3,14 @@ pragma solidity ^0.4.23;
 
 import "./IServiceStateController.sol";
 
-contract ServiceStateController is IServiceStateController {
-    
-    function request(uint32 reviewId, uint32 callTimestamp, uint32[] serviceIdArray) 
+contract ReviewsController is IServiceStateController {
+
+    function requestServices(uint32 reviewId, uint32 requestTimestamp, uint32[] serviceIdArray)  
     external returns (bool) {
-        if(is_reviewId_active[reviewId] == false){
-            is_reviewId_active[reviewId] == true;
+        if(is_reviewId_active[reviewId] == false) {
+            is_reviewId_active[reviewId] = true;
             get_serviceIdArray_from_reviewId[reviewId] = serviceIdArray;
-            emit ServiceRequested(reviewId, callTimestamp, serviceIdArray, msg.sender);
+            emit ServiceRequested(reviewId, requestTimestamp, serviceIdArray, msg.sender);
             return true;
         }
         return false;
@@ -19,12 +19,17 @@ contract ServiceStateController is IServiceStateController {
     mapping(uint32 => bool) is_reviewId_active;
     mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
 
-    function offer(bytes32 serviceRequestId, uint256 _price)
+    modifier validate_reviewId(uint32 reviewId) {
+        require(is_reviewId_active[reviewId] == true);
+        _;
+    }
+
+    function offerServices(uint32 reviewId, uint32 offerTimestamp, uint16 price) 
     external returns (bool){
         return;
     }
 
-    function accept(bytes32 serviceRequestId, address _delegatedTo)
+    function acceptOffer(uint32 reviewId, uint32 acceptanceTimestamp, address offererEthAddress)
     external returns (bool){
         return;
     }
@@ -36,7 +41,7 @@ contract ServiceStateController is IServiceStateController {
         string  serviceName
     );
 
-    function claimCompletion(bytes32 serviceRequestId)
+    function claimCompletion(uint32 reviewId, uint32 claimTimestamp)
     external returns (bool){
 
     }
@@ -47,24 +52,23 @@ contract ServiceStateController is IServiceStateController {
         string  serviceName
     );
 
-    function approveCompletion(bytes32 serviceRequestId)
-    external returns (bool){
-
+    function approveCompletion(uint32 reviewId, uint32 approvalTimestamp, uint8 rating, uint64 price)
+    external validate_reviewId(reviewId) returns (bool) {
     }
 
     event CompletionApproved(
-        bytes32    indexed serviceRequestId,
+        bytes32 indexed serviceRequestId,
         address indexed approvedAsCompleteBy,
         string  serviceName
     );
 
-    function rejectCompletion(bytes32 serviceRequestId)
+    function rejectCompletion(uint32 reviewId, uint32 callTimestamp)
     external returns (bool){
 
     }
 
     event CompletionRejected(
-        bytes32    indexed serviceRequestId,
+        bytes32 indexed serviceRequestId,
         address indexed rejectedAsCompleteBy,
         string  serviceName
     );
