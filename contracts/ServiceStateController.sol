@@ -2,8 +2,15 @@
 pragma solidity ^0.4.23;
 
 import "./IServiceStateController.sol";
+import "./RewardCalculator.sol";
 
-contract ReviewsController is IServiceStateController {
+contract ReviewsController is IServiceStateController, RewardCalculator {
+
+    constructor(address RewardCalculatorAddressParam) public {
+        RewardCalculatorAddress = RewardCalculatorAddressParam;
+    }
+
+    address RewardCalculatorAddress;
 
     function requestServices(uint32 reviewId, uint32 requestTimestamp, uint32[] serviceIdArray)  
     external returns (bool) {
@@ -52,8 +59,11 @@ contract ReviewsController is IServiceStateController {
         string  serviceName
     );
 
+    RewardCalculator rewardCalculator = RewardCalculator(RewardCalculatorAddress);
+
     function approveCompletion(uint32 reviewId, uint32 approvalTimestamp, uint8 rating, uint64 price)
-    external validate_reviewId(reviewId) returns (bool) {
+    external validate_reviewId(reviewId) returns (uint RewardAmount) {
+        RewardAmount = rewardCalculator.calculateRewardAmount(rating, price);        
     }
 
     event CompletionApproved(
