@@ -61,7 +61,7 @@ interface IServiceStateController {
         string  serviceName
     );
 
-    function approveCompletion(bytes32 serviceRequestId)
+    function approveCompletion(int reviewId, int rank, uint64 serviceCost, uint32 callTimestamp)
     external returns (bool);
 
     event CompletionApproved(
