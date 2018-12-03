@@ -4,35 +4,20 @@ pragma solidity ^0.4.23;
 import "./IServiceStateController.sol";
 
 contract ServiceStateController is IServiceStateController {
-    /**
-    * 
-    */
-    function request(bytes4 _callTimestamp, bytes28 _serviceName) 
-    external returns (bytes32) {
-        (,,bytes32 serviceRequestId) = tightlyPack_nonAssembly(_callTimestamp, _serviceName);
-        ServiceRequestData_from_ServiceRequestId[serviceRequestId] = ServiceRequestData(
-            _callTimestamp, _serviceName, msg.sender
-        );
-        emit ServiceRequested(serviceRequestId, _callTimestamp, _serviceName, msg.sender);
-        return serviceRequestId;
+    
+    function request(uint32 reviewId, uint32 callTimestamp, uint32[] serviceIdArray) 
+    external returns (bool) {
+        if(is_reviewId_active[reviewId] == false){
+            is_reviewId_active[reviewId] == true;
+            get_serviceIdArray_from_reviewId[reviewId] = serviceIdArray;
+            emit ServiceRequested(reviewId, callTimestamp, serviceIdArray, msg.sender);
+            return true;
+        }
+        return false;
     }
 
-    function tightlyPack_nonAssembly(bytes4 _callTimestamp, bytes28 _serviceName) 
-    public pure returns (bytes32,bytes32,bytes32) {
-        bytes32 bytes32_callTimestamp = bytes32(_callTimestamp) >> 224;
-        bytes32 bytes32_serviceName = bytes32(_serviceName);
-        bytes32 serviceRequestId = bytes32_callTimestamp ^ bytes32_serviceName;
-        return (bytes32_callTimestamp,bytes32_serviceName,serviceRequestId);
-    }
-
-    mapping(bytes32 => ServiceRequestData) ServiceRequestData_from_ServiceRequestId;
-
-    struct ServiceRequestData{
-        bytes4  callTimestamp;
-        bytes28 serviceName;
-        address requestedBy;
-    }
-
+    mapping(uint32 => bool) is_reviewId_active;
+    mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
 
     function offer(bytes32 serviceRequestId, uint256 _price)
     external returns (bool){
