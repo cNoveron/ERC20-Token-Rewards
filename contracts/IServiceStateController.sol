@@ -66,7 +66,7 @@ interface IServiceStateController {
     );
 
     function approveCompletion(uint32 reviewId, uint32 approvalTimestamp, uint8 rating, uint64 price)
-    external returns (bool);
+    external returns (uint RewardAmount);
 
     event CompletionApproved(
         uint32      indexed reviewId,
