@@ -10,12 +10,12 @@ interface IServiceStateController {
     * @param requestTimestamp   uint32      The unix time when the request function was called.
     * @param serviceIdArray     uint32[]    The identifiers of the requested services.
     */
-    function requestServices(uint32 reviewId, uint32 requestTimestamp, uint32[] serviceIdArray)
+    function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)
     external returns (bool);
 
     event ServiceRequested(
         uint32      indexed reviewId,
-        uint32      indexed callTimestamp,
+        uint64      indexed callTimestamp,
         uint32[]    indexed serviceIdArray,
         address     requesterEthAddress
     );
@@ -27,12 +27,12 @@ interface IServiceStateController {
     * @param offerTimestamp uint32      The unix time when the request function was called.
     * @param price          uint16      The provider's price in USD.
     */
-    function offerServices(uint32 reviewId, uint32 offerTimestamp, uint16 price) 
+    function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 price) 
     external returns (bool);
 
     event ServiceOffered(
         uint32      indexed reviewId, 
-        uint32      indexed offerTimestamp,
+        uint64      indexed offerTimestamp,
         uint16      indexed price,
         address     offererEthAddress
     );
@@ -45,37 +45,37 @@ interface IServiceStateController {
     * @param acceptanceTimestamp    uint32      The provider's price in USD.
     * @param offererEthAddress      address     The provider's price in USD.
     */
-    function acceptOffer(uint32 reviewId, uint32 acceptanceTimestamp, address offererEthAddress)
+    function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
     external returns (bool);
 
     event ServiceAccepted(
         uint32      indexed reviewId,
-        uint32      indexed acceptanceTimestamp,
+        uint64      indexed acceptanceTimestamp,
         address     requesterEthAddress,
         address     offererEthAddress
     );
 
-    function claimCompletion(uint32 reviewId, uint32 claimTimestamp)
+    function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
     external returns (bool);
 
     event CompletionClaimed(
         uint32      indexed reviewId,
-        uint32      indexed claimTimestamp,
+        uint64      indexed claimTimestamp,
         address     requesterEthAddress,
         address     offererEthAddress
     );
 
-    function approveCompletion(uint32 reviewId, uint32 approvalTimestamp, uint8 rating, uint64 price)
+    function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rating, uint64 price)
     external returns (uint RewardAmount);
 
     event CompletionApproved(
         uint32      indexed reviewId,
-        uint32      indexed approvalTimestamp,
+        uint64      indexed approvalTimestamp,
         address     requesterEthAddress,
         address     offererEthAddress
     );
 
-    function rejectCompletion(uint32 reviewId, uint32 callTimestamp)
+    function rejectCompletion(uint32 reviewId, uint64 callTimestamp)
     external returns (bool);
 
     event CompletionRejected(
