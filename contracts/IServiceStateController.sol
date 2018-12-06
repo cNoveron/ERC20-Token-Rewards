@@ -65,7 +65,7 @@ interface IServiceStateController {
         address     offererEthAddress
     );
 
-    function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rating, uint64 price)
+    function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rating)
     external returns (uint RewardAmount);
 
     event CompletionApproved(

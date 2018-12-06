@@ -53,9 +53,10 @@ contract ReviewsController is IServiceStateController {
         _;
     }
 
-    function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 price) 
-    external returns (bool){
-        return;
+    function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 finalCustomersPrice) 
+    external validate_reviewId(reviewId) returns (bool){
+        get_finalCustomersPrice_from_reviewId[reviewId] = finalCustomersPrice;
+        return true;
     }
 
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
@@ -68,11 +69,13 @@ contract ReviewsController is IServiceStateController {
 
     }
 
-    function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank, uint64 serviceCost)
+    function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank)
     external validate_reviewId(reviewId) returns (uint rewardAmount) {
-        rewardAmount = rewardCalculator.calculateRewardAmount(rank, serviceCost);
-        
+        uint finalCustomersPrice = get_finalCustomersPrice_from_reviewId[reviewId];
+        rewardAmount = rewardCalculator.calculateRewardAmount(rank, finalCustomersPrice);
     }
+
+    mapping (uint32 => uint) get_finalCustomersPrice_from_reviewId;
 
     function rejectCompletion(uint32 reviewId, uint64 callTimestamp)
     external returns (bool){
