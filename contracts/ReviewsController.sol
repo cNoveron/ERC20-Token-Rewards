@@ -63,23 +63,10 @@ contract ReviewsController is IServiceStateController {
         return;
     }
 
-    event ServiceAccepted(
-        bytes32 indexed serviceRequestId,
-        address indexed offeredBy,
-        address indexed acceptedBy,
-        string  serviceName
-    );
-
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
     external returns (bool){
 
     }
-
-    event CompletionClaimed(
-        bytes32 indexed serviceRequestId,
-        address indexed claimedCompleteBy,
-        string  serviceName
-    );
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank, uint64 serviceCost)
     external validate_reviewId(reviewId) returns (uint rewardAmount) {
@@ -87,20 +74,8 @@ contract ReviewsController is IServiceStateController {
         
     }
 
-    event CompletionApproved(
-        bytes32 indexed serviceRequestId,
-        address indexed approvedAsCompleteBy,
-        string  serviceName
-    );
-
     function rejectCompletion(uint32 reviewId, uint64 callTimestamp)
     external returns (bool){
 
     }
-
-    event CompletionRejected(
-        bytes32 indexed serviceRequestId,
-        address indexed rejectedAsCompleteBy,
-        string  serviceName
-    );
 }
