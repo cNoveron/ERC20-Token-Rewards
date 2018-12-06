@@ -24,7 +24,7 @@ interface IServiceStateController {
     * @dev Only a service provider should use this to offer his services in favor
     * of a previously identified serviceRequest.
     * @param reviewId       uint32      The identifier of the review due to be submitted.
-    * @param offerTimestamp uint32      The unix time when the request function was called.
+    * @param offerTimestamp uint64      The unix time when the request function was called.
     * @param price          uint16      The provider's price in USD.
     */
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 price) 
@@ -52,7 +52,7 @@ interface IServiceStateController {
         uint32      indexed reviewId,
         uint64      indexed acceptanceTimestamp,
         address     requesterEthAddress,
-        address     offererEthAddress
+        address     offererEthAddress 
     );
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
@@ -75,12 +75,11 @@ interface IServiceStateController {
         address     offererEthAddress
     );
 
-    function rejectCompletion(uint32 reviewId, uint64 callTimestamp)
+    function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
     external returns (bool);
 
     event CompletionRejected(
-        bytes32 indexed serviceRequestId,
-        address indexed rejectedAsCompleteBy,
-        string  serviceName
+        uint32 indexed reviewId,
+        uint64 indexed rejectionTimestamp
     );
 }
