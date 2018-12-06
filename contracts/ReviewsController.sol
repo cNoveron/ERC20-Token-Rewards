@@ -5,6 +5,20 @@ import "./IServiceStateController.sol";
 import "./RewardCalculator.sol";
 
 contract ReviewsController is IServiceStateController {
+    
+    RewardCalculator rewardCalculator;
+    address currentRewardCalculator;
+    
+    constructor(address RewardCalculatorAddress) 
+    public {
+        currentRewardCalculator = RewardCalculatorAddress;
+        rewardCalculator = RewardCalculator(currentRewardCalculator);
+    }
+
+    function setCurrentRewardCalculatorAddress(address RewardCalculatorAddress) 
+    external {
+        currentRewardCalculator = RewardCalculatorAddress;
+    }
 
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
     external returns (bool) {
@@ -55,6 +69,7 @@ contract ReviewsController is IServiceStateController {
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank, uint64 serviceCost)
     external validate_reviewId(reviewId) returns (uint rewardAmount) {
+        rewardAmount = rewardCalculator.calculateRewardAmount(rank, serviceCost);
 
     }
 
