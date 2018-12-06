@@ -25,11 +25,13 @@ contract ReviewsController is IServiceStateController {
     function setCurrentRewardCalculatorAddress(address RewardCalculatorAddress) 
     external {
         currentRewardCalculator = RewardCalculatorAddress;
+        rewardCalculator = RewardCalculator(currentRewardCalculator);
     }
 
     function setCurrentPEDRO_ERC20TokenAddress(address PEDRO_ERC20TokenAddress) 
     external {
         currentPEDRO_ERC20Token = PEDRO_ERC20TokenAddress;
+        PEDRO_ERC20Token = PEDRO_ERC20Token(currentPEDRO_ERC20Token);
     }
 
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
@@ -82,7 +84,7 @@ contract ReviewsController is IServiceStateController {
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank, uint64 serviceCost)
     external validate_reviewId(reviewId) returns (uint rewardAmount) {
         rewardAmount = rewardCalculator.calculateRewardAmount(rank, serviceCost);
-
+        
     }
 
     event CompletionApproved(
