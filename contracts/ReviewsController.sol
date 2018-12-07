@@ -34,13 +34,6 @@ contract ReviewsController is IServiceStateController {
         pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
     }
 
-    modifier validate_reviewId(bool shouldBe, uint32 reviewId) {
-        require(is_reviewId_active[reviewId] == shouldBe);
-        _;
-    }
-
-    mapping(uint32 => bool) is_reviewId_active;
-
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
     external validate_reviewId(false, reviewId) returns(bool) {
         is_reviewId_active[reviewId] = true;
@@ -49,6 +42,12 @@ contract ReviewsController is IServiceStateController {
         return true;
     }
 
+    modifier validate_reviewId(bool shouldBe, uint32 reviewId) {
+        require(is_reviewId_active[reviewId] == shouldBe);
+        _;
+    }
+
+    mapping(uint32 => bool) is_reviewId_active;
     mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
 
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 finalCustomersPrice) 
