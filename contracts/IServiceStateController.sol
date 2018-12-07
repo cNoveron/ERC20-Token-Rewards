@@ -11,7 +11,7 @@ interface IServiceStateController {
     * @param serviceIdArray     uint32[]    The identifiers of the requested services.
     */
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)
-    external returns (bool);
+    external returns(bool);
 
     event ServiceRequested(
         uint32      indexed reviewId,
@@ -28,7 +28,7 @@ interface IServiceStateController {
     * @param price          uint16      The provider's price in USD.
     */
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 price) 
-    external returns (bool);
+    external returns(bool);
 
     event ServiceOffered(
         uint32      indexed reviewId, 
@@ -46,7 +46,7 @@ interface IServiceStateController {
     * @param offererEthAddress      address     The provider's price in USD.
     */
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
-    external returns (bool);
+    external returns(bool);
 
     event ServiceAccepted(
         uint32      indexed reviewId,
@@ -56,7 +56,7 @@ interface IServiceStateController {
     );
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
-    external returns (bool);
+    external returns(bool);
 
     event CompletionClaimed(
         uint32      indexed reviewId,
@@ -66,7 +66,7 @@ interface IServiceStateController {
     );
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rating)
-    external returns (uint RewardAmount);
+    external returns(uint RewardAmount);
 
     event CompletionApproved(
         uint32      indexed reviewId,
@@ -76,7 +76,7 @@ interface IServiceStateController {
     );
 
     function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
-    external returns (bool);
+    external returns(bool);
 
     event CompletionRejected(
         uint32 indexed reviewId,
