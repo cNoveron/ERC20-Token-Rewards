@@ -3,23 +3,23 @@ pragma solidity ^0.4.23;
 
 import "./IServiceStateController.sol";
 import "./RewardCalculator.sol";
-import "./PEDRO_ERC20Token.sol";
+import "./Pedro_ERC20Token.sol";
 
 contract ReviewsController is IServiceStateController {
     
     RewardCalculator rewardCalculator;
     address currentRewardCalculator;
 
-    PEDRO_ERC20Token PEDRO_ERC20Token;
-    address currentPEDRO_ERC20Token;
+    Pedro_ERC20Token pedro_ERC20Token;
+    address currentPedro_ERC20Token;
     
-    constructor(address RewardCalculatorAddress, address PEDRO_ERC20TokenAddress) 
+    constructor(address RewardCalculatorAddress, address Pedro_ERC20TokenAddress) 
     public {
         currentRewardCalculator = RewardCalculatorAddress;
         rewardCalculator = RewardCalculator(currentRewardCalculator);
 
-        currentPEDRO_ERC20Token = PEDRO_ERC20TokenAddress;
-        PEDRO_ERC20Token = PEDRO_ERC20Token(currentPEDRO_ERC20Token);
+        currentPedro_ERC20Token = Pedro_ERC20TokenAddress;
+        pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
     }
 
     function setCurrentRewardCalculatorAddress(address RewardCalculatorAddress) 
@@ -28,10 +28,10 @@ contract ReviewsController is IServiceStateController {
         rewardCalculator = RewardCalculator(currentRewardCalculator);
     }
 
-    function setCurrentPEDRO_ERC20TokenAddress(address PEDRO_ERC20TokenAddress) 
+    function setCurrentPedro_ERC20TokenAddress(address Pedro_ERC20TokenAddress) 
     external {
-        currentPEDRO_ERC20Token = PEDRO_ERC20TokenAddress;
-        PEDRO_ERC20Token = PEDRO_ERC20Token(currentPEDRO_ERC20Token);
+        currentPedro_ERC20Token = Pedro_ERC20TokenAddress;
+        pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
     }
 
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
