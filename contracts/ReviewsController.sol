@@ -40,9 +40,9 @@ contract ReviewsController is IServiceStateController {
     }
 
     mapping(uint32 => bool) is_reviewId_active;
-    
+
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
-    external validate_reviewId(false, reviewId) returns (bool) {
+    external validate_reviewId(false, reviewId) returns(bool) {
         is_reviewId_active[reviewId] = true;
         get_serviceIdArray_from_reviewId[reviewId] = serviceIdArray;
         emit ServiceRequested(reviewId, requestTimestamp, serviceIdArray, msg.sender);
@@ -52,23 +52,23 @@ contract ReviewsController is IServiceStateController {
     mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
 
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 finalCustomersPrice) 
-    external validate_reviewId(true, reviewId) returns (bool){
+    external validate_reviewId(true, reviewId) returns(bool) {
         get_finalCustomersPrice_from_reviewId[reviewId] = finalCustomersPrice;
         return true;
     }
 
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
-    external validate_reviewId(true, reviewId) returns (bool){
+    external validate_reviewId(true, reviewId) returns(bool) {
         return;
     }
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
-    external validate_reviewId(true, reviewId) returns (bool){
+    external validate_reviewId(true, reviewId) returns(bool) {
 
     }
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank)
-    external validate_reviewId(true, reviewId) returns (uint rewardAmount) {
+    external validate_reviewId(true, reviewId) returns(uint rewardAmount) {
         uint finalCustomersPrice = get_finalCustomersPrice_from_reviewId[reviewId];
         rewardAmount = rewardCalculator.calculateRewardAmount(rank, finalCustomersPrice);
     }
@@ -76,7 +76,7 @@ contract ReviewsController is IServiceStateController {
     mapping (uint32 => uint) get_finalCustomersPrice_from_reviewId;
 
     function rejectCompletion(uint32 reviewId, uint64 callTimestamp)
-    external validate_reviewId(true, reviewId) returns (bool){
+    external validate_reviewId(true, reviewId) returns (bool) {
 
     }
 }
