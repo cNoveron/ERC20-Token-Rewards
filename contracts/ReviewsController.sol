@@ -36,14 +36,12 @@ contract ReviewsController is IServiceStateController {
 
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
     external returns (bool) {
-        if(is_reviewId_active[reviewId] == false) {
+        require(is_reviewId_active[reviewId] == false);
             is_reviewId_active[reviewId] = true;
             get_serviceIdArray_from_reviewId[reviewId] = serviceIdArray;
             emit ServiceRequested(reviewId, requestTimestamp, serviceIdArray, msg.sender);
             return true;
         }
-        return false;
-    }
 
     mapping(uint32 => bool) is_reviewId_active;
     mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
