@@ -52,16 +52,21 @@ contract ReviewsController is IServiceStateController {
 
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 finalCustomersPrice) 
     external validate_reviewId(true, reviewId) returns(bool) {
-        get_finalCustomersPrice_from_reviewId[reviewId] = finalCustomersPrice;
         get_offerTimestampCount_from_reviewId[reviewId] = uint8(
-            get_offerTimestampArray_from_reviewId[reviewId].push(offerTimestamp)
+            get_offerTimestampAndPriceArray_from_reviewId[reviewId].push(
+                offerTimestampAndPrice(offerTimestamp, finalCustomersPrice)
+            )
         );
         emit ServiceOffered(reviewId, offerTimestamp, finalCustomersPrice, msg.sender);
         return true;
     }
 
     mapping(uint32 => uint8) get_offerTimestampCount_from_reviewId;
-    mapping(uint32 => uint64[]) get_offerTimestampArray_from_reviewId;
+    mapping(uint32 => offerTimestampAndPrice[]) get_offerTimestampAndPriceArray_from_reviewId;
+    struct offerTimestampAndPrice {
+        uint64 offerTimestamp;
+        uint16 finalCustomersPrice;
+    }
 
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
     external validate_reviewId(true, reviewId) returns(bool) {
