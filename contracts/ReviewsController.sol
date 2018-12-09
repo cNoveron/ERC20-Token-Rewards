@@ -73,23 +73,23 @@ contract ReviewsController is IServiceStateController {
             reviewId, offerTimestamp, providersPrice
         );
         get_offerTimestampCount_from_reviewId[reviewId] = uint8(
-            get_timestampAndPriceForServices_from_reviewId[reviewId].push(
-                offerTimestampAndPriceForServices(
+            get_timestampsAndPricesForServices_from_reviewId[reviewId].push(
+                timestampAndPriceForServices(
                     offerTimestamp, 
                     providersPricePlusFee, 
                     get_serviceIdArray_from_reviewId[reviewId]
             )
             )
         );
-        emit ServiceOffered(reviewId, offerTimestamp, finalCustomersPrice, msg.sender);
+        emit ServiceOffered(reviewId, offerTimestamp, providersPricePlusFee, msg.sender);
         return true;
     }
 
     mapping(uint32 => uint8) get_offerTimestampCount_from_reviewId;
-    mapping(uint32 => offerTimestampAndPriceForServices[]) get_timestampAndPriceForServices_from_reviewId;
-    struct offerTimestampAndPriceForServices {
+    mapping(uint32 => timestampAndPriceForServices[]) get_timestampsAndPricesForServices_from_reviewId;
+    struct timestampAndPriceForServices {
         uint64 offerTimestamp;
-        uint16 finalCustomersPrice;
+        uint16 finalPrice;
         uint32[] serviceIdArray;
     }
 
