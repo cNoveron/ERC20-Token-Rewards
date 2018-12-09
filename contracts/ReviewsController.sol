@@ -103,10 +103,10 @@ contract ReviewsController is IServiceStateController {
             if(offererAddress == offererEthAddress) {
                 get_selectedTimestampAndPriceForServices_from_reviewId[reviewId] = 
                     get_timestampsAndPricesForServices_from_reviewId[reviewId][i];
-                break;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
