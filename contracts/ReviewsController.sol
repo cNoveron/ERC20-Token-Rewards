@@ -98,8 +98,9 @@ contract ReviewsController is IServiceStateController {
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
     external validate_reviewId(true, reviewId) returns(bool) {
         uint8 offerTimestampCount = get_offerTimestampCount_from_reviewId[reviewId];
-        for(uint8 i=0; i<offerTimestampCount; i++) {
-            TimestampAndPriceForServices timestampAndPriceForServices = get_TimestampsAndPricesForServices_from_reviewId[reviewId][i];
+        for(uint8 i = 0; i < offerTimestampCount; i++) {
+            TimestampAndPriceForServices 
+            timestampAndPriceForServices = get_TimestampsAndPricesForServices_from_reviewId[reviewId][i];
             if(timestampAndPriceForServices.offererEthAddress == offererEthAddress) {
                 get_selectedTimestampAndPriceForServices_from_reviewId[reviewId] = timestampAndPriceForServices;
                 return true;
