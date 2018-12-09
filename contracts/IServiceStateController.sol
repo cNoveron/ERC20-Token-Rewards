@@ -6,75 +6,80 @@ interface IServiceStateController {
     * @dev Only a service client should use this to request a service in his favor.
     * Then an event shall be emited broadcasting the request to be listened by 
     * the service providers who are currently offering the service.
-    * @param _callTimestamp uint The unix time when the request function was called.
-    * @param _serviceName string The name that identifies the service.
+    * @param reviewId           uint32      The identifier of the review due to be submitted.
+    * @param requestTimestamp   uint64      The UNIX time when the request function was called.
+    * @param serviceIdArray     uint32[]    The identifiers of the requested services.
     */
-    function request(bytes4 _callTimestamp, bytes28 _serviceName) 
-    external returns (bytes32);
+    function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)
+    external returns(bool);
 
     event ServiceRequested(
-        bytes32 indexed serviceRequestId,
-        bytes4  indexed _callTimestamp,
-        bytes28 indexed serviceName,        
-        address requestedBy
+        uint32      indexed reviewId,
+        uint64      indexed callTimestamp,
+        uint32[]    indexed serviceIdArray,
+        address     requesterEthAddress
     );
 
     /**
     * @dev Only a service provider should use this to offer his services in favor
     * of a previously identified serviceRequest.
-    * @param _serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
-    * @param _price bytes32 The price asked by the service provider.
+    * @param reviewId       uint32      The identifier of the review due to be submitted.
+    * @param offerTimestamp uint64      The UNIX time when the offerServices method was called.
+    * @param price          uint16      The provider's price in USD.
     */
-    function offer(bytes32 _serviceRequestIdentifier, uint256 _price)
-    external returns (bool);
+    function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 price) 
+    external returns(bool);
 
-    event OfferMade(
-        bytes32 indexed serviceRequestId,
-        address indexed offeredBy,
-        string  serviceName
+    event ServiceOffered(
+        uint32      indexed reviewId, 
+        uint64      indexed offerTimestamp,
+        uint16      indexed price,
+        address     offererEthAddress
     );
 
     /**
     * @dev Only the service client who owns the serviceRequest should call this 
     * to accept and delegate services in his favor to a service provider
     * who had previously called an offer to the serviceRequest.
-    * @param _serviceRequestIdentifier bytes32 The number that identifies the serviceRequest.
-    * @param _delegatedTo bytes32 The price asked by the service provider.
+    * @param reviewId               uint32      The identifier of the review due to be submitted.
+    * @param acceptanceTimestamp    uint64      The UNIX time when the acceptOffer method was called.
+    * @param offererEthAddress      address     The provider's price in USD.
     */
-    function accept(bytes32 _serviceRequestIdentifier, address _delegatedTo)
-    external returns (bool);
+    function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
+    external returns(bool);
 
-    event ServiceAccepted(
-        bytes32 indexed serviceRequestId,
-        address indexed acceptedBy,
-        address indexed delegatedTo,
-        string  serviceName
+    event OfferAccepted(
+        uint32      indexed reviewId,
+        uint64      indexed acceptanceTimestamp,
+        address     requesterEthAddress,
+        address     offererEthAddress
     );
 
-    function claimCompletion(bytes32 _serviceRequestIdentifier)
-    external returns (bool);
+    function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
+    external returns(bool);
 
     event CompletionClaimed(
-        bytes32 indexed serviceRequestId,
-        address indexed claimedCompleteBy,
-        string  serviceName
+        uint32      indexed reviewId,
+        uint64      indexed claimTimestamp,
+        address     requesterEthAddress,
+        address     offererEthAddress
     );
 
-    function approveCompletion(bytes32 serviceRequestId)
-    external returns (bool);
+    function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rating)
+    external returns(uint RewardAmount);
 
     event CompletionApproved(
-        bytes32 indexed serviceRequestId,
-        address indexed approvedAsCompleteBy,
-        string  serviceName
+        uint32      indexed reviewId,
+        uint64      indexed approvalTimestamp,
+        address     requesterEthAddress,
+        address     offererEthAddress
     );
 
-    function rejectCompletion(bytes32 serviceRequestId)
-    external returns (bool);
+    function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
+    external returns(bool);
 
     event CompletionRejected(
-        bytes32 indexed serviceRequestId,
-        address indexed rejectedAsCompleteBy,
-        string  serviceName
+        uint32 indexed reviewId,
+        uint64 indexed rejectionTimestamp
     );
 }
