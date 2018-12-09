@@ -103,6 +103,7 @@ contract ReviewsController is IServiceStateController {
             timestampAndPriceForServices = get_TimestampsAndPricesForServices_from_reviewId[reviewId][i];
             if(timestampAndPriceForServices.offererEthAddress == offererEthAddress) {
                 get_selectedTimestampAndPriceForServices_from_reviewId[reviewId] = timestampAndPriceForServices;
+                emit ServiceOffered(reviewId, acceptanceTimestamp, msg.sender, timestampAndPriceForServices.offererEthAddress);
                 return true;
             }
         }
