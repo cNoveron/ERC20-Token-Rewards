@@ -48,7 +48,7 @@ interface IServiceStateController {
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
     external returns(bool);
 
-    event ServiceAccepted(
+    event OfferAccepted(
         uint32      indexed reviewId,
         uint64      indexed acceptanceTimestamp,
         address     requesterEthAddress,
