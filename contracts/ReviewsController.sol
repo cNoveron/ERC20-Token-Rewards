@@ -77,8 +77,7 @@ contract ReviewsController is IServiceStateController {
                 TimestampAndPriceForServices(
                     offerTimestamp, 
                     providersPricePlusFee,
-                    msg.sender,
-                    get_serviceIdArray_from_reviewId[reviewId]
+                    msg.sender
                 )
             )
         );
@@ -92,7 +91,6 @@ contract ReviewsController is IServiceStateController {
         uint64 offerTimestamp;
         uint16 finalPrice;
         address offererEthAddress;
-        uint32[] serviceIdArray;
     }
 
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
