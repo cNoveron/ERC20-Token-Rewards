@@ -99,10 +99,9 @@ contract ReviewsController is IServiceStateController {
     external validate_reviewId(true, reviewId) returns(bool) {
         uint8 offerTimestampCount = get_offerTimestampCount_from_reviewId[reviewId];
         for(uint8 i=0; i<offerTimestampCount; i++) {
-            address indexedAddress = get_timestampsAndPricesForServices_from_reviewId[reviewId][i].offererEthAddress;
-            if(indexedAddress == offererEthAddress) {
-                get_selectedTimestampAndPriceForServices_from_reviewId[reviewId] = 
-                    get_timestampsAndPricesForServices_from_reviewId[reviewId][i];
+            TimestampAndPriceForServices timestampAndPriceForServices = get_TimestampsAndPricesForServices_from_reviewId[reviewId][i];
+            if(timestampAndPriceForServices.offererEthAddress == offererEthAddress) {
+                get_selectedTimestampAndPriceForServices_from_reviewId[reviewId] = timestampAndPriceForServices;
                 return true;
             }
         }
