@@ -101,9 +101,10 @@ contract ReviewsController is IServiceStateController {
         for(uint8 i = 0; i < offerTimestampCount; i++) {
             TimestampAndPriceForServices 
             timestampAndPriceForServices = get_TimestampsAndPricesForServices_from_reviewId[reviewId][i];
-            if(timestampAndPriceForServices.offererEthAddress == offererEthAddress) {
+            address indexedOffererEthAddress = timestampAndPriceForServices.offererEthAddress;
+            if(indexedOffererEthAddress == offererEthAddress) {
                 get_selectedTimestampAndPriceForServices_from_reviewId[reviewId] = timestampAndPriceForServices;
-                emit ServiceOffered(reviewId, acceptanceTimestamp, msg.sender, timestampAndPriceForServices.offererEthAddress);
+                emit ServiceOffered(reviewId, acceptanceTimestamp, msg.sender, indexedOffererEthAddress);
                 return true;
             }
         }
