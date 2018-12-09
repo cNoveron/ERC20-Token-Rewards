@@ -13,7 +13,7 @@ contract ReviewsController is IServiceStateController {
 
     Pedro_ERC20Token pedro_ERC20Token;
     address currentPedro_ERC20Token;
-    
+
     PriceCalculator priceCalculator;
     address currentPriceCalculator;
     
@@ -76,9 +76,10 @@ contract ReviewsController is IServiceStateController {
             get_timestampsAndPricesForServices_from_reviewId[reviewId].push(
                 timestampAndPriceForServices(
                     offerTimestamp, 
-                    providersPricePlusFee, 
+                    providersPricePlusFee,
+                    msg.sender,
                     get_serviceIdArray_from_reviewId[reviewId]
-            )
+                )
             )
         );
         emit ServiceOffered(reviewId, offerTimestamp, providersPricePlusFee, msg.sender);
@@ -90,6 +91,7 @@ contract ReviewsController is IServiceStateController {
     struct timestampAndPriceForServices {
         uint64 offerTimestamp;
         uint16 finalPrice;
+        address offererEthAddress;
         uint32[] serviceIdArray;
     }
 
