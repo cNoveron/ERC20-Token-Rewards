@@ -4,6 +4,7 @@ pragma solidity ^0.4.23;
 import "./IServiceStateController.sol";
 import "./RewardCalculator.sol";
 import "./Pedro_ERC20Token.sol";
+import "./PriceCalculator.sol";
 
 contract ReviewsController is IServiceStateController {
     
@@ -13,13 +14,23 @@ contract ReviewsController is IServiceStateController {
     Pedro_ERC20Token pedro_ERC20Token;
     address currentPedro_ERC20Token;
     
-    constructor(address RewardCalculatorAddress, address Pedro_ERC20TokenAddress) 
+    PriceCalculator priceCalculator;
+    address currentPriceCalculator;
+    
+    constructor(
+        address RewardCalculatorAddress,
+        address Pedro_ERC20TokenAddress,
+        address priceCalculatorAddress
+    ) 
     public {
         currentRewardCalculator = RewardCalculatorAddress;
         rewardCalculator = RewardCalculator(currentRewardCalculator);
 
         currentPedro_ERC20Token = Pedro_ERC20TokenAddress;
         pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
+
+        currentPriceCalculator = priceCalculatorAddress;
+        priceCalculator = PriceCalculator(currentPriceCalculator);
     }
 
     function setCurrentRewardCalculatorAddress(address RewardCalculatorAddress) 
@@ -32,6 +43,12 @@ contract ReviewsController is IServiceStateController {
     external {
         currentPedro_ERC20Token = Pedro_ERC20TokenAddress;
         pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
+    }
+
+    function setCurrentPriceCalculatorAddress(address PriceCalculatorAddress) 
+    external {
+        currentPriceCalculator = PriceCalculatorAddress;
+        priceCalculator = PriceCalculator(currentPriceCalculator);
     }
 
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
@@ -50,13 +67,16 @@ contract ReviewsController is IServiceStateController {
     mapping(uint32 => bool) is_reviewId_active;
     mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
 
-    function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 finalCustomersPrice) 
+    function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 providersPrice) 
     external validate_reviewId(true, reviewId) returns(bool) {
+        uint16 providersPricePlusFee = priceCalculator.evaluate(
+            reviewId, offerTimestamp, providersPrice
+        );
         get_offerTimestampCount_from_reviewId[reviewId] = uint8(
             get_timestampAndPriceForServices_from_reviewId[reviewId].push(
                 offerTimestampAndPriceForServices(
                     offerTimestamp, 
-                    finalCustomersPrice, 
+                    providersPricePlusFee, 
                     get_serviceIdArray_from_reviewId[reviewId]
             )
             )
