@@ -55,6 +55,7 @@ contract ReviewsController is IServiceStateController {
     external validate_reviewId(false, reviewId) returns(bool) {
         is_reviewId_active[reviewId] = true;
         get_serviceIdArray_from_reviewId[reviewId] = serviceIdArray;
+        get_requesterEthAddress_from_reviewId[reviewId] = msg.sender;
         emit ServiceRequested(reviewId, requestTimestamp, serviceIdArray, msg.sender);
         return true;
     }
@@ -63,8 +64,8 @@ contract ReviewsController is IServiceStateController {
         require(is_reviewId_active[reviewId] == shouldBe);
         _;
     }
-
     mapping(uint32 => bool) is_reviewId_active;
+    mapping(uint32 => address) get_requesterEthAddress_from_reviewId;
     mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
 
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 providersPrice) 
