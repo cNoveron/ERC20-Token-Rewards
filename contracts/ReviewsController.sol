@@ -111,8 +111,11 @@ contract ReviewsController is IServiceStateController {
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
     external validate_reviewId(true, reviewId) returns(bool) {
-
+        emit CompletionClaimed(reviewId, claimTimestamp, get_requesterEthAddress_from_reviewId[reviewId], msg.sender);
+        return is_reviewIdClaimedComplete[reviewId] = true;
     }
+
+    mapping (uint32 => bool) is_reviewIdClaimedComplete;
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank)
     external validate_reviewId(true, reviewId) returns(uint rewardAmount) {
@@ -122,5 +125,9 @@ contract ReviewsController is IServiceStateController {
 
     mapping(uint32 => uint) get_finalCustomersPrice_from_reviewId;
 
+    function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
+    external validate_reviewId(true, reviewId) returns(bool) {
+        emit CompletionRejected(reviewId, rejectionTimestamp, get_requesterEthAddress_from_reviewId[reviewId], msg.sender);
+        return is_reviewIdClaimedComplete[reviewId] = false;
     }
 }
