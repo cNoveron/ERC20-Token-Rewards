@@ -107,6 +107,7 @@ contract ReviewsController is IServiceStateController {
         }
         return false;
     }
+    mapping(uint32 => TimestampAndPriceForServices) get_selectedTimestampAndPriceForServices_from_reviewId;
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
     external validate_reviewId(true, reviewId) returns(bool) {
@@ -119,10 +120,7 @@ contract ReviewsController is IServiceStateController {
         rewardAmount = rewardCalculator.calculateRewardAmount(rank, finalCustomersPrice);
     }
 
-    mapping (uint32 => uint) get_finalCustomersPrice_from_reviewId;
-
-    function rejectCompletion(uint32 reviewId, uint64 callTimestamp)
-    external validate_reviewId(true, reviewId) returns (bool) {
+    mapping(uint32 => uint) get_finalCustomersPrice_from_reviewId;
 
     }
 }
