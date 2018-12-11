@@ -80,6 +80,8 @@ interface IServiceStateController {
 
     event CompletionRejected(
         uint32 indexed reviewId,
-        uint64 indexed rejectionTimestamp
+        uint64 indexed rejectionTimestamp,
+        address     requesterEthAddress,
+        address     offererEthAddress
     );
 }
