@@ -74,7 +74,7 @@ contract ReviewsController is IServiceStateController {
             reviewId, offerTimestamp, providersPrice
         );
         get_offerTimestampCount_from_reviewId[reviewId] = uint8(
-            get_timestampsAndPricesForServices_from_reviewId[reviewId].push(
+            get_TimestampsAndPricesForServices_from_reviewId[reviewId].push(
                 TimestampAndPriceForServices(
                     offerTimestamp, 
                     providersPricePlusFee,
