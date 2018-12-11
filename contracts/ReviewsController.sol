@@ -8,26 +8,26 @@ import "./PriceCalculator.sol";
 
 contract ReviewsController is IServiceStateController {
     
-    RewardCalculator rewardCalculator;
-    address currentRewardCalculator;
-
     Pedro_ERC20Token pedro_ERC20Token;
     address currentPedro_ERC20Token;
+
+    RewardCalculator rewardCalculator;
+    address currentRewardCalculator;
 
     PriceCalculator priceCalculator;
     address currentPriceCalculator;
     
     constructor(
-        address RewardCalculatorAddress,
-        address Pedro_ERC20TokenAddress,
+        address pedro_ERC20TokenAddress,
+        address rewardCalculatorAddress,
         address priceCalculatorAddress
     ) 
     public {
-        currentRewardCalculator = RewardCalculatorAddress;
-        rewardCalculator = RewardCalculator(currentRewardCalculator);
-
-        currentPedro_ERC20Token = Pedro_ERC20TokenAddress;
+        currentPedro_ERC20Token = pedro_ERC20TokenAddress;
         pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
+
+        currentRewardCalculator = rewardCalculatorAddress;
+        rewardCalculator = RewardCalculator(currentRewardCalculator);
 
         currentPriceCalculator = priceCalculatorAddress;
         priceCalculator = PriceCalculator(currentPriceCalculator);
