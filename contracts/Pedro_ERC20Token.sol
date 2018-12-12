@@ -7,9 +7,14 @@ contract Pedro_ERC20Token {
     uint public decimals = 2;
     uint public INITIAL_SUPPLY = 255000000 * 10**uint(decimals);
 
+    /**
+    * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+    * account.
+    */
     constructor() public {
+        owner = msg.sender;
         totalSupply_ = INITIAL_SUPPLY;
-        balances[msg.sender] = INITIAL_SUPPLY;
+        balances[owner] = INITIAL_SUPPLY;
     }
 
     using SafeMath for uint256;
@@ -166,6 +171,121 @@ contract Pedro_ERC20Token {
         }
         emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
+    }
+
+    address public owner;
+
+    event OwnershipRenounced(address indexed previousOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
+
+    /**
+    * @dev Throws if called by any account other than the owner.
+    */
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    /**
+    * @dev Allows the current owner to relinquish control of the contract.
+    * @notice Renouncing to ownership will leave the contract without an owner.
+    * It will not be possible to call the functions with the `onlyOwner`
+    * modifier anymore.
+    */
+    function renounceOwnership() public onlyOwner {
+        emit OwnershipRenounced(owner);
+        owner = address(0);
+    }
+
+    /**
+    * @dev Allows the current owner to transfer control of the contract to a newOwner.
+    * @param _newOwner The address to transfer ownership to.
+    */
+    function transferOwnership(address _newOwner) public onlyOwner {
+        _transferOwnership(_newOwner);
+    }
+
+    /**
+    * @dev Transfers control of the contract to a newOwner.
+    * @param _newOwner The address to transfer ownership to.
+    */
+    function _transferOwnership(address _newOwner) internal {
+        require(_newOwner != address(0));
+        emit OwnershipTransferred(owner, _newOwner);
+        owner = _newOwner;
+    }
+
+    event Mint(address indexed to, uint256 amount);
+    event MintFinished();
+
+    bool public mintingFinished = false;
+
+
+    modifier canMint() {
+        require(!mintingFinished);
+        _;
+    }
+
+    modifier hasMintPermission() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    /**
+    * @dev Function to mint tokens
+    * @param _to The address that will receive the minted tokens.
+    * @param _amount The amount of tokens to mint.
+    * @return A boolean that indicates if the operation was successful.
+    */
+    function mint(
+        address _to,
+        uint256 _amount
+    )
+    public
+    hasMintPermission
+    canMint
+    returns (bool)
+    {
+        totalSupply_ = totalSupply_.add(_amount);
+        balances[_to] = balances[_to].add(_amount);
+        emit Mint(_to, _amount);
+        emit Transfer(address(0), _to, _amount);
+        return true;
+    }
+
+    /**
+    * @dev Function to stop minting new tokens.
+    * @return True if the operation was successful.
+    */
+    function finishMinting() 
+    public  onlyOwner canMint returns (bool) {
+        mintingFinished = true;
+        emit MintFinished();
+        return true;
+    }
+    
+    event Burn(address indexed burner, uint256 value);
+
+    /**
+    * @dev Burns a specific amount of tokens.
+    * @param _value The amount of token to be burned.
+    */
+    function burn(uint256 _value) public {
+        _burn(msg.sender, _value);
+    }
+
+    function _burn(address _who, uint256 _value) internal {
+        require(_value <= balances[_who]);
+        // no need to require value <= totalSupply, since that would imply the
+        // sender's balance is greater than the totalSupply, which *should* be an assertion failure
+
+        balances[_who] = balances[_who].sub(_value);
+        totalSupply_ = totalSupply_.sub(_value);
+        emit Burn(_who, _value);
+        emit Transfer(_who, address(0), _value);
     }
 }
 
