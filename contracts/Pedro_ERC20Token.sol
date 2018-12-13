@@ -6,6 +6,7 @@ contract Pedro_ERC20Token {
     string public symbol = "PEDRO";
     uint public decimals = 2;
     uint public INITIAL_SUPPLY = 255000000 * 10**uint(decimals);
+    uint256 public totalSupply_;
 
     using SafeMath for uint256;
 
@@ -23,7 +24,26 @@ contract Pedro_ERC20Token {
 
     mapping(address => uint256) balances;
 
-    uint256 totalSupply_;
+    /**
+    * @dev We use a single lock for the whole contract.
+    */
+    bool private reentrancyLock = false;
+
+    /**
+    * @dev Prevents a contract from calling itself, directly or indirectly.
+    * @notice If you mark a function `nonReentrant`, you should also
+    * mark it `external`. Calling one nonReentrant function from
+    * another is not supported. Instead, you can implement a
+    * `private` function doing the actual work, and a `external`
+    * wrapper marked as `nonReentrant`.
+    */
+    modifier nonReentrant() 
+    {
+        require(!reentrancyLock);
+        reentrancyLock = true;
+        _;
+        reentrancyLock = false;
+    }
 
     /**
     * @dev Total number of tokens in existence
