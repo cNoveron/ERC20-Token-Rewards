@@ -125,6 +125,18 @@ contract Pedro_ERC20Token {
     public
     returns(bool)
     {
+        _transferFrom(_from,_to,_value);
+    }
+
+    function _transferFrom(
+        address _from,
+        address _to,
+        uint256 _value
+    )
+    public
+    nonReentrant
+    returns(bool)
+    {
         require(_to != address(0));
         require(_value <= balances[_from]);
         require(_value <= allowed[_from][msg.sender]);
@@ -133,6 +145,7 @@ contract Pedro_ERC20Token {
         balances[_to] = balances[_to].add(_value);
         allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
         emit Transfer(_from, _to, _value);
+        emit Transfer(msg.sender,_from, _to, _value);
         return true;
     }
 
@@ -147,16 +160,30 @@ contract Pedro_ERC20Token {
     */
     function approve(
         address _spender, 
+        uint256 _currentValue,
         uint256 _value
     ) 
     public 
     returns(bool) 
     {
+        require(_currentValue == allowed[msg.sender][_spender]);
         allowed[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
+        emit Approval(msg.sender, _spender, _currentValue, _value);
         return true;
     }
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    event Approval(
+        address indexed _owner,
+        address indexed _spender,
+        uint256 value
+    );
+    event Approval(
+        address indexed _owner,
+        address indexed _spender,
+        uint256 _oldValue,
+        uint256 _value
+    );
 
     /**
     * @dev Function to check the amount of tokens that an owner allowed to a spender.
