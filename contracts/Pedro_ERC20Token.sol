@@ -48,7 +48,11 @@ contract Pedro_ERC20Token {
     /**
     * @dev Total number of tokens in existence
     */
-    function totalSupply() public view returns (uint256) {
+    function totalSupply() 
+    public 
+    view 
+    returns (uint256) 
+    {
         return totalSupply_;
     }
 
@@ -102,11 +106,15 @@ contract Pedro_ERC20Token {
     * @param _owner The address to query the the balance of.
     * @return An uint256 representing the amount owned by the passed address.
     */
-    function balanceOf(address _owner) public view returns (uint256) {
+    function balanceOf(
+        address _owner
+    ) 
+    public 
+    view 
+    returns (uint256) 
+    {
         return balances[_owner];
     }
-
-    
 
     mapping(address => mapping (address => uint256)) internal allowed;
 
