@@ -51,22 +51,28 @@ contract ReviewsController is IServiceStateController {
         priceCalculator = PriceCalculator(currentPriceCalculator);
     }
 
+
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
-    external validate_reviewId(false, reviewId) returns(bool) {
-        is_reviewId_active[reviewId] = true;
-        get_serviceIdArray_from_reviewId[reviewId] = serviceIdArray;
-        get_requesterEthAddress_from_reviewId[reviewId] = msg.sender;
+    external 
+        active_reviewId(false, reviewId) 
+    returns(bool) 
+    {
+        reviewIdIs_active               [reviewId] = true;
+        reviewIdHas_services            [reviewId] = serviceIdArray;
+        reviewIdHas_requesterAddress    [reviewId] = msg.sender;
         emit ServiceRequested(reviewId, requestTimestamp, serviceIdArray, msg.sender);
         return true;
     }
 
-    modifier validate_reviewId(bool shouldBe, uint32 reviewId) {
-        require(is_reviewId_active[reviewId] == shouldBe);
+    modifier active_reviewId(bool shouldBe, uint32 reviewId) 
+    {
+        require(reviewIdIs_active[reviewId] == shouldBe);
         _;
     }
-    mapping(uint32 => bool) is_reviewId_active;
-    mapping(uint32 => address) get_requesterEthAddress_from_reviewId;
-    mapping(uint32 => uint32[]) get_serviceIdArray_from_reviewId;
+    mapping(uint32 => bool)     reviewIdIs_active;
+    mapping(uint32 => uint32[]) reviewIdHas_services;
+    mapping(uint32 => address)  reviewIdHas_requesterAddress;
+
 
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 providersPrice) 
     external validate_reviewId(true, reviewId) returns(bool) {
