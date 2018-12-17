@@ -153,21 +153,47 @@ contract ReviewsController is IServiceStateController {
         uint16 forPriceOf;
     }
 
-    function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
-    external validate_reviewId(true, reviewId) returns(bool) {
-        uint8 offerTimestampCount = get_offerTimestampCount_from_reviewId[reviewId];
-        for(uint8 i = 0; i < offerTimestampCount; i++) {
-            TimestampAndPriceForServices 
-            timestampAndPriceForServices = get_TimestampsAndPricesForServices_from_reviewId[reviewId][i];
-            if(timestampAndPriceForServices.offererEthAddress == offererEthAddress) {
-                get_selectedTimestampAndPriceForServices_from_reviewId[reviewId] = timestampAndPriceForServices;
-                emit OfferAccepted(reviewId, acceptanceTimestamp, msg.sender, offererEthAddress);
+
+
+
+    function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererAddress)
+    external 
+        offerCount_isAtLeast1(reviewId)
+    returns(bool) 
+    {
+        OfferFromAddress memory _offerFromAddress;        
+        reviewIdHas_chosenOfferFrom1Address
+            [reviewId] = (
+                _offerFromAddress = reviewIdKnows_offererAddressHas_OfferFromAddress[reviewId][offererAddress]
+            );
+
+        reviewIdHas_chosenOfferAt1Timestamp
+            [reviewId] = reviewIdKnows_offerTimestampWhen_OfferAtTimestamp[reviewId][_offerFromAddress.atOfferTimestamp];
+        
+        reviewIdHasBeen_accepted[reviewId] = true;
+        
+        emit OfferAccepted(
+            reviewId, 
+            acceptanceTimestamp, 
+            msg.sender, 
+            offererAddress
+        );
+
                 return true;
             }
+
+    modifier offerCount_isAtLeast1(uint32 reviewId) 
+    {
+        require(reviewIdHas_offerCount[reviewId] >= 1);
+        _;
         }
-        return false;
+    modifier reviewId_mustHaveBeenAccepted(bool shouldBe, uint32 reviewId) {
+        require(reviewIdHasBeen_accepted[reviewId] == shouldBe);
+        _;
     }
-    mapping(uint32 => TimestampAndPriceForServices) get_selectedTimestampAndPriceForServices_from_reviewId;
+    mapping(uint32 => bool) reviewIdHasBeen_accepted;
+    mapping(uint32 => OfferFromAddress) reviewIdHas_chosenOfferFrom1Address;
+    mapping(uint32 => OfferAtTimestamp) reviewIdHas_chosenOfferAt1Timestamp;
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
     external validate_reviewId(true, reviewId) returns(bool) {
