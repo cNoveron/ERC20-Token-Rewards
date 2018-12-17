@@ -111,6 +111,13 @@ contract ReviewsController is IServiceStateController {
                 providersPricePlusFee
             );
 
+        reviewIdKnows_offerTimestampWhen_OfferAtTimestamp
+            [reviewId][offerTimestamp] = OfferAtTimestamp(
+                reviewIdHas_requesterAddress[reviewId],
+                msg.sender,
+                providersPricePlusFee
+            );
+
         emit ServicesOffered(
             reviewId, 
             offerTimestamp, 
