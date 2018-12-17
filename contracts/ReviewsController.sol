@@ -242,8 +242,11 @@ contract ReviewsController is IServiceStateController {
         reviewId_mustHaveBeenInitialized(true, reviewId)
         reviewId_mustHaveBeenAccepted(true, reviewId)
         reviewId_mustHaveBeenCompleted(true, reviewId) 
+        reviewId_mustHaveBeenRewarded(false, reviewId)
     returns(uint rewardAmount) 
     {
+        uint finalCustomersPrice = finalCustomersPrice_from_reviewId[reviewId];
+        
         rewardAmount = rewardCalculator.calculateRewardAmount(rank, finalCustomersPrice);
         
         address offererAddress = reviewIdHas_chosenOfferAt1Timestamp[reviewId].byOffererAddress;
@@ -263,6 +266,12 @@ contract ReviewsController is IServiceStateController {
         reviewIdHasBeen_rewarded[reviewId] = true;
     }
 
+    modifier reviewId_mustHaveBeenRewarded(bool shouldBe, uint32 reviewId) 
+    {
+        require(reviewIdHasBeen_rewarded[reviewId] == shouldBe);
+        _;
+    }
+    mapping (uint32 => bool) reviewIdHasBeen_rewarded;
     mapping(uint32 => uint) finalCustomersPrice_from_reviewId;
 
 
