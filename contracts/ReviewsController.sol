@@ -159,6 +159,9 @@ contract ReviewsController is IServiceStateController {
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererAddress)
     external 
         offerCount_isAtLeast1(reviewId)
+        msgSender_mustBeRequester(true, reviewId)
+        reviewId_mustHaveBeenInitialized(true, reviewId)
+        reviewId_mustHaveBeenAccepted(false, reviewId)
     returns(bool) 
     {
         OfferFromAddress memory _offerFromAddress;        
