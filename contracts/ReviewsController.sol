@@ -91,7 +91,13 @@ contract ReviewsController is IServiceStateController {
 
 
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 providersPrice) 
-    external validate_reviewId(true, reviewId) returns(bool) {
+    external 
+        reviewId_mustHaveBeenInitialized(true, reviewId)
+        msgSender_mustBeRequester(false, reviewId)
+    returns(bool) 
+    {
+        reviewIdHas_offerCount[reviewId]++;
+
         uint16 providersPricePlusFee = priceCalculator.evaluate(
             reviewId, offerTimestamp, providersPrice
         );
@@ -108,6 +114,16 @@ contract ReviewsController is IServiceStateController {
         return true;
     }
 
+    modifier msgSender_mustBeRequester(bool shouldBe, uint32 reviewId) 
+    {
+        bool msgSender_isRequester = msg.sender == reviewIdHas_requesterAddress[reviewId];
+        require(
+            msgSender_isRequester && shouldBe   ||
+            ! msgSender_isRequester && ! shouldBe
+        );
+        _;
+    }
+    mapping(uint32 => uint8) reviewIdHas_offerCount;
     mapping(uint32 => uint8) get_offerTimestampCount_from_reviewId;
     mapping(uint32 => TimestampAndPriceForServices[]) get_TimestampsAndPricesForServices_from_reviewId;
     struct TimestampAndPriceForServices {
