@@ -99,18 +99,27 @@ contract ReviewsController is IServiceStateController {
         reviewIdHas_offerCount[reviewId]++;
 
         uint16 providersPricePlusFee = priceCalculator.evaluate(
-            reviewId, offerTimestamp, providersPrice
+            reviewId,
+            offerTimestamp,
+            providersPrice
         );
+
+        reviewIdKnows_offererAddressHas_OfferFromAddress
+            [reviewId][msg.sender] = OfferFromAddress(
+                reviewIdHas_requesterAddress[reviewId],
+                    offerTimestamp, 
+                providersPricePlusFee
+            );
         get_offerTimestampCount_from_reviewId[reviewId] = uint8(
             get_TimestampsAndPricesForServices_from_reviewId[reviewId].push(
                 TimestampAndPriceForServices(
-                    offerTimestamp, 
+            offerTimestamp, 
                     providersPricePlusFee,
                     msg.sender
                 )
             )
         );
-        emit ServiceOffered(reviewId, offerTimestamp, providersPricePlusFee, msg.sender);
+
         return true;
     }
 
@@ -124,12 +133,19 @@ contract ReviewsController is IServiceStateController {
         _;
     }
     mapping(uint32 => uint8) reviewIdHas_offerCount;
-    mapping(uint32 => uint8) get_offerTimestampCount_from_reviewId;
-    mapping(uint32 => TimestampAndPriceForServices[]) get_TimestampsAndPricesForServices_from_reviewId;
-    struct TimestampAndPriceForServices {
-        uint64 offerTimestamp;
-        uint16 finalPrice;
-        address offererEthAddress;
+    mapping(uint32 => mapping(address => OfferFromAddress)) reviewIdKnows_offererAddressHas_OfferFromAddress;
+    mapping(uint32 => mapping(uint64 => OfferAtTimestamp))  reviewIdKnows_offerTimestampWhen_OfferAtTimestamp;
+    struct OfferFromAddress 
+    {
+        address requesterAddress;
+        uint64 atOfferTimestamp;
+        uint16 forPriceOf;
+    }
+    struct OfferAtTimestamp 
+    {
+        address requesterAddress;
+        address byOffererAddress;
+        uint16 forPriceOf;
     }
 
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererEthAddress)
