@@ -199,12 +199,25 @@ contract ReviewsController is IServiceStateController {
     mapping(uint32 => OfferAtTimestamp) reviewIdHas_chosenOfferAt1Timestamp;
 
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
-    external validate_reviewId(true, reviewId) returns(bool) {
-        emit CompletionClaimed(reviewId, claimTimestamp, get_requesterEthAddress_from_reviewId[reviewId], msg.sender);
-        return is_reviewIdClaimedComplete[reviewId] = true;
+    external 
+        reviewId_mustHaveBeenInitialized(true, reviewId)
+        reviewId_mustHaveBeenAccepted(true, reviewId)
+    returns(bool) 
+    {
+        reviewIdWasClaimedCompleteAt_timestampWhen[reviewId] = claimTimestamp;
+        
+        emit CompletionClaimed(
+            reviewId, 
+            claimTimestamp, 
+            reviewIdHas_requesterAddress[reviewId], 
+            msg.sender
+        );
+
+        return reviewIdHasBeen_completed[reviewId] = true;
     }
 
     mapping (uint32 => bool) is_reviewIdClaimedComplete;
+    mapping(uint32 => uint64) reviewIdWasClaimedCompleteAt_timestampWhen;
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank)
     external validate_reviewId(true, reviewId) returns(uint rewardAmount) {
