@@ -198,10 +198,15 @@ contract ReviewsController is IServiceStateController {
     mapping(uint32 => OfferFromAddress) reviewIdHas_chosenOfferFrom1Address;
     mapping(uint32 => OfferAtTimestamp) reviewIdHas_chosenOfferAt1Timestamp;
 
+
+
+
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
     external 
+        msgSender_mustBeChosenOfferer(reviewId)
         reviewId_mustHaveBeenInitialized(true, reviewId)
         reviewId_mustHaveBeenAccepted(true, reviewId)
+        reviewId_mustHaveBeenCompleted(false, reviewId) 
     returns(bool) 
     {
         reviewIdWasClaimedCompleteAt_timestampWhen[reviewId] = claimTimestamp;
@@ -216,7 +221,16 @@ contract ReviewsController is IServiceStateController {
         return reviewIdHasBeen_completed[reviewId] = true;
     }
 
-    mapping (uint32 => bool) is_reviewIdClaimedComplete;
+    modifier msgSender_mustBeChosenOfferer(uint32 reviewId) 
+    {
+        require(msg.sender == reviewIdHas_chosenOfferAt1Timestamp[reviewId].byOffererAddress);
+        _;
+    }
+    modifier reviewId_mustHaveBeenCompleted(bool shouldBe, uint32 reviewId) {
+        require(reviewIdHasBeen_completed[reviewId] == shouldBe);
+        _;
+    }
+    mapping (uint32 => bool) reviewIdHasBeen_completed;
     mapping(uint32 => uint64) reviewIdWasClaimedCompleteAt_timestampWhen;
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank)
