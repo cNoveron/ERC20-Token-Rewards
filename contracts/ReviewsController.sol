@@ -22,7 +22,8 @@ contract ReviewsController is IServiceStateController {
         address rewardCalculatorAddress,
         address priceCalculatorAddress
     ) 
-    public {
+    public 
+    {
         currentPedro_ERC20Token = pedro_ERC20TokenAddress;
         pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
 
@@ -33,20 +34,26 @@ contract ReviewsController is IServiceStateController {
         priceCalculator = PriceCalculator(currentPriceCalculator);
     }
 
-    function setCurrentRewardCalculatorAddress(address RewardCalculatorAddress) 
-    external {
-        currentRewardCalculator = RewardCalculatorAddress;
-        rewardCalculator = RewardCalculator(currentRewardCalculator);
-    }
 
     function setCurrentPedro_ERC20TokenAddress(address Pedro_ERC20TokenAddress) 
-    external {
+    external 
+    {
         currentPedro_ERC20Token = Pedro_ERC20TokenAddress;
         pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
     }
 
+
+    function setCurrentRewardCalculatorAddress(address RewardCalculatorAddress) 
+    external 
+    {
+        currentRewardCalculator = RewardCalculatorAddress;
+        rewardCalculator = RewardCalculator(currentRewardCalculator);
+    }
+
+
     function setCurrentPriceCalculatorAddress(address PriceCalculatorAddress) 
-    external {
+    external 
+    {
         currentPriceCalculator = PriceCalculatorAddress;
         priceCalculator = PriceCalculator(currentPriceCalculator);
     }
