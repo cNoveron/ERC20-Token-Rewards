@@ -61,24 +61,33 @@ contract ReviewsController is IServiceStateController {
 
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
     external 
-        active_reviewId(false, reviewId) 
+        reviewId_mustHaveBeenInitialized(false, reviewId) 
     returns(bool) 
     {
-        reviewIdIs_active               [reviewId] = true;
+        reviewIdHasBeen_initialized     [reviewId] = true;
         reviewIdHas_services            [reviewId] = serviceIdArray;
         reviewIdHas_requesterAddress    [reviewId] = msg.sender;
-        emit ServiceRequested(reviewId, requestTimestamp, serviceIdArray, msg.sender);
+
+        emit ServiceRequested(
+            reviewId, 
+            requestTimestamp, 
+            serviceIdArray, 
+            msg.sender
+        );
+
         return true;
     }
 
-    modifier active_reviewId(bool shouldBe, uint32 reviewId) 
+    modifier reviewId_mustHaveBeenInitialized(bool shouldBe, uint32 reviewId) 
     {
-        require(reviewIdIs_active[reviewId] == shouldBe);
+        require(reviewIdHasBeen_initialized[reviewId] == shouldBe);
         _;
     }
-    mapping(uint32 => bool)     reviewIdIs_active;
+    mapping(uint32 => bool)     reviewIdHasBeen_initialized;
     mapping(uint32 => uint32[]) reviewIdHas_services;
     mapping(uint32 => address)  reviewIdHas_requesterAddress;
+
+
 
 
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 providersPrice) 
