@@ -278,8 +278,16 @@ contract ReviewsController is IServiceStateController {
 
 
     function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
-    external validate_reviewId(true, reviewId) returns(bool) {
-        emit CompletionRejected(reviewId, rejectionTimestamp, get_requesterEthAddress_from_reviewId[reviewId], msg.sender);
-        return is_reviewIdClaimedComplete[reviewId] = false;
+    external 
+        msgSender_mustBeRequester(true, reviewId)
+        reviewId_mustHaveBeenInitialized(true, reviewId)
+        reviewId_mustHaveBeenAccepted(true, reviewId)
+        reviewId_mustHaveBeenCompleted(true, reviewId) 
+        reviewId_mustHaveBeenRewarded(false, reviewId)
+    returns(bool) 
+    {
+        emit CompletionRejected(reviewId, rejectionTimestamp, reviewIdHas_requesterAddress[reviewId], msg.sender);
+        
+        return reviewIdHasBeen_completed[reviewId] = false;
     }
 }
