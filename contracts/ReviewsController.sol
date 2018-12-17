@@ -233,13 +233,40 @@ contract ReviewsController is IServiceStateController {
     mapping (uint32 => bool) reviewIdHasBeen_completed;
     mapping(uint32 => uint64) reviewIdWasClaimedCompleteAt_timestampWhen;
 
+
+
+
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank)
-    external validate_reviewId(true, reviewId) returns(uint rewardAmount) {
-        uint finalCustomersPrice = get_finalCustomersPrice_from_reviewId[reviewId];
+    external 
+        msgSender_mustBeRequester(true, reviewId) 
+        reviewId_mustHaveBeenInitialized(true, reviewId)
+        reviewId_mustHaveBeenAccepted(true, reviewId)
+        reviewId_mustHaveBeenCompleted(true, reviewId) 
+    returns(uint rewardAmount) 
+    {
         rewardAmount = rewardCalculator.calculateRewardAmount(rank, finalCustomersPrice);
+        
+        address offererAddress = reviewIdHas_chosenOfferAt1Timestamp[reviewId].byOffererAddress;
+
+        pedro_ERC20Token.transfer(
+            offererAddress,
+            rewardAmount
+        );
+
+        emit CompletionApproved(
+            reviewId, 
+            approvalTimestamp, 
+            msg.sender, 
+            offererAddress
+        );
+
+        reviewIdHasBeen_rewarded[reviewId] = true;
     }
 
-    mapping(uint32 => uint) get_finalCustomersPrice_from_reviewId;
+    mapping(uint32 => uint) finalCustomersPrice_from_reviewId;
+
+
+
 
     function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
     external validate_reviewId(true, reviewId) returns(bool) {
