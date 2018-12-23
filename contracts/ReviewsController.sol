@@ -261,7 +261,12 @@ contract ReviewsController is IServiceStateController {
         uint price = reviewIdSoldAt_price[reviewId];
         uint64 offerTimestamp = reviewIdHas_chosenOfferFrom1Address[reviewId].atOfferTimestamp;
         
-        rewardAmount = rewardCalculator.calculateRewardAmount(rank, price);
+        rewardAmount = rewardCalculator.evaluate(            
+            rank, 
+            price,
+            approvalTimestamp,
+            offerTimestamp
+        );
         
         address offererAddress = reviewIdHas_chosenOfferAt1Timestamp[reviewId].byOffererAddress;
 
