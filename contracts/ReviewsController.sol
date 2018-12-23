@@ -17,6 +17,9 @@ contract ReviewsController is IServiceStateController {
     PriceCalculator priceCalculator;
     address currentPriceCalculator;
     
+
+
+
     constructor(
         address pedro_ERC20TokenAddress,
         address rewardCalculatorAddress,
@@ -35,6 +38,8 @@ contract ReviewsController is IServiceStateController {
     }
 
 
+
+
     function setCurrentPedro_ERC20TokenAddress(address Pedro_ERC20TokenAddress) 
     external 
     {
@@ -43,12 +48,16 @@ contract ReviewsController is IServiceStateController {
     }
 
 
+
+
     function setCurrentRewardCalculatorAddress(address RewardCalculatorAddress) 
     external 
     {
         currentRewardCalculator = RewardCalculatorAddress;
         rewardCalculator = RewardCalculator(currentRewardCalculator);
     }
+
+
 
 
     function setCurrentPriceCalculatorAddress(address PriceCalculatorAddress) 
@@ -60,13 +69,12 @@ contract ReviewsController is IServiceStateController {
 
 
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
-    external 
-        reviewId_isInState(uint8(0), reviewId) 
-    returns(bool) 
+    external
+        reviewId_isInState(state.UNEXISTENT, reviewId)
+    returns(uint8) 
     {
-        reviewIdIn_state                [reviewId] = state.AWATING_DEAL;
-        reviewIdHas_services            [reviewId] = serviceIdArray;
-        reviewIdHas_requesterAddress    [reviewId] = msg.sender;
+        reviewIdHas_services[reviewId] = serviceIdArray;
+        reviewIdHas_requesterAddress[reviewId] = msg.sender;
 
         emit ServiceRequested(
             reviewId, 
@@ -75,21 +83,21 @@ contract ReviewsController is IServiceStateController {
             msg.sender
         );
 
-        return true;
+        return uint8(reviewIdIn_state[reviewId] = state.AWATING_DEAL);
     }
 
-    modifier reviewId_isInState(uint8 shouldBe, uint32 reviewId) 
+    modifier reviewId_isInState(state shouldBe, uint32 reviewId) 
     {
-        require(uint8(reviewIdIn_state[reviewId]) == shouldBe);
+        require(reviewIdIn_state[reviewId] == shouldBe);
         _;
     }
     enum state{
+        UNEXISTENT,
         AWATING_DEAL,
         STARTED,
         AWAITING_APPROVAL,
         COMPLETE
     }
-    mapping(uint32 => state)    reviewIdIn_state;
     mapping(uint32 => uint32[]) reviewIdHas_services;
     mapping(uint32 => address)  reviewIdHas_requesterAddress;
 
@@ -99,13 +107,12 @@ contract ReviewsController is IServiceStateController {
     function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 providersPrice) 
     external 
         msgSender_mustBeRequester(false, reviewId)
-        reviewId_isInState(uint8(state.AWATING_DEAL), reviewId)
-    returns(bool) 
+        reviewId_isInState(state.AWATING_DEAL, reviewId)
+    returns(uint8) 
     {
         reviewIdHas_offerCount[reviewId]++;
 
         uint16 providersPricePlusFee = priceCalculator.evaluate(
-            reviewId,
             offerTimestamp,
             providersPrice
         );
@@ -132,8 +139,8 @@ contract ReviewsController is IServiceStateController {
             providersPricePlusFee, 
             msg.sender
         );
-
-        return true;
+        
+        return uint8(state.AWATING_DEAL);
     }
 
     modifier msgSender_mustBeRequester(bool shouldBe, uint32 reviewId) 
@@ -165,12 +172,13 @@ contract ReviewsController is IServiceStateController {
 
 
     function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererAddress)
-    external 
+    external
         offerCount_isAtLeast1(reviewId)
         msgSender_mustBeRequester(true, reviewId)
-        reviewId_isInState(uint8(state.AWATING_DEAL), reviewId)
-    returns(bool) 
+        reviewId_isInState(state.AWATING_DEAL, reviewId)
+    returns(uint8)
     {
+
         OfferFromAddress memory _offerFromAddress;
         reviewIdHas_chosenOfferFrom1Address
             [reviewId] = (
@@ -180,8 +188,6 @@ contract ReviewsController is IServiceStateController {
         reviewIdHas_chosenOfferAt1Timestamp
             [reviewId] = reviewIdKnows_offerTimestampWhen_OfferAtTimestamp[reviewId][_offerFromAddress.atOfferTimestamp];
         
-        reviewIdHasBeen_accepted[reviewId] = true;
-        
         emit OfferAccepted(
             reviewId, 
             acceptanceTimestamp, 
@@ -189,7 +195,7 @@ contract ReviewsController is IServiceStateController {
             offererAddress
         );
 
-        return true;
+        return uint8(reviewIdIn_state[reviewId] = state.STARTED);
     }
 
     modifier offerCount_isAtLeast1(uint32 reviewId) 
@@ -197,7 +203,6 @@ contract ReviewsController is IServiceStateController {
         require(reviewIdHas_offerCount[reviewId] >= 1);
         _;
     }
-    mapping(uint32 => bool) reviewIdHasBeen_accepted;
     mapping(uint32 => OfferFromAddress) reviewIdHas_chosenOfferFrom1Address;
     mapping(uint32 => OfferAtTimestamp) reviewIdHas_chosenOfferAt1Timestamp;
 
@@ -207,8 +212,8 @@ contract ReviewsController is IServiceStateController {
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
     external 
         msgSender_mustBeChosenOfferer(reviewId)
-        reviewId_isInState(uint8(state.STARTED), reviewId)
-    returns(bool) 
+        reviewId_isInState(state.STARTED, reviewId)
+    returns(uint8) 
     {
         reviewIdWasClaimedCompleteAt_timestampWhen[reviewId] = claimTimestamp;
         
@@ -219,7 +224,7 @@ contract ReviewsController is IServiceStateController {
             msg.sender
         );
 
-        return reviewIdHasBeen_completed[reviewId] = true;
+        return uint8(reviewIdIn_state[reviewId] = state.AWAITING_APPROVAL);
     }
 
     modifier msgSender_mustBeChosenOfferer(uint32 reviewId) 
@@ -227,7 +232,6 @@ contract ReviewsController is IServiceStateController {
         require(msg.sender == reviewIdHas_chosenOfferAt1Timestamp[reviewId].byOffererAddress);
         _;
     }
-    mapping (uint32 => bool) reviewIdHasBeen_completed;
     mapping(uint32 => uint64) reviewIdWasClaimedCompleteAt_timestampWhen;
 
 
@@ -236,10 +240,11 @@ contract ReviewsController is IServiceStateController {
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rank)
     external 
         msgSender_mustBeRequester(true, reviewId) 
-        reviewId_isInState(uint8(state.AWAITING_APPROVAL), reviewId)
+        reviewId_isInState(state.AWAITING_APPROVAL, reviewId)
     returns(uint rewardAmount) 
     {
         uint price = reviewIdSoldAt_price[reviewId];
+        uint64 offerTimestamp = reviewIdHas_chosenOfferFrom1Address[reviewId].atOfferTimestamp;
         
         rewardAmount = rewardCalculator.calculateRewardAmount(rank, price);
         
@@ -257,10 +262,9 @@ contract ReviewsController is IServiceStateController {
             offererAddress
         );
 
-        reviewIdHasBeen_rewarded[reviewId] = true;
+        return uint8(reviewIdIn_state[reviewId] = state.COMPLETE);
     }
 
-    mapping (uint32 => bool) reviewIdHasBeen_rewarded;
     mapping(uint32 => uint32) reviewIdSoldAt_price;
 
 
@@ -269,8 +273,8 @@ contract ReviewsController is IServiceStateController {
     function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
     external 
         msgSender_mustBeRequester(true, reviewId)
-        reviewId_isInState(uint8(state.AWAITING_APPROVAL), reviewId)
-    returns(bool) 
+        reviewId_isInState(state.AWAITING_APPROVAL, reviewId)
+    returns(uint8) 
     {
         emit CompletionRejected(
             reviewId, 
@@ -279,6 +283,6 @@ contract ReviewsController is IServiceStateController {
             msg.sender
         );
         
-        return reviewIdHasBeen_completed[reviewId] = false;
+        return uint8(reviewIdIn_state[reviewId] = state.AWAITING_APPROVAL);
     }
 }
