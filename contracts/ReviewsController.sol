@@ -68,6 +68,21 @@ contract ReviewsController is IServiceStateController {
     }
 
 
+
+
+    function getStateOfReviewId(uint32 reviewId) 
+    external
+    view 
+    returns(state)
+    {
+        return reviewIdIn_state[reviewId];
+    }
+
+    mapping(uint32 => state) reviewIdIn_state;
+
+
+
+
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)  
     external
         reviewId_isInState(state.UNEXISTENT, reviewId)
