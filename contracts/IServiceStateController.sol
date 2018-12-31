@@ -39,11 +39,11 @@ interface IServiceStateController {
 
 
 
-    event ServiceRequested(
+    event ServicesRequested(
         uint32      indexed reviewId,
-        uint64      indexed callTimestamp,
-        uint32[]    indexed serviceIdArray,
-        address     requesterEthAddress
+        uint64      indexed requestTimestamp,
+        uint32[]    serviceIdArray,
+        address     requesterAddress
     );
 
     /**
