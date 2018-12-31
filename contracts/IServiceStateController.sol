@@ -1,17 +1,43 @@
 // solium-disable linebreak-style
 pragma solidity ^0.4.23;
 
-interface IServiceStateController {
     /**
-    * @dev Only a service client should use this to request a service in his favor.
-    * Then an event shall be emited broadcasting the request to be listened by 
-    * the service providers who are currently offering the service.
-    * @param reviewId           uint32      The identifier of the review due to be submitted.
-    * @param requestTimestamp   uint64      The UNIX time when the request function was called.
-    * @param serviceIdArray     uint32[]    The identifiers of the requested services.
+* @title IServiceStateController
+* @author Carlos Noverón
+* @notice 
+* @dev Estos métodos serán llamados desde Nethereum.
     */
+
+interface IServiceStateController {
+
+
+
+
+    /// @notice Any service client should use this to request a service in their favor.
+    /// Then an event shall be emited broadcasting the request to be listened by 
+    /// the service providers who are currently offering the service.
+    /// @param reviewId           uint32      The identifier of the review due to be submitted.
+    /// @param requestTimestamp   uint64      The UNIX time when requestServices was called.
+    /// @param serviceIdArray     uint32[]    The identifiers of the requested services.
+
     function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)
-    external returns(bool);
+    external returns(uint8);
+
+    /// @dev 403 Forbidden
+    ///
+    /// requestServices  (   0, ANY, ANY,   { from: ANY })  @return 1
+    /// requestServices  (   0, ANY, ANY,   { from: ANY })  @return Failed: Revert();
+    ///
+    /// requestServices  (   0, 0,   ANY,   { from: ANY })  @return 1
+    /// requestServices  (   1, 0,   ANY,   { from: ANY })  @return Failed: Revert();
+
+    /// @dev 200 OK
+    ///
+    /// requestServices  (   0, 0,   ANY,   { from: adr0 }) @return 1
+    /// requestServices  (   1, 1,   ANY,   { from: adr1 }) @return 1
+    
+
+
 
     event ServiceRequested(
         uint32      indexed reviewId,
