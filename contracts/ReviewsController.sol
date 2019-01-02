@@ -91,7 +91,7 @@ contract ReviewsController is IServiceStateController {
         reviewIdHas_services[reviewId] = serviceIdArray;
         reviewIdHas_requesterAddress[reviewId] = msg.sender;
 
-        emit ServiceRequested(
+        emit ServicesRequested(
             reviewId, 
             requestTimestamp, 
             serviceIdArray, 
