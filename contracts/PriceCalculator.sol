@@ -10,18 +10,29 @@ contract PriceCalculator is Ownable {
     constructor(
         uint16 FeePercentage
     ) 
-    public {
+    public 
+    {
         currentFeePercentage = FeePercentage;
     }
+
+
+
 
     function setCurrentRewardCalculatorAddress(uint16 FeePercentage) 
-    external {
+    external 
+    {
         currentFeePercentage = FeePercentage;
     }
 
-    function evaluate(uint32 reviewId, uint64 offerTimestamp, uint16 providersPrice)
-    external returns(uint providersPricePlusFee) {
-        uint16 fee = (providersPrice/100) * currentFeePercentage;
+
+
+
+    function evaluate(uint64 offerTimestamp, uint16 providersPrice)
+    external 
+    view
+    returns(uint16 providersPricePlusFee) 
+    {
+        uint16 fee = uint16(providersPrice/100) * currentFeePercentage;
         providersPricePlusFee = providersPrice + fee;
     }
 }
