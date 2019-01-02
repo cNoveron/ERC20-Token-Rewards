@@ -120,18 +120,19 @@ interface IServiceStateController {
     event OfferAccepted(
         uint32      indexed reviewId,
         uint64      indexed acceptanceTimestamp,
-        address     requesterEthAddress,
-        address     offererEthAddress
+        address     requesterAddress,
+        address     offererAddress
     );
 
+
     function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
-    external returns(bool);
+    external returns(uint8);
 
     event CompletionClaimed(
         uint32      indexed reviewId,
         uint64      indexed claimTimestamp,
-        address     requesterEthAddress,
-        address     offererEthAddress
+        address     requesterAddress,
+        address     offererAddress
     );
 
     function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rating)
@@ -140,17 +141,17 @@ interface IServiceStateController {
     event CompletionApproved(
         uint32      indexed reviewId,
         uint64      indexed approvalTimestamp,
-        address     requesterEthAddress,
-        address     offererEthAddress
+        address     requesterAddress,
+        address     offererAddress
     );
 
     function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
-    external returns(bool);
+    external returns(uint8);
 
     event CompletionRejected(
         uint32 indexed reviewId,
         uint64 indexed rejectionTimestamp,
-        address     requesterEthAddress,
-        address     offererEthAddress
+        address     requesterAddress,
+        address     offererAddress
     );
 }
