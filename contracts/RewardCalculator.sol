@@ -3,8 +3,11 @@ pragma solidity ^0.4.23;
 
 contract RewardCalculator {
 
-    function calculateRewardAmount(uint8 rating, uint price)
-    external pure returns(uint RewardAmount) {
-        RewardAmount = rating * price; // This is preliminary.
+    function evaluate(uint8 rating, uint price, uint64 approvalTimestamp, uint64 offerTimestamp)
+    external 
+    pure 
+    returns(uint rewardAmount) 
+    {
+        rewardAmount = rating * price; // This is preliminary.
     }
 }
