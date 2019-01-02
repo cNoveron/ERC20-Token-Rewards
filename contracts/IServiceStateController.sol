@@ -99,6 +99,24 @@ interface IServiceStateController {
 
 
 
+
+    /// @dev Only the requester's address should call acceptOffer on a reviewId that has had
+    /// 1 or more offers for him/her.
+    /// @param reviewId               uint32  The identifier of the review due to be submitted.
+    /// @param acceptanceTimestamp    uint64  The UNIX time when the acceptOffer method was called.
+    /// @param offererAddress         address The provider's Ethereum address.
+    
+    function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererAddress)
+    external returns(uint8);
+
+    /// @dev 403 Forbidden -  A 1st call for requestServices.
+    ///
+    /// requestServices ( ANY, ANY, ANY, { from: adr0 }) @return 1
+    /// acceptOffer     ( ANY, ANY, ANY, { from: ANY })  @return Failed: Revert();
+    ///
+    /// requestServices ( ANY, ANY, ANY, { from: adr0 }) @return 1
+    /// acceptOffer     ( ANY, ANY, ANY, { from: ANY })  @return Failed: Revert();
+
     event OfferAccepted(
         uint32      indexed reviewId,
         uint64      indexed acceptanceTimestamp,
