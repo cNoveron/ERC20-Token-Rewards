@@ -1,79 +1,157 @@
 // solium-disable linebreak-style
 pragma solidity ^0.4.23;
 
+    /**
+* @title IServiceStateController
+* @author Carlos Noverón
+* @notice 
+* @dev Estos métodos serán llamados desde Nethereum.
+    */
+
 interface IServiceStateController {
-    /**
-    * @dev Only a service client should use this to request a service in his favor.
-    * Then an event shall be emited broadcasting the request to be listened by 
-    * the service providers who are currently offering the service.
-    * @param _callTimestamp uint The unix time when the request function was called.
-    * @param _serviceName string The name that identifies the service.
-    */
-    function request(uint _callTimestamp, string _serviceName) 
-    external returns (bytes32);
 
-    event ServiceRequested(
-        bytes32 indexed requestEthSHA3,
-        address indexed requestedBy,
-        string  serviceName
+
+
+
+    /// @notice Any service client should use this to request a service in their favor.
+    /// Then an event shall be emited broadcasting the request to be listened by 
+    /// the service providers who are currently offering the service.
+    /// @param reviewId           uint32      The identifier of the review due to be submitted.
+    /// @param requestTimestamp   uint64      The UNIX time when requestServices was called.
+    /// @param serviceIdArray     uint32[]    The identifiers of the requested services.
+
+    function requestServices(uint32 reviewId, uint64 requestTimestamp, uint32[] serviceIdArray)
+    external returns(uint8);
+
+    /// @dev 403 Forbidden
+    ///
+    /// requestServices ( 0, ANY, ANY, { from: ANY })  @return 1
+    /// requestServices ( 0, ANY, ANY, { from: ANY })  @return Failed: Revert();
+    ///
+    /// requestServices ( 0, 0,   ANY, { from: ANY })  @return 1
+    /// requestServices ( 1, 0,   ANY, { from: ANY })  @return Failed: Revert();
+
+    /// @dev 200 OK
+    ///
+    /// requestServices ( 0, 0,   ANY, { from: adr0 }) @return 1
+    /// requestServices ( 1, 1,   ANY, { from: adr1 }) @return 1
+    
+
+    event ServicesRequested(
+        uint32      indexed reviewId,
+        uint64      indexed requestTimestamp,
+        uint32[]    serviceIdArray,
+        address     requesterAddress
     );
 
-    /**
-    * @dev Only a service provider should use this to offer his services in favor
-    * of a previously identified serviceRequest.
-    * @param _requestEthSHA3 bytes32 The number that identifies the serviceRequest.
-    * @param _price bytes32 The price asked by the service provider.
-    */
-    function offer(bytes32 _requestEthSHA3, bytes32 _price)
-    external returns (bool);
 
-    event OfferMade(
-        bytes32 indexed requestEthSHA3,
-        address indexed offeredBy,
-        string  serviceName
+
+
+    /// @notice Only a service provider should use this to offer his services in favor.
+    /// @param reviewId       uint32      The identifier of the review due to be submitted.
+    /// @param offerTimestamp uint64      The UNIX time when offerServices was called.
+    /// @param price          uint16      The provider's price in USD.
+    
+    function offerServices(uint32 reviewId, uint64 offerTimestamp, uint16 price) 
+    external 
+    returns(uint8);
+
+
+    /// @dev 403 Forbidden 
+    ///
+    /// requestServices (ANY, ANY, ANY,  { from: adr0 }) @return 1
+    /// offerServices   (ANY, ANY, ANY,  { from: adr0 }) @return Failed: Revert();
+    ///
+    /// requestServices (  0, 0,   ANY,  { from: adr0 }) @return 1
+    /// offerServices   (  0, 0,   ANY,  { from: adr1 }) @return Failed: Revert();
+    ///
+    /// requestServices (  0, 0,   ANY,  { from: adr0 }) @return 1
+    /// offerServices   (  1, 0,   ANY,  { from: adr0 }) @return Failed: Revert();
+    ///
+    /// requestServices (  0, 0,   ANY,  { from: adr0 }) @return 1
+    /// offerServices   (  1, 1,   ANY,  { from: adr1 }) @return Failed: Revert();
+    ///
+    /// requestServices (  0, 0,   ANY,  { from: adr0 }) @return 1
+    /// offerServices   (  0, 1,   ANY,  { from: adr1 }) @return 1
+    /// offerServices   (  0, 1,   ANY,  { from: adr1 }) @return Failed: Revert();
+    ///
+    /// requestServices (  0, 0,   ANY,  { from: adr0 }) @return 1
+    /// offerServices   (  0, 1,   ANY,  { from: adr1 }) @return 1
+    /// offerServices   (  0, 2,   ANY,  { from: adr1 }) @return Failed: Revert();
+
+
+    /// @dev 200 OK - A 1st call for requestServices.
+    ///
+    /// requestServices (  0, 0,   ANY,  { from: adr0 }) @return 1
+    /// offerServices   (  0, 1,   ANY,  { from: adr1 }) @return 1
+    ///
+    /// requestServices (  0, 0,   ANY,  { from: adr0 }) @return 1
+    /// offerServices   (  0, 1,   ANY,  { from: adr1 }) @return 1
+    /// offerServices   (  1, 2,   ANY,  { from: adrN }) @return 1
+
+
+    event ServicesOffered(
+        uint32      indexed reviewId, 
+        uint64      indexed offerTimestamp,
+        uint16      indexed price,
+        address     offererAddress
     );
 
-    /**
-    * @dev Only the service client who owns the serviceRequest should call this 
-    * to accept and delegate services in his favor to a service provider
-    * who had previously called an offer to the serviceRequest.
-    * @param _requestEthSHA3 bytes32 The number that identifies the serviceRequest.
-    * @param _price bytes32 The price asked by the service provider.
-    */
-    function accept(bytes32 _requestEthSHA3, address _delegatedTo)
-    external returns (bool);
 
-    event ServiceAccepted(
-        bytes32 indexed requestEthSHA3,
-        address indexed acceptedBy,
-        address indexed delegatedTo,
-        string  serviceName
+
+
+    /// @dev Only the requester's address should call acceptOffer on a reviewId that has had
+    /// 1 or more offers for him/her.
+    /// @param reviewId               uint32  The identifier of the review due to be submitted.
+    /// @param acceptanceTimestamp    uint64  The UNIX time when the acceptOffer method was called.
+    /// @param offererAddress         address The provider's Ethereum address.
+    
+    function acceptOffer(uint32 reviewId, uint64 acceptanceTimestamp, address offererAddress)
+    external returns(uint8);
+
+    /// @dev 403 Forbidden -  A 1st call for requestServices.
+    ///
+    /// requestServices ( ANY, ANY, ANY, { from: adr0 }) @return 1
+    /// acceptOffer     ( ANY, ANY, ANY, { from: ANY })  @return Failed: Revert();
+    ///
+    /// requestServices ( ANY, ANY, ANY, { from: adr0 }) @return 1
+    /// acceptOffer     ( ANY, ANY, ANY, { from: ANY })  @return Failed: Revert();
+
+    event OfferAccepted(
+        uint32      indexed reviewId,
+        uint64      indexed acceptanceTimestamp,
+        address     requesterAddress,
+        address     offererAddress
     );
 
-    function claimCompletion(bytes32 _requestEthSHA3)
-    external returns (bool);
+
+    function claimCompletion(uint32 reviewId, uint64 claimTimestamp)
+    external returns(uint8);
 
     event CompletionClaimed(
-        bytes32 indexed requestEthSHA3,
-        address indexed claimedCompleteBy,
-        string  serviceName
+        uint32      indexed reviewId,
+        uint64      indexed claimTimestamp,
+        address     requesterAddress,
+        address     offererAddress
     );
 
-    function approveCompletion(bytes32 requestEthSHA3)
-    external returns (bool);
+    function approveCompletion(uint32 reviewId, uint64 approvalTimestamp, uint8 rating)
+    external returns(uint RewardAmount);
 
     event CompletionApproved(
-        bytes32 indexed requestEthSHA3,
-        address indexed approvedAsCompleteBy,
-        string  serviceName
+        uint32      indexed reviewId,
+        uint64      indexed approvalTimestamp,
+        address     requesterAddress,
+        address     offererAddress
     );
 
-    function rejectCompletion(bytes32 requestEthSHA3)
-    external returns (bool);
+    function rejectCompletion(uint32 reviewId, uint64 rejectionTimestamp)
+    external returns(uint8);
 
     event CompletionRejected(
-        bytes32 indexed requestEthSHA3,
-        address indexed rejectedAsCompleteBy,
-        string  serviceName
+        uint32 indexed reviewId,
+        uint64 indexed rejectionTimestamp,
+        address     requesterAddress,
+        address     offererAddress
     );
 }

@@ -1,5 +1,20 @@
-node_modules/
-build/
+## All in build except our compiled contract
+build/*
+!build/contracts/
+build/contracts/*
+!build/contracts/ReviewsController.json
+
+
+node_modules/*
+!node_modules/drizzle-react-components/
+node_modules/drizzle-react-components/*
+!node_modules/drizzle-react-components/drizzle-react-components.js
+
+
 tmp-12088HVi4mbhlCbnE/
-.vscode/settings.json
+.vscode/
 .gitignore
+build_webpack/
+non-code files/
+process.env
+CSProject/
