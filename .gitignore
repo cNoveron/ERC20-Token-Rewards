@@ -1,11 +1,23 @@
+## All in build except our compiled contract's JSON file
+build/*
+!build/contracts/
+build/contracts/*
+!build/contracts/ReviewsController.json
+
+## All in node_modules except drizzle-react-components.js
 node_modules/*
 !node_modules/drizzle-react-components/
 node_modules/drizzle-react-components/*
 !node_modules/drizzle-react-components/drizzle-react-components.js
 !node_modules/drizzle-react-components/drizzle-react-componentsR.js
+
 build/
-tmp-12088HVi4mbhlCbnE/
-.vscode/settings.json
-.gitignore
 build_webpack/
 non-code files/
+tmp-12088HVi4mbhlCbnE/
+CSProject/
+.vscode/
+
+## Files
+.gitignore
+process.env
