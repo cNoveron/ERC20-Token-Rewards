@@ -4,12 +4,18 @@ build/*
 build/contracts/*
 !build/contracts/ReviewsController.json
 
-## All in node_modules except drizzle-react-components.js
+## All in node_modules...
 node_modules/*
+
+## ...except drizzle-react.js
+!node_modules/drizzle-react/
+node_modules/drizzle-react/*
+!node_modules/drizzle-react/drizzle-react.js
+
+## ...except drizzle-react-components.js
 !node_modules/drizzle-react-components/
 node_modules/drizzle-react-components/*
 !node_modules/drizzle-react-components/drizzle-react-components.js
-!node_modules/drizzle-react-components/drizzle-react-componentsR.js
 
 build/
 build_webpack/
