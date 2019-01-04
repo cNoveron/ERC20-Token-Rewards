@@ -2,6 +2,8 @@
   "name": "drizzle-box",
   "version": "1.0.0",
   "devDependencies": {
+    "drizzle": "^1.2.4",
+    "drizzle-react": "^1.2.0",
     "ganache-cli": "^6.1.6",
     "openzeppelin-solidity": "^1.10.0",
     "truffle": "^4.1.13",
@@ -21,8 +23,7 @@
     "dotenv": "^4.0.0",
     "dotenv-expand": "4.2.0",
     "doxygen": "^0.3.2",
-    "drizzle": "^1.2.2",
-    "drizzle-react": "^1.1.1",
+    "drizzle-react": "^1.2.0",
     "drizzle-react-components": "^1.2.0",
     "eslint": "4.10.0",
     "eslint-config-react-app": "^2.1.0",
