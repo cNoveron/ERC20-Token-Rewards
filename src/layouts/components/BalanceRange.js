@@ -10,7 +10,11 @@ class BalanceRange extends Component {
       .range(0,this.props.accountsToRetrieve)
       .map(
         indexNum =>(
-          <Balance key={indexNum} addressStr={this.props.passedAccounts[indexNum]}/>
+          <Balance
+            drizzle={this.props.drizzle}
+            drizzleState={this.props.drizzle.store.getState()}
+            key={indexNum}
+            currentAccount={this.props.passedAccounts[indexNum]} />
         )
       )
     }</div>
