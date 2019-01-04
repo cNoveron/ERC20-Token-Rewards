@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router'
-import HomeContainer from './layouts/home/HomeContainer'
+import { Drizzle, generateStore } from 'drizzle'
+import { DrizzleContext } from 'drizzle-react'
+import drizzleOptions from './drizzleOptions'
 
+// Layouts
+import Home from './layouts/home/Home'
 
 // Styles
 import './css/oswald.css'
@@ -10,12 +13,15 @@ import './css/pure-min.css'
 import './App.css'
 
 class App extends Component {
+  
   render() {
+    var drizzleStore = generateStore(drizzleOptions)
+    var drizzle = new Drizzle(drizzleOptions, drizzleStore)
     return (
-      <div className="App">
-        <Route exact path="/" component={HomeContainer}/>
-      </div>
-    );
+      <DrizzleContext.Provider drizzle={drizzle}>
+        <Home/>
+      </DrizzleContext.Provider>
+    )
   }
 }
 
