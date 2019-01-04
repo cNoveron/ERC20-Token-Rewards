@@ -25,6 +25,7 @@ class Home extends Component {
     }
 
     changeIndex(event) {
+    event.persist()
         if(0 <= event.target.value && event.target.value < 10)
       this.setState(prevState => {
         return {
@@ -36,6 +37,10 @@ class Home extends Component {
     }
 
     render() {
+
+    if(!this.state.initialized)
+      return (<div>Loading...</div>)
+    
         return (
             <div className="pure-g">            
         
@@ -64,9 +69,8 @@ class Home extends Component {
                     <h3>Select account index to send from</h3>
                     <input 
                         type="number" 
-                        value={this.state.fromAccount.index} 
-                        onChange={this.changeIndex}
-                    />
+            value={this.state.index} 
+            onChange={this.changeIndex} />
                     <h3>You will send tokens from this account</h3>
                     <Balance 
             drizzle={this.props.drizzle}
