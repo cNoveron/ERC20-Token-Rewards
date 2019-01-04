@@ -16,21 +16,26 @@ class Balance extends Component {
     }
     return <div>      
       balanceOf:{' '}
-      <strong style={addressStyle}>
-        {this.props.addressStr}
+        <strong style={this.state.address}>
+          {this.props.currentAccount}
       </strong>{' '}
-      <div style={balanceStyle}>
+        <div style={this.state.balance}>
         <ContractData 
+            drizzle={this.props.drizzle}
+            drizzleState={this.props.drizzle.store.getState()}
           contract="Pedro_ERC20Token"
           method="balanceOf" 
-          methodArgs={[this.props.addressStr]} 
+            methodArgs={[this.props.currentAccount]} 
         />{' '}
         <ContractData
+            drizzle={this.props.drizzle}
+            drizzleState={this.props.drizzle.store.getState()}
           contract="Pedro_ERC20Token"
           method="symbol"
         />
       </div>
     </div>
+    )
   }
 }
 
