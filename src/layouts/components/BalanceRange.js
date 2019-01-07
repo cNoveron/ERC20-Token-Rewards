@@ -21,4 +21,19 @@ class BalanceRange extends Component {
   }
 }
 
-export default BalanceRange
+export default (props) => (
+  <DrizzleContext.Consumer>
+    {
+      drizzleContext => {
+        var drizzle = drizzleContext.drizzle
+        var drizzleState = drizzle.store.getState()
+        return (
+          <BalanceRange
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+            state={props.state} />
+        )
+      }
+    }
+  </DrizzleContext.Consumer >
+)
