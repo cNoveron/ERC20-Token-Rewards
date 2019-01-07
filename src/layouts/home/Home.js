@@ -62,14 +62,17 @@ class Home extends Component {
   }
 
   changeIndex(event) {
-    event.persist()
-    if(0 <= event.target.value && event.target.value < 10)
+    const { value } = event.target
+
+    if (0 <= value && value < 10)
       this.setState(prevState => {
+        
         return {
           ...prevState,
-          index: event.target.value,
-          currentAccount: prevState.accounts[event.target.value],
+          index: value,
+          currentAccount: this.state.accounts[value],
         }
+
       })
   }
 
