@@ -5,6 +5,7 @@ import { DrizzleContext } from 'drizzle-react'
 import { ContractForm } from 'drizzle-react-components'
 import BalanceRange from '../components/BalanceRange.js'
 import Balance from '../components/Balance.js'
+import _ from 'lodash'
 
 import logo from '../../logo.png'
 
@@ -35,7 +36,7 @@ class Home extends Component {
       * drizzleState will remain the same 
       */
       var drizzle = Home.state.drizzle
-    var drizzleState = drizzle.store.getState()
+      var drizzleState = drizzle.store.getState() 
 
       if (drizzleState.drizzleStatus.initialized) {
         
@@ -78,58 +79,58 @@ class Home extends Component {
 
   render() {
 
-    if(!this.state.initialized)
-      return (<div>Loading...</div>)
-    
-    return (
-      <div className="pure-g">
-        
-        <div className="pure-u-1 header">
-          <div className="container">
-            <img src={logo} alt="logo"/>
-            <h1>Pedro Token</h1>
-            <p>This is a QA testing application for Pedro ERC20 Token.</p>
-            <br/><br/>
+    if (_.isEmpty(drizzleState.accounts))
+      return (<div>503 - Service unavailable - Home.js: _.isEmpty(this.state.drizzleState.accounts) </div>)
+    else
+      return (
+        <div className="pure-g">
+          
+          <div className="pure-u-1 header">
+            <div className="container">
+              <img src={logo} alt="logo"/>
+              <h1>Pedro Token</h1>
+              <p>This is a QA testing application for Pedro ERC20 Token.</p>
+              <br/><br/>
+            </div>
           </div>
-        </div>
 
-        <div className="pure-u-1-2">
-          <div className="container">
-            <h2>Balances</h2>
-            <BalanceRange
-              drizzle={this.props.drizzle}
-              drizzleState={this.props.drizzle.store.getState()}
+          <div className="pure-u-1-2">
+            <div className="container">
+              <h2>Balances</h2>
+              <BalanceRange
+                drizzle={this.props.drizzle}
+                drizzleState={this.props.drizzle.store.getState()}
                 state={this.state} />
+            </div>
           </div>
-        </div>
 
-        <div className="pure-u-1-2">
-          <h2>Send tokens</h2>
-          <h3>Select account index to send from</h3>
-          <input 
-            type="number" 
-            value={this.state.index} 
-            onChange={this.changeIndex} />
-          <h3>You will send tokens from this account</h3>
-          <Balance
+          <div className="pure-u-1-2">
+            <h2>Send tokens</h2>
+            <h3>Select account index to send from</h3>
+            <input 
+              type="number" 
+              value={this.state.index} 
+              onChange={this.changeIndex} />
+            <h3>You will send tokens from this account</h3>
+            <Balance
               state={this.state}
               drizzle={this.state.drizzle}
               drizzleState={this.state.drizzleState}
               index={this.state.index} />
-          <br/>
-          <h3>Select account to send tokens to</h3>
-          <ContractForm
+            <br/>
+            <h3>Select account to send tokens to</h3>
+            <ContractForm
               drizzle={this.state.drizzle}
               drizzleState={this.state.drizzleState}
-            contract="Pedro_ERC20Token" 
-            method="transfer" 
-            labels={['To Address', 'Amount to Send']}
-            sendArgs={{from: this.state.currentAccount}} />
-          <br/><br/>
-        </div>
+              contract="Pedro_ERC20Token" 
+              method="transfer" 
+              labels={['To Address', 'Amount to Send']}
+              sendArgs={{from: this.state.currentAccount}} />
+            <br/><br/>
+          </div>
 
-      </div>
-    )
+        </div>
+      )
   }
 }
 
@@ -141,8 +142,8 @@ export default () => (
         var drizzleState = drizzle.store.getState()
         return (
           <Home
-            drizzleState={drizzleState}
-            drizzle={drizzle} />
+            drizzle={drizzle}
+            drizzleState={drizzleState} />
         )
       }
     }
