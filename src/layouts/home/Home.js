@@ -99,8 +99,7 @@ class Home extends Component {
             <BalanceRange
               drizzle={this.props.drizzle}
               drizzleState={this.props.drizzle.store.getState()}
-              accountsToRetrieve={4} 
-              passedAccounts={this.props.drizzle.store.getState().accounts} />
+                state={this.state} />
           </div>
         </div>
 
@@ -113,14 +112,15 @@ class Home extends Component {
             onChange={this.changeIndex} />
           <h3>You will send tokens from this account</h3>
           <Balance
-            drizzle={this.props.drizzle}
-            drizzleState={this.props.drizzle.store.getState()}
-            currentAccount={this.props.drizzle.store.getState().accounts[this.state.index]} />
+              state={this.state}
+              drizzle={this.state.drizzle}
+              drizzleState={this.state.drizzleState}
+              index={this.state.index} />
           <br/>
           <h3>Select account to send tokens to</h3>
           <ContractForm
-            drizzle={this.props.drizzle}
-            drizzleState={this.props.drizzle.store.getState()}
+              drizzle={this.state.drizzle}
+              drizzleState={this.state.drizzleState}
             contract="Pedro_ERC20Token" 
             method="transfer" 
             labels={['To Address', 'Amount to Send']}
