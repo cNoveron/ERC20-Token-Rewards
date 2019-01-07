@@ -9,13 +9,16 @@ import Balance from '../components/Balance.js'
 import logo from '../../logo.png'
 
 class Home extends Component {
+
   constructor(props) {
     super(props)
     this.state = {
-      index: 0,
-      accounts: null,
+      accounts: props.drizzleState.accounts,
+      accountsToRetrieve: 4,
       currentAccount: null,
-      drizzleState: null,
+      drizzle: props.drizzle,
+      drizzleState: props.drizzleState,
+      index: 0,
       initialized: false
     }
     this.changeIndex = this.changeIndex.bind(this)
