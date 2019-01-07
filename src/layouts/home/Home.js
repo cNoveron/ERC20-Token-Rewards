@@ -67,7 +67,7 @@ class Home extends Component {
 
     if (0 <= value && value < 10)
       this.setState(prevState => {
-        
+
         return {
           ...prevState,
           index: value,
@@ -79,7 +79,7 @@ class Home extends Component {
 
   render() {
 
-    if (_.isEmpty(drizzleState.accounts))
+    if (_.isEmpty(this.state.drizzleState.accounts))
       return (<div>503 - Service unavailable - Home.js: _.isEmpty(this.state.drizzleState.accounts) </div>)
     else
       return (
