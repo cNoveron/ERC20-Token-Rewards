@@ -80,4 +80,21 @@ class Balance extends Component {
   }
 }
 
-export default Balance
+export default (props) => (
+  <DrizzleContext.Consumer>
+    {
+      drizzleContext => {
+        var drizzle = drizzleContext.drizzle
+        var drizzleState = drizzle.store.getState()
+        return (
+          <Balance
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+            currentAccount={drizzleState.accounts[props.index]}
+            index={props.index}
+            state={props.state} />
+        )
+      }
+    }
+  </DrizzleContext.Consumer >
+)
