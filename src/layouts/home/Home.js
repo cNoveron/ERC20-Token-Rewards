@@ -25,24 +25,40 @@ class Home extends Component {
   }
   
   componentDidMount() {
-    var thisComponent = this
-    var drizzle = this.props.drizzle
+    var Home = this
+    this.unsubscribe = this.state.drizzle.store.subscribe(function () {
+
+      /**
+      * It's important to refresh drizzleState by calling
+      * this method from drizzle.store, otherwise,
+      * even though a change is observed in drizzle.store, 
+      * drizzleState will remain the same 
+      */
+      var drizzle = Home.state.drizzle
     var drizzleState = drizzle.store.getState()
-    drizzle.store.subscribe(function () {
-      drizzle = thisComponent.props.drizzle
-      drizzleState = drizzle.store.getState()
+
       if (drizzleState.drizzleStatus.initialized) {
-        thisComponent.setState(prevState => {
+        
+        Home.setState(prevState => {
+
           return {
-            ...prevState,
             accounts: drizzleState.accounts,
+            accountsToRetrieve: 4,
             currentAccount: drizzleState.accounts[prevState.index],
+            drizzle: drizzle,
             drizzleState: drizzleState,
+            index: prevState.index,
             initialized: true
           }
+
         })
       }
+
     })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   changeIndex(event) {
