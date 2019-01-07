@@ -2,23 +2,26 @@ import React, { Component } from 'react'
 import { ContractData } from 'drizzle-react-components'
 
 class Balance extends Component {
+
   constructor(props) {
     super(props)
     this.colorStrings = {
-      primary: props.currentAccount.substring(2, 8),
-      secondary: props.currentAccount.substring(9, 15)
+      primary: props.state.currentAccount.substring(2, 8),
+      secondary: props.state.currentAccount.substring(9, 15)
     }
     this.state = {
+      ...props.state,
       address: {
         color: '#' + this.colorStrings.primary,
         display: 'inline'
       },
-      balance : {
+      balance: {
         color: 'white',
         fontWeight: 'bold',
         backgroundColor: '#' + this.colorStrings.secondary,
         padding: '3px 7px',
         borderRadius: '4px'
+      },
       }
     }
   }
@@ -34,6 +37,7 @@ class Balance extends Component {
     if (this.props !== prevProps) {
       this.getColors(this.props)
       this.setState({
+        ...this.props.state,
         address: {
           color: '#' + this.colorStrings.primary,
           display: 'inline'
