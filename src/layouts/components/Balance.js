@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
+import { DrizzleContext } from 'drizzle-react'
+
+// Components
 import { ContractData } from 'drizzle-react-components'
+import _ from 'lodash'
 
 class Balance extends Component {
 
@@ -22,20 +26,19 @@ class Balance extends Component {
         padding: '3px 7px',
         borderRadius: '4px'
       },
-      }
     }
   }
 
-  getColors(props) {
+  evaluateColors(currentAccount) {
     this.colorStrings = {
-      primary: props.currentAccount.substring(2, 8),
-      secondary: props.currentAccount.substring(9, 15)
+      primary: currentAccount.substring(2, 8),
+      secondary: currentAccount.substring(9, 15)
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
-      this.getColors(this.props)
+      this.evaluateColors(this.props.currentAccount)
       this.setState({
         ...this.props.state,
         address: {
@@ -51,32 +54,35 @@ class Balance extends Component {
         }
       })
     }
-  }  
+  }
 
   render() {
-    return(
-      <div>      
-        balanceOf:{' '}
-        <strong style={this.state.address}>
-          {this.props.currentAccount}
-        </strong>{' '}
-        <div style={this.state.balance}>
-          <ContractData
-            drizzle={this.props.drizzle}
-            drizzleState={this.props.drizzle.store.getState()}
-            contract="Pedro_ERC20Token"
-            method="balanceOf" 
-            methodArgs={[this.props.currentAccount]} 
-          />{' '}
-          <ContractData
-            drizzle={this.props.drizzle}
-            drizzleState={this.props.drizzle.store.getState()}
-            contract="Pedro_ERC20Token"
-            method="symbol"
-          />
+
+    if (_.isEmpty(this.props.currentAccount))
+      return(<div>503 - Service unavailable - !this.props.currentAccount </div>)
+    else
+      return(
+        <div>      
+          balanceOf:{' '}
+          <strong style={this.state.address}>
+            {this.props.currentAccount}
+          </strong>{' '}
+          <div style={this.state.balance}>
+            <ContractData
+              drizzle={this.props.drizzle}
+              drizzleState={this.props.drizzleState}
+              contract="Pedro_ERC20Token"
+              method="balanceOf" 
+              methodArgs={[this.props.currentAccount]} />{' '}            
+            <ContractData
+              drizzle={this.props.drizzle}
+              drizzleState={this.props.drizzleState}
+              contract="Pedro_ERC20Token"
+              method="symbol"
+            />
+          </div>
         </div>
-      </div>
-    )
+      )
   }
 }
 
