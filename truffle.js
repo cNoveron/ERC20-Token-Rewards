@@ -18,7 +18,7 @@ module.exports = {
             provider: function () {
                 return new HDWalletProvider(
                     process.env.MNEMONIC,
-                    "https://mainnet.infura.io/" + INFURA_APIKEY, 0, 10, "m/44'/60'/0'/0/0"
+                    "https://mainnet.infura.io/" + process.env.INFURA_APIKEY, 0, 10, "m/44'/60'/0'/0/0"
                 )
             },
             network_id: 1
@@ -27,7 +27,7 @@ module.exports = {
             provider: function () {
                 return new HDWalletProvider(
                     process.env.MNEMONIC,
-                    "https://ropsten.infura.io/" + INFURA_APIKEY, 0, 10, "m/44'/60'/0'/0/0"
+                    "https://ropsten.infura.io/" + process.env.INFURA_APIKEY, 0, 10, "m/44'/60'/0'/0/0"
                 )
             },
             network_id: 3
