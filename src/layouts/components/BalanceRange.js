@@ -6,34 +6,23 @@ import Balance from './Balance.js'
 import _ from 'lodash'
 
 class BalanceRange extends Component {
-  
-  constructor(props) {
-    super(props)
-    this.state = props.state
-  }
-
-  componentDidUdpate(prevProps) {
-    if (this.props !== prevProps)
-      this.setState(this.props.state)
-  }
 
   render() {
 
-    if (_.isEmpty(this.state.drizzleState.accounts))
+    if (_.isEmpty(this.props.drizzleState.accounts))
       return (<div>503 - Service unavailable - BalanceRange:34 !this.props.drizzle.store.getState().accounts </div>)
     else
       return (
         <div>{
           _
-          .range(0,this.state.accountsToRetrieve)
+          .range(0,this.props.accountsToRetrieve)
           .map(
             index => (
               <Balance
-                drizzle={this.state.drizzle}
-                drizzleState={this.state.drizzleState}
+                drizzle={this.props.drizzle}
+                drizzleState={this.props.drizzleState}
                 index={index}
-                key={index}
-                state={this.state} />
+                key={index} />
             )
           )
         }</div>
@@ -51,7 +40,7 @@ export default (props) => (
           <BalanceRange
             drizzle={drizzle}
             drizzleState={drizzleState}
-            state={props.state} />
+            accountsToRetrieve={props.accountsToRetrieve} />
         )
       }
     }

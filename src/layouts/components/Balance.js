@@ -10,11 +10,10 @@ class Balance extends Component {
   constructor(props) {
     super(props)
     this.colorStrings = {
-      primary: props.state.currentAccount.substring(2, 8),
-      secondary: props.state.currentAccount.substring(9, 15)
+      primary: props.currentAccount.substring(2, 8),
+      secondary: props.currentAccount.substring(9, 15)
     }
     this.state = {
-      ...props.state,
       address: {
         color: '#' + this.colorStrings.primary,
         display: 'inline'
@@ -26,6 +25,7 @@ class Balance extends Component {
         padding: '3px 7px',
         borderRadius: '4px'
       },
+      currentAccount: props.currentAccount,
     }
   }
 
@@ -40,7 +40,6 @@ class Balance extends Component {
     if (this.props !== prevProps) {
       this.evaluateColors(this.props.currentAccount)
       this.setState({
-        ...this.props.state,
         address: {
           color: '#' + this.colorStrings.primary,
           display: 'inline'
@@ -51,7 +50,8 @@ class Balance extends Component {
           backgroundColor: '#' + this.colorStrings.secondary,
           padding: '3px 7px',
           borderRadius: '4px'
-        }
+        },
+        currentAccount: this.props.currentAccount,
       })
     }
   }
@@ -96,9 +96,7 @@ export default (props) => (
           <Balance
             drizzle={drizzle}
             drizzleState={drizzleState}
-            currentAccount={drizzleState.accounts[props.index]}
-            index={props.index}
-            state={props.state} />
+            currentAccount={drizzleState.accounts[props.index]} />
         )
       }
     }
