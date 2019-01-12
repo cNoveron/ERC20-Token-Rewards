@@ -26,4 +26,5 @@ CSProject/
 
 ## Files
 .gitignore
-process.env
+.env
+truffle.js
