@@ -8,25 +8,33 @@ import _ from 'lodash'
 class BalanceRange extends Component {
 
   render() {
-
-    if (_.isEmpty(this.props.drizzleState.accounts))
-      return (<div>503 - Service unavailable - BalanceRange:34 !this.props.drizzle.store.getState().accounts </div>)
-    else
+    if (_.isEmpty(this.props.drizzleState.accounts)) {
       return (
-        <div>{
-          _
-          .range(0,this.props.accountsToRetrieve)
-          .map(
-            index => (
-              <Balance
-                drizzle={this.props.drizzle}
-                drizzleState={this.props.drizzleState}
-                index={index}
-                key={index} />
-            )
-          )
-        }</div>
+        <div>
+          503 - Service unavailable - BalanceRange:34 !this.props.drizzle.store.getState().accounts
+        </div>
       )
+    }
+    else {
+      return (
+        <div className="container">
+          <h2>Balance Range (0 to {this.props.accountsToRetrieve})</h2>
+          {
+            _
+            .range(0,this.props.accountsToRetrieve)
+            .map(
+              index => (
+                <Balance
+                  drizzle={this.props.drizzle}
+                  drizzleState={this.props.drizzleState}
+                  index={index}
+                  key={index} />
+              )
+            )
+          }
+        </div>
+      )
+    }
   }
 }
 
