@@ -58,26 +58,28 @@ class Home extends Component {
           <div className="pure-u-1 header">
             <div className="container">
               <img src={logo} alt="logo"/>
-              <h1>Pedro Token</h1>
               <p>This is a QA testing application for Pedro ERC20 Token.</p>
-              <br/><br/>
             </div>
           </div>
 
           <div className="pure-u-1-2">
-              <BalanceRange
-                drizzle={this.props.drizzle}
-                drizzleState={this.props.drizzle.store.getState()}
-                accountsToRetrieve={6} />
+            <BalanceRange
+              drizzle={this.props.drizzle}
+              drizzleState={this.props.drizzle.store.getState()}
+              accountsToRetrieve={6}
+              tokenContract="Pedro_ERC20Token" />
           </div>
 
           <div className="pure-u-1-2">
             <BalanceSelect
               drizzle={this.props.drizzle}
               drizzleState={this.props.drizzle.store.getState()}
-            />
+              tokenContract="Pedro_ERC20Token" />
           </div>
 
+          <div className="pure-u-1">
+            
+          </div>
         </div>
       )
     }

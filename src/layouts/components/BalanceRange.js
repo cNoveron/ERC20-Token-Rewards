@@ -28,7 +28,8 @@ class BalanceRange extends Component {
                   drizzle={this.props.drizzle}
                   drizzleState={this.props.drizzleState}
                   index={index}
-                  key={index} />
+                        key={index}
+                        tokenContract={this.props.tokenContract} />
               )
             )
           }
@@ -48,7 +49,8 @@ export default (props) => (
           <BalanceRange
             drizzle={drizzle}
             drizzleState={drizzleState}
-            accountsToRetrieve={props.accountsToRetrieve} />
+            accountsToRetrieve={props.accountsToRetrieve}
+            tokenContract={props.tokenContract} />
         )
       }
     }

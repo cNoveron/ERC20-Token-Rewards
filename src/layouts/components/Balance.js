@@ -77,15 +77,14 @@ class Balance extends Component {
               <ContractData
                 drizzle={this.props.drizzle}
                 drizzleState={this.props.drizzleState}
-                contract="Pedro_ERC20Token"
+                contract={this.props.tokenContract}
                 method="balanceOf" 
                 methodArgs={[this.props.currentAccount]} />{' '}            
               <ContractData
                 drizzle={this.props.drizzle}
                 drizzleState={this.props.drizzleState}
-                contract="Pedro_ERC20Token"
-                method="symbol"
-              />
+                contract={this.props.tokenContract}
+                method="symbol" />
             </div>
           </td>
         </tr>
@@ -105,7 +104,8 @@ export default (props) => (
           <Balance
             drizzle={drizzle}
             drizzleState={drizzleState}
-            currentAccount={drizzleState.accounts[props.index]} />
+            currentAccount={drizzleState.accounts[props.index]}
+            tokenContract={props.tokenContract} />
         )
       }
     }
