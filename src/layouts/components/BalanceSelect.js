@@ -38,34 +38,45 @@ class BalanceSelect extends Component {
     else {
       return (
         <div className="container">
-            <h2>Send tokens</h2>
-            <h3>Select account index to send from</h3>
-            <input
-              type="number"
-              value={this.state.index}
-              onChange={this.changeIndex} />
-            <h3>You will send tokens from this account</h3>
-            <Balance
-              drizzle={this.props.drizzle}
-              drizzleState={this.props.drizzleState}
-              index={this.state.index} />
-            <br />
-            <h3>Select account to send tokens to</h3>
-            <ContractForm
-              drizzle={this.props.drizzle}
-              drizzleState={this.props.drizzleState}
-              contract="Pedro_ERC20Token"
-              method="transfer"
-              labels={['To Address', 'Amount to Send']}
-              sendArgs={{ from: this.state.currentAccount }} />
-            <br /><br />
+          <h2>Send tokens</h2>
+          <div>
+            <table className="pure-table">
+              <tbody>
+                <Balance
+                  drizzle={this.props.drizzle}
+                  drizzleState={this.props.drizzleState}
+                  index={this.state.index}
+                  tokenContract={this.props.tokenContract} />
+              </tbody>
+            </table>
+            <form className="pure-form">
+              <fieldset>
+                <label htmlFor="selectedAccount">
+                  <strong>send from: </strong>
+                </label>
+                <input
+                  id="selectedAccount"
+                  type="number"
+                  value={this.state.index}
+                  onChange={this.changeIndex} />
+              </fieldset>
+            </form>
           </div>
+          <ContractForm
+            drizzle={this.props.drizzle}
+            drizzleState={this.props.drizzleState}
+            contract={this.props.tokenContract}
+            method="transfer"
+            labels={['To Address', 'Amount to Send']}
+            sendArgs={{ from: this.state.currentAccount }} />
+          <br /><br />
+        </div>
       )
     }
   }
 }
 
-export default () => (
+export default (props) => (
   <DrizzleContext.Consumer>
     {
       drizzleContext => {
@@ -74,7 +85,8 @@ export default () => (
         return (
           <BalanceSelect
             drizzle={drizzle}
-            drizzleState={drizzleState} />
+            drizzleState={drizzleState}
+            tokenContract={props.tokenContract} />
         )
       }
     }
