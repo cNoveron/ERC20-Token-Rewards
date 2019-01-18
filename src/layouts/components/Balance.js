@@ -27,7 +27,7 @@ class Balance extends Component {
         backgroundColor: '#eee',
       },
       tableData: {
-        padding: '3px',
+        width: "50%",
       },
       currentAccount: props.currentAccount,
     }

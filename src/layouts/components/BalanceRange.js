@@ -19,20 +19,23 @@ class BalanceRange extends Component {
       return (
         <div className="container">
           <h2>Balance Range (0 to {this.props.accountsToRetrieve})</h2>
-          {
-            _
-            .range(0,this.props.accountsToRetrieve)
-            .map(
-              index => (
-                <Balance
-                  drizzle={this.props.drizzle}
-                  drizzleState={this.props.drizzleState}
-                  index={index}
+          <table className="pure-table" style={{width: "100%"}}>        
+            <tbody>
+              {
+                _.range(0, this.props.accountsToRetrieve)
+                  .map(
+                    index => (
+                      <Balance
+                        drizzle={this.props.drizzle}
+                        drizzleState={this.props.drizzleState}
+                        index={index}
                         key={index}
                         tokenContract={this.props.tokenContract} />
-              )
-            )
-          }
+                    )
+                  )
+              }
+            </tbody>
+          </table>
         </div>
       )
     }
