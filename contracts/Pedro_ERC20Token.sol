@@ -2,7 +2,7 @@
 pragma solidity ^0.4.23;
 
 contract Pedro_ERC20Token {
-    string public name = "Pedro Token";
+    string public name = "Pedro's List Utility Token";
     string public symbol = "PEDRO";
     uint public decimals = 2;
     uint public INITIAL_SUPPLY = 255000000 * 10**uint(decimals);

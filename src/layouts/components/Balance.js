@@ -1,89 +1,97 @@
 import React, { Component } from 'react'
 import { DrizzleContext } from 'drizzle-react'
+import _ from 'lodash'
 
 // Components
 import { ContractData } from 'drizzle-react-components'
-import _ from 'lodash'
 
+var tinycolor = require("tinycolor2");
 class Balance extends Component {
 
   constructor(props) {
     super(props)
-    this.colorStrings = {
-      primary: props.state.currentAccount.substring(2, 8),
-      secondary: props.state.currentAccount.substring(9, 15)
-    }
     this.state = {
-      ...props.state,
       address: {
-        color: '#' + this.colorStrings.primary,
-        display: 'inline'
+        color: '#000',
+        display: 'inline',
       },
       balance: {
         color: 'white',
+        backgroundColor: '#000',
+        borderRadius: '4px',
+        boxShadow: 'inset 1px 1px 4px #333',
         fontWeight: 'bold',
-        backgroundColor: '#' + this.colorStrings.secondary,
         padding: '3px 7px',
-        borderRadius: '4px'
       },
+      tableRow: {
+        backgroundColor: '#eee',
+      },
+      tableData: {
+        width: "50%",
+      },
+      currentAccount: props.currentAccount,
     }
   }
 
-  evaluateColors(currentAccount) {
-    this.colorStrings = {
-      primary: currentAccount.substring(2, 8),
-      secondary: currentAccount.substring(9, 15)
-    }
-  }
-
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props !== prevProps) {
-      this.evaluateColors(this.props.currentAccount)
       this.setState({
-        ...this.props.state,
         address: {
-          color: '#' + this.colorStrings.primary,
-          display: 'inline'
+          ...prevState.address,
+          color: tinycolor.mostReadable(
+            '#eee',
+            [this.props.currentAccount.substring(2, 8)],
+            { includeFallbackColors: true }
+          ).toString(),
         },
         balance: {
-          color: 'white',
-          fontWeight: 'bold',
-          backgroundColor: '#' + this.colorStrings.secondary,
-          padding: '3px 7px',
-          borderRadius: '4px'
-        }
+          ...prevState.balance,
+          backgroundColor: tinycolor(this.props.currentAccount.substring(9, 15)).toString(),
+        },
+        tableRow: {
+          ...prevState.tableRow,
+        },
+        currentAccount: this.props.currentAccount,
       })
     }
   }
 
   render() {
-
     if (_.isEmpty(this.props.currentAccount))
-      return(<div>503 - Service unavailable - !this.props.currentAccount </div>)
-    else
-      return(
-        <div>      
-          balanceOf:{' '}
-          <strong style={this.state.address}>
-            {this.props.currentAccount}
-          </strong>{' '}
-          <div style={this.state.balance}>
-            <ContractData
-              drizzle={this.props.drizzle}
-              drizzleState={this.props.drizzleState}
-              contract="Pedro_ERC20Token"
-              method="balanceOf" 
-              methodArgs={[this.props.currentAccount]} />{' '}            
-            <ContractData
-              drizzle={this.props.drizzle}
-              drizzleState={this.props.drizzleState}
-              contract="Pedro_ERC20Token"
-              method="symbol"
-            />
-          </div>
+      return (
+        <div>
+          503 - Service unavailable - !this.props.currentAccount
         </div>
       )
+    else {
+      return (
+        <tr style={this.state.tableRow}>     
+          <td style={this.state.tableData}>
+            balanceOf:{' '}
+            <strong style={this.state.address}>
+              {this.props.currentAccount.substring(0, 15)}...
+            </strong>{' '}
+          </td>
+          <td style={this.state.tableData}>
+            <div style={this.state.balance}>
+              <ContractData
+                drizzle={this.props.drizzle}
+                drizzleState={this.props.drizzleState}
+                contract={this.props.tokenContract}
+                method="balanceOf" 
+                methodArgs={[this.props.currentAccount]} />{' '}            
+              <ContractData
+                drizzle={this.props.drizzle}
+                drizzleState={this.props.drizzleState}
+                contract={this.props.tokenContract}
+                method="symbol" />
+            </div>
+          </td>
+        </tr>
+      )
+    }
   }
+
 }
 
 export default (props) => (
@@ -97,8 +105,7 @@ export default (props) => (
             drizzle={drizzle}
             drizzleState={drizzleState}
             currentAccount={drizzleState.accounts[props.index]}
-            index={props.index}
-            state={props.state} />
+            tokenContract={props.tokenContract} />
         )
       }
     }
