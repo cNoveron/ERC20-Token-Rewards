@@ -57,9 +57,9 @@ contract Crowdsale {
    * @param _token Address of the token being sold
    */
   constructor(uint256 _rate, address _wallet, ERC20 _token) public {
-    require(_rate > 0);
-    require(_wallet != address(0));
-    require(_token != address(0));
+    require(_rate > 0,"Rate should be greater than zero.");
+    require(_wallet != address(0),"Can't send tokens to the 0x0 address.");
+    require(_token != address(0),"The 0x0 address has no ERC20 token contract.");
 
     owner = msg.sender;
     rate = _rate;
@@ -126,8 +126,8 @@ contract Crowdsale {
     internal
     onlyIfWhitelisted(_beneficiary)
   {
-    require(_beneficiary != address(0));
-    require(_weiAmount != 0);
+    require(_beneficiary != address(0),"Can't send tokens to the 0x0 address.");
+    require(_weiAmount != 0,"Can't send tokens if you don't send any Ether.");
   }
 
   /**
@@ -295,7 +295,7 @@ contract Crowdsale {
    * @dev Throws if called by any account other than the owner.
    */
   modifier onlyOwner() {
-    require(msg.sender == owner);
+    require(msg.sender == owner,"Only owner can call this function.");
     _;
   }
 
@@ -323,7 +323,7 @@ contract Crowdsale {
    * @param _newOwner The address to transfer ownership to.
    */
   function _transferOwnership(address _newOwner) internal {
-    require(_newOwner != address(0));
+    require(_newOwner != address(0),"You can't transfer ownership to the 0x0 address.");
     emit OwnershipTransferred(owner, _newOwner);
     owner = _newOwner;
   }
@@ -429,7 +429,7 @@ library Roles {
     internal
     view
   {
-    require(has(_role, _addr));
+    require(has(_role, _addr),"You don't have this role.");
   }
 
   /**
