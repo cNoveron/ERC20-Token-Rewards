@@ -61,6 +61,7 @@ contract Crowdsale {
     require(_wallet != address(0));
     require(_token != address(0));
 
+    owner = msg.sender;
     rate = _rate;
     wallet = _wallet;
     token = _token;
@@ -289,15 +290,6 @@ contract Crowdsale {
     address indexed previousOwner,
     address indexed newOwner
   );
-
-
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-   * account.
-   */
-  constructor() public {
-    owner = msg.sender;
-  }
 
   /**
    * @dev Throws if called by any account other than the owner.
