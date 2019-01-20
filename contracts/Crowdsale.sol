@@ -132,8 +132,8 @@ contract Crowdsale {
 
   /**
    * @dev Validation of an executed purchase. Observe state and use revert statements to undo rollback when valid conditions are not met.
-   * @param _beneficiary Address performing the token purchase
-   * @param _weiAmount Value in wei involved in the purchase
+   * param _beneficiary Address performing the token purchase
+   * param _weiAmount Value in wei involved in the purchase
    */
   function _postValidatePurchase(
     //address _beneficiary,
