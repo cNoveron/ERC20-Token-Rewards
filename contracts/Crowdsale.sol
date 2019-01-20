@@ -123,7 +123,7 @@ contract Crowdsale {
     uint256 _weiAmount
   )
     internal
-    pure
+    onlyIfWhitelisted(_beneficiary)
   {
     require(_beneficiary != address(0));
     require(_weiAmount != 0);
@@ -202,21 +202,6 @@ contract Crowdsale {
    */
   function _forwardFunds() internal {
     wallet.transfer(msg.value);
-  }
-  
-  /**
-   * @dev Extend parent behavior requiring beneficiary to be in whitelist.
-   * @param _beneficiary Token beneficiary
-   * @param _weiAmount Amount of wei contributed
-   */
-  function _preValidatePurchase(
-    address _beneficiary,
-    uint256 _weiAmount
-  )
-    internal
-    onlyIfWhitelisted(_beneficiary)
-  {
-    super._preValidatePurchase(_beneficiary, _weiAmount);
   }
   
   string public constant ROLE_WHITELISTED = "whitelist";
