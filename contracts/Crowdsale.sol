@@ -124,6 +124,7 @@ contract Crowdsale {
     uint256 _weiAmount
   )
     internal
+    view
     onlyIfWhitelisted(_beneficiary)
   {
     require(_beneficiary != address(0),"Can't send tokens to the 0x0 address.");
@@ -183,6 +184,7 @@ contract Crowdsale {
     // uint256 _weiAmount
   )
     internal
+    pure
   {
     // optional override
   }
@@ -429,7 +431,7 @@ library Roles {
     internal
     view
   {
-    require(has(_role, _addr),"You don't have this role.");
+    require(has(_role, _addr),"This address doesn't have this role.");
   }
 
   /**
