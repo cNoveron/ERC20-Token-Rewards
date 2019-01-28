@@ -67,11 +67,11 @@ class Balance extends Component {
       )
     else {
       return (
-        <tr style={this.state.tableRow}>     
+        <tr style={this.state.tableRow}>
           <td style={this.state.tableData}>
             balanceOf:{' '}
             <strong style={this.state.address}>
-              {this.props.currentAccount.substring(0, 15)}...
+              {this.props.currentAccount}
             </strong>{' '}
           </td>
           <td style={this.state.tableData}>
