@@ -14,6 +14,7 @@ class Balance extends Component {
       address: {
         color: '#000',
         display: 'inline',
+        fontSize: '12px', 
       },
       balance: {
         color: 'white',
@@ -27,7 +28,8 @@ class Balance extends Component {
         backgroundColor: '#eee',
       },
       tableData: {
-        width: "50%",
+        width: '50%',
+        padding: '2px'
       },
       currentAccount: props.currentAccount,
     }
