@@ -4,7 +4,7 @@ import { DrizzleContext } from 'drizzle-react'
 // Components
 import BalanceRange from '../components/BalanceRange.js'
 import BalanceSelect from '../components/BalanceSelect.js'
-import _ from 'lodash'
+import ContractView from '../components/ContractView.js'
 
 import logo from '../../logo.png'
 
@@ -78,7 +78,10 @@ class Home extends Component {
           </div>
 
           <div className="pure-u-1">
-            
+            <ContractView
+              drizzle={this.props.drizzle}
+              drizzleState={this.props.drizzle.store.getState()}
+              contract="Crowdsale" />
           </div>
         </div>
       )
