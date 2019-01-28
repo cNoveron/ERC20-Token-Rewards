@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { DrizzleContext } from 'drizzle-react'
+import _ from 'lodash'
 
 // Components
 import BalanceRange from '../components/BalanceRange.js'
@@ -29,7 +30,7 @@ class Home extends Component {
       */
       var drizzle = Home.state.drizzle
       var drizzleState = drizzle.store.getState() 
-      if (drizzleState.drizzleStatus.initialized) {        
+      if (drizzleState.drizzleStatus.initialized) {
         Home.setState({
           drizzle: drizzle,
           drizzleState: drizzleState,
@@ -66,7 +67,7 @@ class Home extends Component {
             <BalanceRange
               drizzle={this.props.drizzle}
               drizzleState={this.props.drizzle.store.getState()}
-              accountsToRetrieve={6}
+              accountsToRetrieve={9}
               tokenContract="Pedro_ERC20Token" />
           </div>
 

@@ -19,7 +19,7 @@ class BalanceRange extends Component {
       return (
         <div className="container">
           <h2>Balance Range (0 to {this.props.accountsToRetrieve})</h2>
-          <table className="pure-table" style={{width: "100%"}}>        
+          <table className="pure-table" style={{width: "100%"}}>
             <tbody>
               {
                 _.range(0, this.props.accountsToRetrieve)
