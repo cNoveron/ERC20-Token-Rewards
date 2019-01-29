@@ -21,7 +21,8 @@ contract Crowdsale {
   using SafeERC20 for ERC20;
 
   // The token being sold
-  ERC20 public token;
+  address public tokenAddress;
+  Pedro_ERC20Token pedro;
 
   // Address where funds are collected
   address public wallet;
@@ -52,17 +53,18 @@ contract Crowdsale {
   /**
    * @param _rate Number of token units a buyer gets per wei
    * @param _wallet Address where collected funds will be forwarded to
-   * @param _token Address of the token being sold
+   * @param _tokenAddress Address of the token being sold
    */
-  constructor(uint256 _rate, address _wallet, ERC20 _token) public {
+  constructor(uint256 _rate, address _wallet, address _tokenAddress) public {
     require(_rate > 0,"Rate should be greater than zero.");
     require(_wallet != address(0),"Can't send tokens to the 0x0 address.");
-    require(_token != address(0),"The 0x0 address has no ERC20 token contract.");
+    require(_tokenAddress != address(0),"The 0x0 address has no ERC20 token contract.");
 
     owner = msg.sender;
     rate = _rate;
     wallet = _wallet;
-    token = _token;
+    tokenAddress = _tokenAddress;
+    pedro = Pedro_ERC20Token(tokenAddress);
   }
 
 
@@ -165,7 +167,8 @@ contract Crowdsale {
   )
     internal
   {
-    token.safeTransfer(_beneficiary, _tokenAmount);
+    // Pedro_ERC20Token(token).safeTransfer(_beneficiary, _tokenAmount);
+    pedro.transfer(_beneficiary, _tokenAmount);
   }
 
   /**
