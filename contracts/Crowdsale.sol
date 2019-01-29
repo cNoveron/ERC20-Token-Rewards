@@ -1,9 +1,7 @@
 // solium-disable linebreak-style
 pragma solidity ^0.4.24;
 
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
+import "./Pedro_ERC20Token.sol";
 
 
 /**
@@ -405,6 +403,16 @@ contract Crowdsale {
   }
 }
 
+
+
+
+
+/**
+ * @title Roles
+ * @author Francisco Giordano (@frangio)
+ * @dev Library for managing addresses assigned to a Role.
+ * See RBAC.sol for example usage.
+ */
 library Roles {
   struct Role {
     mapping (address => bool) bearer;
@@ -449,5 +457,48 @@ library Roles {
     returns (bool)
   {
     return _role.bearer[_addr];
+  }
+}
+
+
+
+
+/**
+ * @title SafeERC20
+ * @dev Wrappers around ERC20 operations that throw on failure.
+ * To use this library you can add a `using SafeERC20 for ERC20;` statement to your contract,
+ * which allows you to call the safe operations as `token.safeTransfer(...)`, etc.
+ */
+library SafeERC20 {
+  function safeTransfer(
+    Pedro_ERC20Token _token,
+    address _to,
+    uint256 _value
+  )
+    internal
+  {
+    require(_token.transfer(_to, _value),"Could not safely transfer from that address.");
+  }
+
+  function safeTransferFrom(
+    Pedro_ERC20Token _token,
+    address _from,
+    address _to,
+    uint256 _value
+  )
+    internal
+  {
+    require(_token.transferFrom(_from, _to, _value),"Could not safely transfer from that address.");
+  }
+
+  function safeApprove(
+    Pedro_ERC20Token _token,
+    address _spender,
+    uint256 _currentValue,
+    uint256 _value
+  )
+    internal
+  {
+    require(_token.approve(_spender, _currentValue, _value),"Could not safely approve, check current approved value.");
   }
 }
