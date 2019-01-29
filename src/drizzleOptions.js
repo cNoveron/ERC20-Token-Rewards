@@ -1,4 +1,5 @@
 import Pedro_ERC20Token from './../build/contracts/Pedro_ERC20Token.json'
+import Crowdsale from './../build/contracts/Crowdsale.json'
 
 const drizzleOptions = {
   web3: {
@@ -9,7 +10,8 @@ const drizzleOptions = {
     }
   },
   contracts: [
-    Pedro_ERC20Token
+    Pedro_ERC20Token,
+    Crowdsale
   ],
   events: {
   },
