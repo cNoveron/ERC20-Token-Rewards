@@ -39,7 +39,7 @@ contract Pedro_ERC20Token {
   */
   modifier nonReentrant() 
   {
-    require(!reentrancyLock);
+    require(!reentrancyLock,"Reentrancy lock is on ;)");
     reentrancyLock = true;
     _;
     reentrancyLock = false;
@@ -145,9 +145,9 @@ contract Pedro_ERC20Token {
   nonReentrant
   returns(bool)
   {
-    require(_to != address(0));
-    require(_value <= balances[_from]);
-    require(_value <= allowed[_from][msg.sender]);
+    require(_to != address(0),"Can't send tokens to the 0x0 address.");
+    require(_value <= balances[_from],"Token amount to send must be smaller than the balance you want to send from.");
+    require(_value <= allowed[_from][msg.sender],"Token amount to send must be smaller than that you're allowed to send from this address.");
 
     balances[_from] = balances[_from].sub(_value);
     balances[_to] = balances[_to].add(_value);
@@ -431,7 +431,7 @@ library SafeMath {
     }
 
     c = a * b;
-    assert(c / a == b);
+    require(c / a == b,"Multiplication overflows uint256.");
     return c;
   }
 
@@ -457,15 +457,15 @@ library SafeMath {
   * @dev Subtracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
   */
   function sub(
-    uint256 a, 
-    uint256 b
+    uint256 minuend, 
+    uint256 subtrahend
   ) 
   internal 
   pure 
   returns(uint256) 
   {
-    assert(b <= a);
-    return a - b;
+    require(minuend >= subtrahend,"Subtrahend is greater than minuend.");
+    return minuend - subtrahend;
   }
 
   /**
@@ -480,7 +480,7 @@ library SafeMath {
   returns(uint256 c) 
   {
     c = a + b;
-    assert(c >= a);
+    require(c >= a,"Addition overflows uint256.");
     return c;
   }
 }
