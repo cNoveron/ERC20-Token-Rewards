@@ -65,6 +65,7 @@ contract Crowdsale {
     token = _token;
   }
 
+
   // -----------------------------------------
   // Crowdsale external interface
   // -----------------------------------------
@@ -110,9 +111,13 @@ contract Crowdsale {
     // _postValidatePurchase(_beneficiary, weiAmount);
   }
 
-  // -----------------------------------------
-  // Internal interface (extensible)
-  // -----------------------------------------
+
+
+
+
+  // ----------------------------
+  // Internal crowdsale interface
+  // ----------------------------
 
   /**
    * @dev Validation of an incoming purchase. Use require statements to revert state when conditions are not met. Use `super` in contracts that inherit from Crowdsale to extend their validations.
@@ -209,6 +214,11 @@ contract Crowdsale {
   function _forwardFunds() internal {
     wallet.transfer(msg.value);
   }
+
+
+  // ----------------------
+  // Whitelisting interface
+  // ----------------------
   
   string public constant ROLE_WHITELISTED = "whitelist";
 
@@ -287,8 +297,12 @@ contract Crowdsale {
     }
   }
   
-  address public owner;
+  
+  // -------------------
+  // Ownership interface
+  // -------------------
 
+  address public owner;
 
   event OwnershipRenounced(address indexed previousOwner);
   event OwnershipTransferred(
@@ -332,6 +346,11 @@ contract Crowdsale {
     emit OwnershipTransferred(owner, _newOwner);
     owner = _newOwner;
   }
+
+
+  // ---------------------------
+  // Role-based access interface
+  // ---------------------------
 
   using Roles for Roles.Role;
 
