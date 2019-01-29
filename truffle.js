@@ -7,11 +7,9 @@ module.exports = {
   networks: {
     development: {
       host: "localhost",
-      port: 8545,
+      port: 9545,
       network_id: "*",
-      from: "0xC7e76e5f1D33BE441E890a7F2aCE9468f40345C7",
-      gas: 21000000,
-      gasPrice: 6
+      from: "0xC7e76e5f1D33BE441E890a7F2aCE9468f40345C7"
     },
     mainnet: {
       provider: function () {
