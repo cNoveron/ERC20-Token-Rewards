@@ -1,11 +1,9 @@
 // solium-disable linebreak-style
 pragma solidity ^0.4.23;
 
-import "./IServiceStateController.sol";
-import "./RewardCalculator.sol";
 import "./Pedro_ERC20Token.sol";
 
-contract ReviewsController is IServiceStateController {
+contract RewardsPayer {
   
   Pedro_ERC20Token pedro_ERC20Token;
   address currentPedro_ERC20Token;
@@ -51,6 +49,7 @@ contract ReviewsController is IServiceStateController {
   returns(
     uint rewardAmount
   )
-  {}
+  {
+  }
 
 }
