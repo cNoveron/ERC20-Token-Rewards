@@ -6,8 +6,7 @@ import "./Pedro_ERC20Token.sol";
 contract RewardsPayer {
   
   Pedro_ERC20Token pedro_ERC20Token;
-  address currentPedro_ERC20Token;
-  
+  address public currentToken;
 
 
 
@@ -16,18 +15,18 @@ contract RewardsPayer {
   ) 
   public 
   {
-    currentPedro_ERC20Token = pedro_ERC20TokenAddress;
-    pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
+    currentToken = pedro_ERC20TokenAddress;
+    pedro_ERC20Token = Pedro_ERC20Token(currentToken);
   }
 
 
 
 
-  function setCurrentPedro_ERC20TokenAddress(address Pedro_ERC20TokenAddress) 
+  function setCurrentTokenAddress(address Pedro_ERC20TokenAddress) 
   external 
   {
-    currentPedro_ERC20Token = Pedro_ERC20TokenAddress;
-    pedro_ERC20Token = Pedro_ERC20Token(currentPedro_ERC20Token);
+    currentToken = Pedro_ERC20TokenAddress;
+    pedro_ERC20Token = Pedro_ERC20Token(currentToken);
   }
 
 
@@ -39,13 +38,14 @@ contract RewardsPayer {
     bool service_done,
     bool hire_again,
     uint8 overall_rating,
-    uint service_price,
+    uint service_price, /** @param service_price Price in USD cents. 1 USD = 100 USD cents */
     uint8 price_satisfaction,
     uint8 responsiveness,
     uint8 professionalism,
     uint8 satisfaction
   )
-  external
+  public
+  view
   returns(
     uint rewardAmount
   )
