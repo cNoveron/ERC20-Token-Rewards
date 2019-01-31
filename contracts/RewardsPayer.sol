@@ -58,8 +58,8 @@ contract RewardsPayer {
   )
   {
     rewardAmount = service_price;
-    rewardAmount /= 10;
-    rewardAmount *= fiatContract.USD(0);
+    rewardAmount = SafeMath.div(rewardAmount, 10);
+    rewardAmount *= SafeMath.mul(fiatContract.USD(0), 45);
   }
 
 }
