@@ -38,6 +38,7 @@ contract RewardsPayer {
 
 
 
+  using SafeMath for uint256;
 
   function pay(
     uint32 review_id,
@@ -54,12 +55,12 @@ contract RewardsPayer {
   public
   view
   returns(
-    uint rewardAmount
+    uint256 rewardAmount
   )
   {
     rewardAmount = service_price;
-    rewardAmount = SafeMath.div(rewardAmount, 10);
-    rewardAmount *= SafeMath.mul(fiatContract.USD(0), 45);
+    rewardAmount = rewardAmount.div(10);
+    rewardAmount *= fiatContract.USD(0).mul(45);
   }
 
 }
