@@ -58,8 +58,7 @@ contract RewardsPayer {
     uint256 rewardAmount
   )
   {
-    rewardAmount = service_price;
-    rewardAmount = rewardAmount.div(10);
+    rewardAmount = service_price.div(10);
     rewardAmount *= fiatContract.USD(0).mul(45);
   }
 
