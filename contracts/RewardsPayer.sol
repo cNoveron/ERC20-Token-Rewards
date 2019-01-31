@@ -7,16 +7,23 @@ contract RewardsPayer {
   
   Pedro_ERC20Token pedro_ERC20Token;
   address public currentToken;
+  
+  FiatContract fiatContract;
+  address public currentFiatContract;
 
 
 
   constructor(
-    address pedro_ERC20TokenAddress
+    address pedro_ERC20TokenAddress,
+    address currentFiatContractAddress
   ) 
   public 
   {
     currentToken = pedro_ERC20TokenAddress;
     pedro_ERC20Token = Pedro_ERC20Token(currentToken);
+    
+    currentFiatContract = currentFiatContractAddress;
+    fiatContract = FiatContract(currentFiatContractAddress);
   }
 
 
@@ -50,6 +57,17 @@ contract RewardsPayer {
     uint rewardAmount
   )
   {
+    rewardAmount = service_price;
+    rewardAmount /= 10;
+    rewardAmount *= fiatContract.USD(0);
   }
 
+}
+
+interface FiatContract {
+  function ETH(uint _id) external view returns (uint256);
+  function USD(uint _id) external view returns (uint256);
+  function EUR(uint _id) external view returns (uint256);
+  function GBP(uint _id) external view returns (uint256);
+  function updatedAt(uint _id) external view returns (uint);
 }
