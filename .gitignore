@@ -1,8 +1,10 @@
-## All in build except our compiled contract's JSON file
+## All in build except relevant compiled contracts' JSON file
 build/*
 !build/contracts/
 build/contracts/*
+!build/contracts/FiatContract.json
 !build/contracts/ReviewsController.json
+!build/contracts/RewardsPayer.json
 
 ## All in node_modules...
 node_modules/*
