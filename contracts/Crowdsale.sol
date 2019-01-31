@@ -168,7 +168,7 @@ contract Crowdsale {
     internal
   {
     // Pedro_ERC20Token(token).safeTransfer(_beneficiary, _tokenAmount);
-    pedro.transfer(_beneficiary, _tokenAmount);
+    pedro.safeTransfer(_beneficiary, _tokenAmount);
   }
 
   /**
