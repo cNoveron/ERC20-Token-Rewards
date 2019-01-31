@@ -41,16 +41,16 @@ contract RewardsPayer {
   using SafeMath for uint256;
 
   function pay(
-    uint32 review_id,
+/*     uint32 review_id,
     uint32 provider_id,
     bool service_done,
     bool hire_again,
-    uint8 overall_rating,
-    uint service_price, /** @param service_price Price in USD cents. 1 USD = 100 USD cents */
-    uint8 price_satisfaction,
+    uint8 overall_rating, */
+    uint service_price /** @param service_price Price in USD cents. 1 USD = 100 USD cents */
+/*     uint8 price_satisfaction,
     uint8 responsiveness,
     uint8 professionalism,
-    uint8 satisfaction
+    uint8 satisfaction */
   )
   public
   view
@@ -63,7 +63,7 @@ contract RewardsPayer {
 
     uint256 fractionOfPrice_inUSDCents = service_price.div(10);
     uint256 fractionOfPrice_inETHWei = USDCent_inETHWei.mul(fractionOfPrice_inUSDCents);
-    
+
     rewardAmount = fractionOfPrice_inETHWei.div(tokenPrice_inETHWei);
   }
 
