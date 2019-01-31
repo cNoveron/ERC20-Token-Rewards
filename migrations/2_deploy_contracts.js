@@ -3,14 +3,19 @@ var ReviewsController = artifacts.require("ReviewsController");
 var RewardCalculator = artifacts.require("RewardCalculator");
 var PriceCalculator = artifacts.require("PriceCalculator");
 var Crowdsale = artifacts.require("Crowdsale");
+var FiatContract = artifacts.require("FiatContract");
+var RewardsPayer = artifacts.require("RewardsPayer");
 require('dotenv').config();
 
-module.exports = function(deployer, network, accounts) {
+module.exports = function (deployer, network, accounts) {
   var sendOptions = {
-    from: accounts[0]
+    from: accounts[0]/*, 
+    gas: 6721974,
+    gasPrice: 1000, */
   }
+
   if (network == "ropsten") {
-    sendOptions.from = "0xA32ac2C1646Ead762A44f1e14c3093273E118D47".toLowerCase()
+    
   }
   else if (network == "mainnet") {
     sendOptions.from = process.env.COMPROMISED_ACCOUNT.toLowerCase()
@@ -18,8 +23,9 @@ module.exports = function(deployer, network, accounts) {
 
   deployer.deploy(
     Pedro_ERC20Token,
-    sendOptions
-  ).then(function (deployedToken) {
+    sendOptions  
+  ).then(function () {
+    /*
     return deployer.deploy(
       Crowdsale,
       2,
@@ -46,5 +52,23 @@ module.exports = function(deployer, network, accounts) {
       PriceCalculator.address,
       sendOptions
     );
+  }).then(function () {*/
+    return deployer.deploy(
+      FiatContract,
+      sendOptions
+    );
+  }).then(function () {
+    FiatContractAddress = network == 'ropsten' ?
+      '0x2CDe56E5c8235D6360CCbb0c57Ce248Ca9C80909'
+      :
+      FiatContract.address
+    
+    return deployer.deploy(
+      RewardsPayer,
+      Pedro_ERC20Token.address,
+      FiatContractAddress,
+      sendOptions
+    );
   });
+  console.log(network)
 };
