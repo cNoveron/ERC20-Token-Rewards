@@ -58,8 +58,13 @@ contract RewardsPayer {
     uint256 rewardAmount
   )
   {
-    rewardAmount = service_price.div(10);
-    rewardAmount *= fiatContract.USD(0).mul(45);
+    uint256 USDCent_inETHWei = fiatContract.USD(0);
+    uint256 tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
+
+    uint256 fractionOfPrice_inUSDCents = service_price.div(10);
+    uint256 fractionOfPrice_inETHWei = USDCent_inETHWei.mul(fractionOfPrice_inUSDCents);
+    
+    rewardAmount = fractionOfPrice_inETHWei.div(tokenPrice_inETHWei);
   }
 
 }
