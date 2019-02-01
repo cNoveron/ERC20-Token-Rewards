@@ -48,11 +48,13 @@ contract RewardsPayer {
     bool service_done,
     bool hire_again,
     uint8 overall_rating, */
-    uint service_price /** @param service_price Price in USD cents. 1 USD = 100 USD cents */
+    uint service_price, /** @param service_price Price in USD cents. 1 USD = 100 USD cents */
 /*     uint8 price_satisfaction,
     uint8 responsiveness,
     uint8 professionalism,
     uint8 satisfaction */
+    address consumer,
+    address provider
   )
   public
   view
