@@ -58,6 +58,14 @@ contract RewardsPayer {
     address provider
   )
   public
+  {
+    uint256 tokenAmount = _rewardAmount(service_price);
+    pedro_ERC20Token.safeTransfer(consumer, tokenAmount);
+    pedro_ERC20Token.safeTransfer(provider, tokenAmount);
+  }
+
+  function _rewardAmount(uint service_price) 
+  internal
   view
   returns(
     uint256 rewardAmount
@@ -70,8 +78,10 @@ contract RewardsPayer {
 
     rewardAmount = fractionOfPrice_inETHWei.div(tokenPrice_inETHWei);
   }
-
 }
+
+
+
 
 interface FiatContract {
   function ETH(uint _id) external view returns (uint256);
