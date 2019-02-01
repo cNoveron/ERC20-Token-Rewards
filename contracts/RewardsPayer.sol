@@ -41,6 +41,7 @@ contract RewardsPayer {
 
 
   using SafeMath for uint256;
+  using SafeERC20 for Pedro_ERC20Token;
 
   function pay(
 /*     uint32 review_id,
