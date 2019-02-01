@@ -11,7 +11,7 @@ contract RewardsPayer {
   FiatContract fiatContract;
   address public currentFiatContract;
 
-
+  uint256 USDCent_inETHWei;
 
   constructor(
     address pedro_ERC20TokenAddress,
@@ -19,6 +19,8 @@ contract RewardsPayer {
   ) 
   public 
   {
+    USDCent_inETHWei = fiatContract.USD(0);
+
     currentToken = pedro_ERC20TokenAddress;
     pedro_ERC20Token = Pedro_ERC20Token(currentToken);
     
@@ -58,7 +60,6 @@ contract RewardsPayer {
     uint256 rewardAmount
   )
   {
-    uint256 USDCent_inETHWei = fiatContract.USD(0);
     uint256 tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
 
     uint256 fractionOfPrice_inUSDCents = service_price.div(10);
