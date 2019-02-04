@@ -64,6 +64,20 @@ contract RewardsPayer {
     pedro_ERC20Token.safeTransfer(provider, tokenAmount);
   }
 
+  
+
+  function getRewardAmount(uint service_price)
+  public
+  view
+  returns(
+    uint256 rewardAmount
+  )
+  {
+    rewardAmount = _rewardAmount(service_price);
+  }
+
+
+
   function _rewardAmount(uint service_price) 
   internal
   view
