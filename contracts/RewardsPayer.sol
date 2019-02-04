@@ -40,6 +40,13 @@ contract RewardsPayer {
 
 
 
+  function update_USDCent_inETHWei()
+  public
+  {
+    USDCent_inETHWei = fiatContract.USD(0);
+  }
+
+
   using SafeMath for uint256;
   using SafeERC20 for Pedro_ERC20Token;
 
