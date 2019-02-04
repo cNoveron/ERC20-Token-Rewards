@@ -1,7 +1,15 @@
 // solium-disable linebreak-style
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.15;
 
 import "./Pedro_ERC20Token.sol";
+
+contract FiatContract {
+  function ETH(uint _id) external view returns (uint256);
+  function USD(uint _id) external view returns (uint256);
+  function EUR(uint _id) external view returns (uint256);
+  function GBP(uint _id) external view returns (uint256);
+  function updatedAt(uint _id) external view returns (uint);
+}
 
 contract RewardsPayer {
   
@@ -11,23 +19,21 @@ contract RewardsPayer {
   FiatContract fiatContract;
   address public currentFiatContract;
 
-  uint256 USDCent_inETHWei;
+  uint256 public USDCent_inETHWei;
 
   constructor(
     address pedro_ERC20TokenAddress,
     address currentFiatContractAddress
-  ) 
+  )
   public 
+  payable
   {
-    USDCent_inETHWei = fiatContract.USD(0);
-
     currentToken = pedro_ERC20TokenAddress;
     pedro_ERC20Token = Pedro_ERC20Token(currentToken);
     
     currentFiatContract = currentFiatContractAddress;
     fiatContract = FiatContract(currentFiatContractAddress);
   }
-
 
 
 
@@ -99,17 +105,9 @@ contract RewardsPayer {
 
     rewardAmount = fractionOfPrice_inETHWei.div(tokenPrice_inETHWei);
   }
-}
 
 
 
-
-interface FiatContract {
-  function ETH(uint _id) external view returns (uint256);
-  function USD(uint _id) external view returns (uint256);
-  function EUR(uint _id) external view returns (uint256);
-  function GBP(uint _id) external view returns (uint256);
-  function updatedAt(uint _id) external view returns (uint);
 }
 
 
