@@ -21,6 +21,8 @@ contract RewardsPayer {
 
   uint256 public USDCent_inETHWei;
 
+  uint256 public tokenPrice_inETHWei;
+
   constructor(
     address pedro_ERC20TokenAddress,
     address currentFiatContractAddress
@@ -53,6 +55,7 @@ contract RewardsPayer {
   )
   {
     USDCent_inETHWei = fiatContract.USD(0);
+    tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
     return USDCent_inETHWei;
   }
 
@@ -103,38 +106,12 @@ contract RewardsPayer {
     uint256 rewardAmount
   )
   {
-    uint256 tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
-
     uint256 fractionOfPrice_inUSDCents = service_price.div(10);
     uint256 fractionOfPrice_inETHWei = USDCent_inETHWei.mul(fractionOfPrice_inUSDCents);
 
     rewardAmount = fractionOfPrice_inETHWei.div(tokenPrice_inETHWei);
   }
-
-
-
-  function getTokenPrice() 
-  public
-  view
-  returns(
-    uint256 tokenPrice_inETHWei
-  )
-  {
-    tokenPrice_inETHWei = _tokenPrice();
-  }
-
-
-
-  function _tokenPrice() 
-  internal
-  view
-  returns(
-    uint256 tokenPrice_inETHWei
-  )
-  {
-    tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
-  }
-
+  
 
 
   function fractionOfPrice(uint service_price) 
