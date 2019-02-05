@@ -112,7 +112,7 @@ contract RewardsPayer {
 
 
   function fractionOfPrice(uint service_price) 
-  internal
+  public
   view
   returns(
     uint256 fractionOfPrice_inETHWei
