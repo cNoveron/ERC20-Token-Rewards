@@ -75,6 +75,7 @@ contract RewardsPayer {
     address provider
   )
   public
+  payable
   {
     uint256 tokenAmount = _rewardAmount(service_price);
     pedro_ERC20Token.safeTransfer(consumer, tokenAmount);
