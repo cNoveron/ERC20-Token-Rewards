@@ -133,6 +133,17 @@ contract RewardsPayer {
 
 
 
+  function fractionOfPrice(uint service_price) 
+  internal
+  returns(
+    uint256 fractionOfPrice_inETHWei
+  )
+  {
+    fractionOfPrice_inETHWei = _fractionOfPrice(service_price);
+  }
+
+
+
   function _fractionOfPrice(uint service_price) 
   internal
   returns(
@@ -141,17 +152,6 @@ contract RewardsPayer {
   {
     uint256 fractionOfPrice_inUSDCents = service_price.div(10);
     fractionOfPrice_inETHWei = update_USDCent_inETHWei().mul(fractionOfPrice_inUSDCents);
-  }
-
-
-
-  function fractionOfPrice(uint service_price) 
-  internal
-  returns(
-    uint256 fractionOfPrice_inETHWei
-  )
-  {
-    fractionOfPrice_inETHWei = _fractionOfPrice(service_price);
   }
 }
 
