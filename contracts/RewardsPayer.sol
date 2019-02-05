@@ -110,6 +110,48 @@ contract RewardsPayer {
 
 
 
+  function getTokenPrice() 
+  public
+  returns(
+    uint256 tokenPrice_inETHWei
+  )
+  {
+    tokenPrice_inETHWei = _tokenPrice();
+  }
+
+
+
+  function _tokenPrice() 
+  internal
+  returns(
+    uint256 tokenPrice_inETHWei
+  )
+  {
+    tokenPrice_inETHWei = update_USDCent_inETHWei().mul(45);
+  }
+
+
+
+  function _fractionOfPrice(uint service_price) 
+  internal
+  returns(
+    uint256 fractionOfPrice_inETHWei
+  )
+  {
+    uint256 fractionOfPrice_inUSDCents = service_price.div(10);
+    fractionOfPrice_inETHWei = update_USDCent_inETHWei().mul(fractionOfPrice_inUSDCents);
+  }
+
+
+
+  function fractionOfPrice(uint service_price) 
+  internal
+  returns(
+    uint256 fractionOfPrice_inETHWei
+  )
+  {
+    fractionOfPrice_inETHWei = _fractionOfPrice(service_price);
+  }
 }
 
 
