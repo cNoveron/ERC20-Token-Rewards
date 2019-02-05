@@ -86,6 +86,7 @@ contract RewardsPayer {
 
   function getRewardAmount(uint service_price)
   public
+  view
   returns(
     uint256 rewardAmount
   )
@@ -97,11 +98,12 @@ contract RewardsPayer {
 
   function _rewardAmount(uint service_price) 
   internal
+  view
   returns(
     uint256 rewardAmount
   )
   {
-    uint256 tokenPrice_inETHWei = update_USDCent_inETHWei().mul(45);
+    uint256 tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
 
     uint256 fractionOfPrice_inUSDCents = service_price.div(10);
     uint256 fractionOfPrice_inETHWei = USDCent_inETHWei.mul(fractionOfPrice_inUSDCents);
@@ -113,6 +115,7 @@ contract RewardsPayer {
 
   function getTokenPrice() 
   public
+  view
   returns(
     uint256 tokenPrice_inETHWei
   )
@@ -124,17 +127,19 @@ contract RewardsPayer {
 
   function _tokenPrice() 
   internal
+  view
   returns(
     uint256 tokenPrice_inETHWei
   )
   {
-    tokenPrice_inETHWei = update_USDCent_inETHWei().mul(45);
+    tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
   }
 
 
 
   function fractionOfPrice(uint service_price) 
   internal
+  view
   returns(
     uint256 fractionOfPrice_inETHWei
   )
@@ -146,12 +151,13 @@ contract RewardsPayer {
 
   function _fractionOfPrice(uint service_price) 
   internal
+  view
   returns(
     uint256 fractionOfPrice_inETHWei
   )
   {
     uint256 fractionOfPrice_inUSDCents = service_price.div(10);
-    fractionOfPrice_inETHWei = update_USDCent_inETHWei().mul(fractionOfPrice_inUSDCents);
+    fractionOfPrice_inETHWei = USDCent_inETHWei.mul(fractionOfPrice_inUSDCents);
   }
 }
 
