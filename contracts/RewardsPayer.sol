@@ -85,7 +85,6 @@ contract RewardsPayer {
 
   function getRewardAmount(uint service_price)
   public
-  view
   returns(
     uint256 rewardAmount
   )
@@ -97,12 +96,11 @@ contract RewardsPayer {
 
   function _rewardAmount(uint service_price) 
   internal
-  view
   returns(
     uint256 rewardAmount
   )
   {
-    uint256 tokenPrice_inETHWei = USDCent_inETHWei.mul(45);
+    uint256 tokenPrice_inETHWei = update_USDCent_inETHWei().mul(45);
 
     uint256 fractionOfPrice_inUSDCents = service_price.div(10);
     uint256 fractionOfPrice_inETHWei = USDCent_inETHWei.mul(fractionOfPrice_inUSDCents);
