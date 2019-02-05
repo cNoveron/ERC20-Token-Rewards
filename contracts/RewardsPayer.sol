@@ -48,8 +48,12 @@ contract RewardsPayer {
 
   function update_USDCent_inETHWei()
   public
+  returns(
+    uint256
+  )
   {
     USDCent_inETHWei = fiatContract.USD(0);
+    return USDCent_inETHWei;
   }
 
 
