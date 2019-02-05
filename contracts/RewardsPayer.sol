@@ -106,12 +106,9 @@ contract RewardsPayer {
     uint256 rewardAmount
   )
   {
-    uint256 fractionOfPrice_inUSDCents = service_price.div(10);
-    uint256 fractionOfPrice_inETHWei = USDCent_inETHWei.mul(fractionOfPrice_inUSDCents);
-
-    rewardAmount = fractionOfPrice_inETHWei.div(tokenPrice_inETHWei);
+    rewardAmount = _fractionOfPrice(service_price).div(tokenPrice_inETHWei);
   }
-  
+
 
 
   function fractionOfPrice(uint service_price) 
