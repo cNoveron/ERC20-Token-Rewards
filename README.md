@@ -3,12 +3,14 @@
 An aplication much like Uber, but instead of trips you'll get household services.
 
 What kind of services? 
-* Electricians :electric_plug: 
-* Plumbers :shower:
-* Locksmiths :closed_lock_with_key:
-* Handymen :wrench:
-* Computer technicians :computer:
-* Housemaids :ribbon:
+* :electric_plug: Electricians 
+* :ribbon: Housemaids 
+* :shower: Plumbers
+* :closed_lock_with_key: Locksmiths
+* :wrench: Handymen
+* :computer: Computer technicians
+* :car: Car mechanics
+* :house: Wall painters
 
 ## Getting Started
 
