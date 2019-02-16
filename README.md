@@ -2,15 +2,24 @@
 
 An aplication much like Uber, but instead of trips you'll get household services.
 
-What kind of services? 
-* :electric_plug: Electricians 
-* :ribbon: Housemaids 
-* :shower: Plumbers
-* :closed_lock_with_key: Locksmiths
-* :wrench: Handymen
-* :computer: Computer technicians
-* :car: Car mechanics
-* :house: Wall painters
+What kind of services?
+
+:electric_plug: Electricians
+
+:ribbon: Housemaids
+
+:shower: Plumbers
+
+:closed_lock_with_key: Locksmiths
+
+:wrench: Handymen
+
+:computer: Computer technicians
+
+:car: Car mechanics
+
+:house: Wall painters
+
 
 ## Getting Started
 
@@ -68,9 +77,9 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+[Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+[Maven](https://maven.apache.org/) - Dependency Management
+[ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Contributing
 
@@ -82,7 +91,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+**Billie Thompson*- *Initial work- [PurpleBooth](https://github.com/PurpleBooth)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -92,6 +101,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+Hat tip to anyone whose code was used
+Inspiration
+etc
