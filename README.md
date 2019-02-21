@@ -6,7 +6,7 @@ What kind of services?
 
 :electric_plug: Electricians
 
-:ribbon: Housemaids
+:ribbon: House cleaners
 
 :shower: Plumbers
 
@@ -19,6 +19,8 @@ What kind of services?
 :car: Car mechanics
 
 :house: Wall painters
+
+Verified reviews and ratings in many categories help you find the best service providers to help you complete your home projects. And, when you write a review you receive Pedros, our utility tokens!
 
 
 ## Getting Started
