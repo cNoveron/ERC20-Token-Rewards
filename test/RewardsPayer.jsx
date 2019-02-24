@@ -4,23 +4,10 @@ var RewardsPayer = artifacts.require("RewardsPayer");
 
 contract("RewardsPayer", async accounts => {
 
-  const [owner, requester, offerer] = [...accounts];
-  console.log([owner, requester, offerer]);
-
-  var pedro_ERC20Token, fiatContract, rewardsPayer;
-
   async function deployEverything() {
-
-    pedro_ERC20Token = await Pedro_ERC20Token.deployed();
-    fiatContract = await FiatContract.deployed();
-    rewardsPayer = await RewardsPayer.deployed();
-
-    return await [
-      pedro_ERC20Token,
-      fiatContract,
-      rewardsPayer,
-    ]
-    
+    await Pedro_ERC20Token.deployed();
+    await FiatContract.deployed();
+    await RewardsPayer.deployed();
   }
 
   it("Should pass.", async () => {
