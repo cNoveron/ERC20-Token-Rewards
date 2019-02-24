@@ -11,11 +11,12 @@ contract("RewardsPayer", async => {
     await RewardsPayer.deployed();
   }
 
-  it("Should pass.", async () => {
+  it("RewardsPayer.currentFiatContract() should return the address of FiatContract in the network.", async () => {
     await deployEverything();
     assert.equal(
       await RewardsPayer.currentFiatContract(),
       addresses.FiatContract(),
+      "FiatContract addresses are not equal."
+    );
   });
-
 });
