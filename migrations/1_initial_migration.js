@@ -1,11 +1,8 @@
 var Migrations = artifacts.require("Migrations");
 
-module.exports = function(deployer, network, accounts) {
-  var sendOptions = {
-   from: accounts[0]
-  }
-  if (network == "ropsten") {
-    
-  }
-  deployer.deploy(Migrations, sendOptions);
+module.exports = async (deployer, network, accounts) => {
+  
+  var sendOptions = require("./getSendOptions.js")(network, accounts)
+
+  deployer.deploy(Migrations, sendOptions)
 };
