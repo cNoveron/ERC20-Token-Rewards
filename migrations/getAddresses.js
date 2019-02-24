@@ -8,7 +8,7 @@ var contracts = {
   RewardsPayer: require("../build/contracts/RewardsPayer.json"),
 }
 
-module.exports = (network) => {
+module.exports = (network, accounts) => {
 
   const [owner, requester, offerer] = [...accounts];
 

@@ -4,7 +4,7 @@ var RewardsPayer = artifacts.require("RewardsPayer");
 
 module.exports = async (deployer, network, accounts) => {
 
-  var addresses = require("./getAddresses.js")(network)
+  var addresses = require("./getAddresses.js")(network, accounts)
   var sendOptions = require("./getSendOptions.js")(network, accounts)
 
   const asyncDeploy = async (contract) => await deployer.deploy(contract, sendOptions)
