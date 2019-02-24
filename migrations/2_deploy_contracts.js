@@ -14,7 +14,9 @@ module.exports = async (deployer, network, accounts) => {
   const asyncDeploy = async (contract) => await deployer.deploy(contract, sendOptions)
 
   asyncDeploy(Pedro_ERC20Token)
-  asyncDeploy(FiatContract)
+
+  if (network !== 'ropsten') 
+    asyncDeploy(FiatContract)
 
   deployer.deploy(
     RewardsPayer,
