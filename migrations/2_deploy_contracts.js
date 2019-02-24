@@ -11,8 +11,8 @@ module.exports = async (deployer, network, accounts) => {
   var addresses = require("./getAddresses.js")(network)
   var sendOptions = require("./getSendOptions.js")(network, accounts)
 
-  deployer.deploy(Pedro_ERC20Token, sendOptions)
-  deployer.deploy(FiatContract, sendOptions)
+  await deployer.deploy(Pedro_ERC20Token, sendOptions)
+  await deployer.deploy(FiatContract, sendOptions)
 
   deployer.deploy(
     RewardsPayer,
