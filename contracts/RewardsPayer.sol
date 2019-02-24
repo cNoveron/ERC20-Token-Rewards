@@ -2,14 +2,7 @@
 pragma solidity ^0.4.15;
 
 import "./Pedro_ERC20Token.sol";
-
-contract FiatContract {
-  function ETH(uint _id) external view returns (uint256);
-  function USD(uint _id) external view returns (uint256);
-  function EUR(uint _id) external view returns (uint256);
-  function GBP(uint _id) external view returns (uint256);
-  function updatedAt(uint _id) external view returns (uint);
-}
+import "./FiatContract.sol";
 
 contract RewardsPayer {
   
