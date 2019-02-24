@@ -1,5 +1,4 @@
 var Pedro_ERC20Token = artifacts.require("Pedro_ERC20Token");
-var Crowdsale = artifacts.require("Crowdsale");
 var FiatContract = artifacts.require("FiatContract");
 var RewardsPayer = artifacts.require("RewardsPayer");
 
@@ -21,12 +20,4 @@ module.exports = async (deployer, network, accounts) => {
     addresses.FiatContract(),
     sendOptions
   );
-
-  // await deployer.deploy(
-  //   Crowdsale,
-  //   2,
-  //   accounts[0],
-  //   deployedToken.address,
-  //   sendOptions
-  // );
 };
