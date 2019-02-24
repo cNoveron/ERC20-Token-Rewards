@@ -1,7 +1,4 @@
 var Pedro_ERC20Token = artifacts.require("Pedro_ERC20Token");
-var ReviewsController = artifacts.require("ReviewsController");
-var RewardCalculator = artifacts.require("RewardCalculator");
-var PriceCalculator = artifacts.require("PriceCalculator");
 var Crowdsale = artifacts.require("Crowdsale");
 var FiatContract = artifacts.require("FiatContract");
 var RewardsPayer = artifacts.require("RewardsPayer");
