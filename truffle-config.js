@@ -5,10 +5,10 @@ require('dotenv').config();
 module.exports = {
   migrations_directory: "./migrations",
   networks: {
-    development: {
+    ganache: {
       host: "localhost",
       port: 7545,
-      network_id: "*",
+      network_id: 5777,
       from: "0xC7e76e5f1D33BE441E890a7F2aCE9468f40345C7"
     },
     mainnet: {
