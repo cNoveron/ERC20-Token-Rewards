@@ -4,20 +4,19 @@ var RewardsPayer = artifacts.require("RewardsPayer");
 
 module.exports = async (deployer, network, accounts) => {
 
-  var addresses = require("./getAddresses.js")(network, accounts)
-  var sendOptions = require("./getSendOptions.js")(network, accounts)
+  const sendOptions = require("./getSendOptions.js")(network, accounts)
 
-  const asyncDeploy = async (contract) => await deployer.deploy(contract, sendOptions)
+  if (network !== 'mainnet')
+    await deployer.deploy(Pedro_ERC20Token, sendOptions)
 
-  asyncDeploy(Pedro_ERC20Token)
+  if (network !== 'mainnet' && network !== 'ropsten')
+    await deployer.deploy(FiatContract, sendOptions)
 
-  if (network !== 'ropsten') 
-    asyncDeploy(FiatContract)
-
-  deployer.deploy(
+  await deployer.deploy(
     RewardsPayer,
-    addresses.Pedro_ERC20Token(),
-    addresses.FiatContract(),
+    Pedro_ERC20Token.address,
+    FiatContract.address,
     sendOptions
-  );
+  )
+
 };
