@@ -3,12 +3,13 @@ require("dotenv").config();
 module.exports = (network, accounts) => {
 
   const from = () => {
-    switch (network) {        
+    switch (network) {
       case "develop": return accounts[0];
       case "ganache": return accounts[0];
       case "ropsten": return accounts[0];
       case "rinkeby": return accounts[0];
-      case "mainnet": return process.env.COMPROMISED_ACCOUNT.toLowerCase()
+      case "mainnet": return accounts[0];
+      default: return accounts[0];
     }
   };
 
@@ -23,7 +24,7 @@ module.exports = (network, accounts) => {
   };
 
   const gasPrice = () => {
-    switch(network) { 
+    switch(network) {
       case "develop": return 1000000000;   // 1 GWei
       case "ganache": return 1000000000;   // 1 GWei
       case "ropsten": return 1000000000;   // 1 GWei
