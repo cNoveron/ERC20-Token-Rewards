@@ -17,7 +17,12 @@ contract("RewardsPayer", async accounts => {
     );
     
     let currentToken1 = await RewardsPayer.currentToken.call()
-    await RewardsPayer.setCurrentTokenAddress.sendTransaction("0x111111467c88b31d51732114493ead9236311111")
+
+    async () => await RewardsPayer.setCurrentTokenAddress.sendTransaction(
+      "0x111111467c88b31d51732114493ead9236311111",
+      { from: accounts[1] }
+    ).should.Throw()
+    
     let currentToken2 = await RewardsPayer.currentToken.call()
 
     assert.equal(
