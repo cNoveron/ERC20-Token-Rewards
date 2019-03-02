@@ -6,7 +6,7 @@ const deployEverything = async () => [
 
 contract("RewardsPayer", async accounts => {
 
-  it("RewardsPayer.currentToken() should return the address of Pedro_ERC20Token in the network.", async () => {
+  it("Tests interaction with Pedro_ERC20Token contract.", async () => {
 
     let [Pedro_ERC20Token, FiatContract, RewardsPayer] = await deployEverything()
 
@@ -22,7 +22,7 @@ contract("RewardsPayer", async accounts => {
       "0x111111467c88b31d51732114493ead9236311111",
       { from: accounts[1] }
     ).should.Throw()
-    
+
     let currentToken2 = await RewardsPayer.currentToken.call()
 
     assert.equal(
