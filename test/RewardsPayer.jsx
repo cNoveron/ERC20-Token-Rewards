@@ -15,6 +15,17 @@ contract("RewardsPayer", async accounts => {
       Pedro_ERC20Token.address,
       "Pedro_ERC20Token addresses are not equal."
     );
+    
+    let currentToken1 = await RewardsPayer.currentToken.call()
+    await RewardsPayer.setCurrentTokenAddress.sendTransaction("0x111111467c88b31d51732114493ead9236311111")
+    let currentToken2 = await RewardsPayer.currentToken.call()
+
+    assert.equal(
+      currentToken1,
+      currentToken2,
+      "Variable currentToken changes."
+    );
+
   });
 
   it("RewardsPayer.currentFiatContract() should return the address of FiatContract in the network.", async () => {
