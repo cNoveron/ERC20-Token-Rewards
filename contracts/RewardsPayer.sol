@@ -3,8 +3,9 @@ pragma solidity ^0.4.15;
 
 import "./Pedro_ERC20Token.sol";
 import "./FiatContract.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract RewardsPayer {
+contract RewardsPayer is Ownable {
   
   Pedro_ERC20Token pedro_ERC20Token;
   address public currentToken;
@@ -23,6 +24,8 @@ contract RewardsPayer {
   public 
   payable
   {
+    owner = msg.sender;
+
     currentToken = pedro_ERC20TokenAddress;
     pedro_ERC20Token = Pedro_ERC20Token(currentToken);
     
@@ -33,8 +36,9 @@ contract RewardsPayer {
 
 
   function setCurrentTokenAddress(address Pedro_ERC20TokenAddress) 
-  external 
+  external
   {
+    require(msg.sender == owner, "Only this contract's owner can call setCurrentTokenAddress()");
     currentToken = Pedro_ERC20TokenAddress;
     pedro_ERC20Token = Pedro_ERC20Token(currentToken);
   }
