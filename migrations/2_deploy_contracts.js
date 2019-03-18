@@ -6,11 +6,10 @@ module.exports = async (deployer, network, accounts) => {
 
   const sendOptions = require("./getSendOptions.js")(network, accounts)
 
-  if (network !== 'mainnet')
+  if (network !== 'mainnet' && network !== 'ropsten') {
     await deployer.deploy(Pedro_ERC20Token, sendOptions)
-
-  if (network !== 'mainnet' && network !== 'ropsten')
     await deployer.deploy(FiatContract, sendOptions)
+  }
 
   await deployer.deploy(
     RewardsPayer,
