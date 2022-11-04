@@ -1,6 +1,6 @@
-# Pedro's List
+# ERC20-Token-Rewards for Services
 
-The Uber for household services.
+The Uber for real world physical services.
 
 ### What kind of services?
 
