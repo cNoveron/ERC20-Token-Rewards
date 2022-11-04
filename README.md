@@ -1,4 +1,4 @@
-# ERC20-Token-Rewards for Services
+# ERC20 Token Rewards for Services
 
 The Uber for real world physical services.
 
