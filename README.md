@@ -1,12 +1,10 @@
 # Pedro's List
 
-An aplication much like Uber, but instead of trips you'll get household services.
+The Uber for household services.
 
-What kind of services?
+### What kind of services?
 
 :electric_plug: Electricians
-
-:ribbon: House cleaners
 
 :shower: Plumbers
 
